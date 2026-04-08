@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Veronika Dergal — Product Manager</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg:      '#FAF9F7',
+            surface: '#FAF9F7',
+            'surface-container': '#F4F3F1',
+            primary: '#0369a1',
+            'primary-light': '#e0f2fe',
+            secondary: '#d97706',
+            'secondary-light': '#fef3c7',
+            'on-surface': '#292524',
+            'on-variant': '#57534e',
+          },
+          fontFamily: {
+            headline: ['"Plus Jakarta Sans"', 'sans-serif'],
+            body:     ['Manrope', 'sans-serif'],
+          },
+          keyframes: {
+            fadeInUp: { '0%': { opacity: '0', transform: 'translateY(28px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            float:    { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-14px)' } },
+            blob:     { '0%,100%': { borderRadius: '40% 60% 70% 30% / 40% 50% 60% 40%' }, '50%': { borderRadius: '60% 40% 30% 70% / 50% 60% 40% 50%' } },
+            fadeIn:   { from: { opacity: '0' }, to: { opacity: '1' } },
+            slideUp:  { from: { opacity: '0', transform: 'translateY(24px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
+          },
+          animation: {
+            fadeInUp: 'fadeInUp 0.7s ease-out forwards',
+            float:    'float 6s ease-in-out infinite',
+            blob:     'blob 10s ease-in-out infinite',
+            fadeIn:   'fadeIn 0.18s ease',
+            slideUp:  'slideUp 0.22s ease',
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+      /* Single gradient spanning the entire document — no section cuts */
+      background: linear-gradient(160deg, #FDFCFA 0%, #FAFBFC 55%, #F8F9FC 100%);
+      min-height: 100%;
+    }
+    body { background: transparent; }
+    ::selection { background: #e0f2fe; color: #0369a1; }
+
+    .glass { background: rgba(255,255,255,0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.65); }
+    .blob-bg { filter: blur(80px); pointer-events: none; }
+
+    /* ── Scroll snapping ── */
+    html { scroll-snap-type: y proximity; }
+    section { scroll-snap-align: start; }
+
+    /* ── Scroll reveal ──
+       Elements are visible by default. JS adds .reveal-pending ONLY to
+       elements that start below the viewport, preventing blank gaps.    ── */
+    .reveal { transition: opacity 0.5s ease-out, transform 0.5s ease-out; }
+    .reveal.reveal-pending { opacity: 0; transform: translateY(20px); }
+    .reveal.visible { opacity: 1 !important; transform: translateY(0) !important; }
+
+    /* Staggered group children */
+    .reveal-group.reveal-pending .ri {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+    .reveal-group.visible .ri { opacity:1; transform:none; }
+    .reveal-group.visible .ri:nth-child(1) { transition-delay:0s; }
+    .reveal-group.visible .ri:nth-child(2) { transition-delay:0.1s; }
+    .reveal-group.visible .ri:nth-child(3) { transition-delay:0.2s; }
+    .reveal-group.visible .ri:nth-child(4) { transition-delay:0.3s; }
+    .reveal-group.visible .ri:nth-child(5) { transition-delay:0.4s; }
+    .reveal-group.visible .ri:nth-child(6) { transition-delay:0.5s; }
+
+    /* Tag pill entrance — scale-in when parent card becomes visible */
+    @keyframes pillIn { from { opacity:0; transform:scale(0.8); } to { opacity:1; transform:scale(1); } }
+    .reveal.visible .pill-tag { opacity:0; animation: pillIn 0.3s ease-out forwards; }
+    .reveal.visible .pill-tag:nth-child(1) { animation-delay:0.08s; }
+    .reveal.visible .pill-tag:nth-child(2) { animation-delay:0.16s; }
+    .reveal.visible .pill-tag:nth-child(3) { animation-delay:0.24s; }
+
+    /* Hero entrance */
+    @keyframes fadeInUp { 0% { opacity:0; transform:translateY(20px); } 100% { opacity:1; transform:translateY(0); } }
+    .hero-item { opacity:0; animation: fadeInUp 0.6s ease-out forwards; }
+
+    /* Blob / modal animations */
+    @keyframes float   { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-14px); } }
+    @keyframes blob    { 0%,100% { border-radius:40% 60% 70% 30%/40% 50% 60% 40%; } 50% { border-radius:60% 40% 30% 70%/50% 60% 40% 50%; } }
+    @keyframes fadeIn  { from { opacity:0; } to { opacity:1; } }
+    @keyframes slideUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── Nav link — orange underline slides in from left ── */
+    .nav-link { position:relative; }
+    .nav-link::after {
+      content:''; position:absolute; bottom:-3px; left:0;
+      width:0; height:2px; border-radius:1px;
+      background:#d97706;
+      transition: width 0.2s ease;
+    }
+    .nav-link:hover::after { width:100%; }
+
+    /* ── Case study card hover ── */
+    .case-card {
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .case-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.11);
+    }
+
+    /* Lightbulb warm glow animation — keyframe so it fires reliably after a delay */
+    @keyframes bulbGlowIn {
+      0%   { opacity: 0; }
+      15%  { opacity: 0.08; }
+      60%  { opacity: 0.75; }
+      100% { opacity: 1; }
+    }
+    @keyframes bulbFilterIn {
+      0%   { filter: brightness(0.65) grayscale(1) contrast(1.1); transform: scale(1); }
+      20%  { filter: brightness(0.75) grayscale(0.6); transform: scale(1.02); }
+      100% { filter: drop-shadow(0 0 6px #ffe066) drop-shadow(0 0 18px #ffd700) brightness(1.3); transform: scale(1.12); }
+    }
+    .bulb-glow      { opacity: 0; }
+    .bulb-glow.lit  { animation: bulbGlowIn 3s ease forwards; }
+    .bulb-emoji     { filter: brightness(0.65) grayscale(1) contrast(1.1); transform: scale(1); transition: none; }
+    .bulb-emoji.lit { animation: bulbFilterIn 3s ease forwards; animation-fill-mode: forwards; }
+
+    /* "READ CASE STUDY" underline animates in from left on card hover */
+    .read-line { display:inline-block; width:48px; height:2px; background:rgba(3,105,161,0.25); transition: width 0.2s ease, background 0.2s ease; }
+    .case-card:hover .read-line { width:80px; background:#0369a1; }
+  </style>
+</head>
+<body class="font-body text-[#292524] antialiased overflow-x-hidden">
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+function useReveal() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    // If the element is already in (or above) the viewport on mount,
+    // never hide it — just mark visible immediately, no animation needed.
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 20) {
+      el.classList.add('visible');
+      return;
+    }
+
+    // Element is below the fold — hide it and animate it in on scroll.
+    el.classList.add('reveal-pending');
+
+    const show = () => {
+      el.classList.remove('reveal-pending');
+      el.classList.add('visible');
+      obs.disconnect();
+      clearTimeout(fb);
+    };
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) show(); },
+      { rootMargin: '0px 0px -20px 0px', threshold: 0 }
+    );
+    const fb = setTimeout(show, 800); // safety net
+    obs.observe(el);
+    return () => { obs.disconnect(); clearTimeout(fb); };
+  }, []);
+  return ref;
+}
+
+/* ─── Nav ─── */
+function Nav() {
+  const [open, setOpen] = useState(false);
+  const links = [
+    { label: 'About', href: '#about' },
+    { label: 'Work', href: '#work' },
+    { label: 'Now', href: '#now' },
+    { label: 'Contact', href: '#contact' },
+  ];
+  return (
+    <>
+      <nav className="fixed top-4 inset-x-0 z-50 flex justify-center px-4">
+        <div className="glass rounded-full shadow-[0_8px_40px_-8px_rgba(3,105,161,0.14)] px-6 py-2.5 flex items-center gap-8">
+          <span className="font-headline font-extrabold text-primary tracking-tight text-sm">Veronika Dergal</span>
+          <ul className="hidden sm:flex gap-6">
+            {links.map(l => (
+              <li key={l.label}>
+                <a href={l.href} className="nav-link text-sm font-semibold text-[#57534e] hover:text-[#292524] transition-colors">{l.label}</a>
+              </li>
+            ))}
+          </ul>
+          <a
+            href="https://linkedin.com/in/veronikadergal"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:block bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:bg-sky-800 transition-all duration-200 active:scale-95"
+          >
+            Let's talk
+          </a>
+          <button onClick={() => setOpen(!open)} className="sm:hidden p-1" aria-label="Menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {open ? <><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></> : <><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></>}
+            </svg>
+          </button>
+        </div>
+      </nav>
+      {open && (
+        <div className="fixed top-16 inset-x-4 z-40 glass rounded-2xl px-6 py-5 flex flex-col gap-4 shadow-xl">
+          {links.map(l => (
+            <a key={l.label} href={l.href} onClick={() => setOpen(false)} className="text-sm font-semibold text-[#57534e] hover:text-primary transition-colors">{l.label}</a>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+/* ─── Hero ─── */
+function Hero() {
+  return (
+    <section className="relative min-h-screen flex items-center pt-20 px-6 overflow-hidden">
+
+      <div className="max-w-4xl mx-auto w-full relative z-10 py-16">
+        <span style={{animationDelay:'0s'}} className="hero-item inline-block px-4 py-1.5 rounded-full bg-secondary-light text-amber-800 text-[11px] font-extrabold uppercase tracking-[0.18em] mb-8 shadow-sm">
+          HR &amp; Executive Search → Product Management
+        </span>
+
+        <h1 className="font-headline text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.06] tracking-tight text-[#292524] mb-6">
+          <span style={{animationDelay:'0.1s'}} className="hero-item block">From Executive Search</span>
+          <span style={{animationDelay:'0.25s'}} className="hero-item block">
+            to{' '}
+            <span className="text-secondary relative inline-block">
+              Product Management.
+              <span className="absolute -bottom-3 left-0 w-full h-3 bg-secondary/10 -rotate-1 -z-10 rounded" />
+            </span>
+          </span>
+        </h1>
+
+        <p style={{animationDelay:'0.4s'}} className="hero-item text-lg sm:text-xl text-[#57534e] max-w-xl leading-relaxed mb-3 font-medium">
+          I help teams define the right problem, build the right thing, and measure whether it worked.
+        </p>
+        <p style={{animationDelay:'0.5s'}} className="hero-item text-base text-[#57534e] max-w-xl leading-relaxed mb-10">
+          10 years in HR &amp; executive search. Now building AI-powered tools and transitioning into PM.
+        </p>
+
+        <div className="flex flex-wrap gap-6">
+          {[
+            { delay:'0.62s', primary:true,  label:'View my work', href:'#work', icon:null },
+            { delay:'0.72s', primary:false, label:'Connect on LinkedIn', href:'https://linkedin.com/in/veronikadergal', external:true, icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> },
+            { delay:'0.82s', primary:false, label:'Download CV', href:'Veronika_Dergal_PM_CV.pdf', download:true, icon:<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> },
+          ].map(btn => (
+            <a key={btn.label}
+              style={{
+                animationDelay:btn.delay, opacity:0,
+                animation:`fadeInUp 0.6s ease-out ${btn.delay} forwards`,
+                transition:'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
+                ...(btn.primary
+                  ? { boxShadow:'0 16px 40px -10px rgba(3,105,161,0.4)' }
+                  : { boxShadow:'0 1px 4px rgba(0,0,0,0.07)' }
+                )
+              }}
+              href={btn.href}
+              {...(btn.external ? {target:'_blank',rel:'noopener noreferrer'} : {})}
+              {...(btn.download ? {download:true} : {})}
+              className={btn.primary
+                ? 'flex items-center gap-2 bg-primary text-white font-bold px-8 py-4 rounded-full text-sm active:scale-95'
+                : 'flex items-center gap-2 text-[#57534e] font-semibold px-6 py-4 rounded-full border border-[#57534e]/20 text-sm active:scale-95'
+              }
+              onAnimationEnd={e => { e.currentTarget.style.animation = 'none'; e.currentTarget.style.opacity = '1'; }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-3px)';
+                e.currentTarget.style.boxShadow = btn.primary
+                  ? '0 20px 50px -10px rgba(3,105,161,0.5)'
+                  : '0 8px 24px rgba(0,0,0,0.12)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = '';
+                e.currentTarget.style.boxShadow = btn.primary
+                  ? '0 16px 40px -10px rgba(3,105,161,0.4)'
+                  : '0 1px 4px rgba(0,0,0,0.07)';
+              }}
+            >
+              {btn.icon}{btn.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Modal — centered panel with clickable side backdrop ─── */
+function Modal({ open, onClose, children }) {
+  useEffect(() => {
+    if (!open) return;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey); };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const modal = (
+    /* full-screen wrapper — clicking the backdrop (this element) closes */
+    <div
+      onClick={onClose}
+      style={{
+        position:'fixed', top:0, left:0, right:0, bottom:0,
+        zIndex:9999,
+        display:'flex', alignItems:'flex-start', justifyContent:'center',
+        background:'rgba(253,252,250,0.88)',
+        backdropFilter:'blur(6px)',
+        WebkitBackdropFilter:'blur(6px)',
+        fontFamily:'Manrope, sans-serif',
+        color:'#292524',
+        animation:'fadeIn 0.2s ease both',
+        overflowY:'auto',
+        padding:'40px 0 80px',
+      }}
+    >
+      {/* hint arrows on the sides */}
+      <div style={{
+        position:'fixed', left:0, top:'50%', transform:'translateY(-50%)',
+        width:'12%', display:'flex', flexDirection:'column', alignItems:'center', gap:6,
+        opacity:0.3, pointerEvents:'none', userSelect:'none',
+      }}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#292524" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        <span style={{fontSize:9,fontWeight:700,letterSpacing:'0.12em',textTransform:'uppercase',color:'#292524',writingMode:'vertical-rl',transform:'rotate(180deg)'}}>click to close</span>
+      </div>
+      <div style={{
+        position:'fixed', right:0, top:'50%', transform:'translateY(-50%)',
+        width:'12%', display:'flex', flexDirection:'column', alignItems:'center', gap:6,
+        opacity:0.3, pointerEvents:'none', userSelect:'none',
+      }}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#292524" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        <span style={{fontSize:9,fontWeight:700,letterSpacing:'0.12em',textTransform:'uppercase',color:'#292524',writingMode:'vertical-rl'}}>click to close</span>
+      </div>
+
+      {/* the actual panel — stop clicks from bubbling to backdrop */}
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          width:'min(780px, 76vw)',
+          flexShrink:0,
+          background:'#fdf8f1',
+          borderRadius:'2rem',
+          border:'1px solid rgba(3,105,161,0.1)',
+          boxShadow:'0 24px 80px -16px rgba(0,0,0,0.16), 0 4px 16px rgba(0,0,0,0.06)',
+          overflow:'hidden',
+          animation:'slideUp 0.3s cubic-bezier(0.22,1,0.36,1) both',
+        }}
+      >
+        {/* sticky header */}
+        <div style={{
+          position:'sticky', top:0,
+          background:'rgba(253,248,241,0.97)',
+          backdropFilter:'blur(20px)',
+          WebkitBackdropFilter:'blur(20px)',
+          borderBottom:'1px solid rgba(3,105,161,0.08)',
+          padding:'12px 24px',
+          display:'flex', alignItems:'center', justifyContent:'space-between',
+          zIndex:2,
+        }}>
+          <span style={{fontSize:10,fontWeight:800,letterSpacing:'0.2em',textTransform:'uppercase',color:'#57534e',opacity:0.5}}>
+            Case Study
+          </span>
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            style={{
+              width:36, height:36, borderRadius:'50%', border:'none', cursor:'pointer',
+              background:'rgba(3,105,161,0.08)', color:'#0369a1',
+              display:'flex', alignItems:'center', justifyContent:'center',
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+        {/* content */}
+        <div style={{padding:'36px 40px 60px'}}>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+
+  return ReactDOM.createPortal(modal, document.body);
+}
+
+/* ─── ReSearchlight screenshot ─── */
+function ToolPreview({ compact }) {
+  return (
+    <div className="rounded-2xl overflow-hidden"
+      style={{
+        border: '1px solid rgba(0,0,0,0.07)',
+        boxShadow: compact
+          ? '0 4px 24px -4px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.06)'
+          : '0 8px 40px -8px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.06)',
+      }}>
+      {/* device chrome bar */}
+      <div style={{background:'#f1f1f1', borderBottom:'1px solid rgba(0,0,0,0.07)', padding:'8px 12px', display:'flex', alignItems:'center', gap:6}}>
+        <span style={{width:10,height:10,borderRadius:'50%',background:'#ff5f57',display:'inline-block'}}/>
+        <span style={{width:10,height:10,borderRadius:'50%',background:'#febc2e',display:'inline-block'}}/>
+        <span style={{width:10,height:10,borderRadius:'50%',background:'#28c840',display:'inline-block'}}/>
+        <span style={{flex:1,height:18,background:'#fff',borderRadius:4,border:'1px solid rgba(0,0,0,0.08)',marginLeft:8}}/>
+      </div>
+      <img
+        src="researchlight_screenshot.png?v=2"
+        alt="ReSearchlight tool — internal researcher screening interface"
+        className="w-full block"
+        style={{ maxHeight: compact ? '160px' : 'none', objectFit: compact ? 'cover' : 'contain', objectPosition: 'top center' }}
+      />
+      <div style={{background:'#f8f8f8', borderTop:'1px solid rgba(0,0,0,0.06)', padding:'6px 12px', textAlign:'center'}}>
+        <span style={{fontSize:10, color:'rgba(87,83,78,0.5)', fontWeight:600}}>Demo mode — researcher names are illustrative</span>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Case Study 1 ─── */
+function CaseStudy1() {
+  const ref = useReveal();
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <article ref={ref} onClick={() => setOpen(true)} className="reveal case-card glass rounded-[2.5rem] overflow-hidden flex flex-col group cursor-pointer">
+        <div className="p-8 flex flex-col flex-1">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
+            <div className="flex gap-2">
+              <span className="pill-tag px-4 py-1.5 rounded-full bg-sky-100 text-sky-800 text-[10px] font-extrabold uppercase tracking-widest">Internal Tool</span>
+              <span className="pill-tag px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-extrabold uppercase tracking-widest">2024–25</span>
+            </div>
+            <span className="pill-tag px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-widest">70% time saved</span>
+          </div>
+
+          <h3 className="font-headline text-2xl font-extrabold text-[#292524] mb-2 leading-snug">From 400 Hours to 120: ReSearchlight</h3>
+          <p className="text-[#57534e] text-sm leading-relaxed mb-6 font-medium">
+            Built an AI-powered researcher screening tool — from problem definition to team adoption. Replaced a fragile manual workaround with a legitimate SerpAPI integration. Saved ~280 hours per project and eliminated a single-engineer dependency.
+          </p>
+
+          <ToolPreview compact={true} />
+
+          <div className="mt-auto pt-6 inline-flex items-center gap-3 text-primary font-extrabold text-sm tracking-widest self-start">
+            READ CASE STUDY
+            <span className="read-line" />
+          </div>
+        </div>
+      </article>
+
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <div className="space-y-10 text-sm leading-relaxed">
+
+          {/* ── Header ── */}
+          <div>
+            <div className="flex flex-wrap gap-2 mb-3">
+              <span className="px-4 py-1.5 rounded-full bg-sky-100 text-sky-800 text-[10px] font-extrabold uppercase tracking-widest">Internal Tool</span>
+              <span className="px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-extrabold uppercase tracking-widest">PM &amp; Builder · 2024–25</span>
+              <span className="px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-widest">70% time saved</span>
+            </div>
+            <h2 className="font-headline text-3xl sm:text-4xl font-extrabold text-[#292524] mt-2 mb-1 leading-tight">From 400 Hours to 120:<br/>Building ReSearchlight</h2>
+            <p className="text-[#57534e] text-base font-medium mt-2">How I defined the right problem, built the right tool, and designed for how people actually work — not the happy path.</p>
+          </div>
+
+          {/* ── Meta grid ── */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {[
+              { label: 'Role',     value: 'Solo builder / PM',       icon: '🧠', accent: '#0369a1', bg: 'rgba(3,105,161,0.06)',  border: 'rgba(3,105,161,0.14)' },
+              { label: 'Timeline', value: '2024 – 2025',             icon: '📅', accent: '#b45309', bg: 'rgba(180,83,9,0.06)',   border: 'rgba(180,83,9,0.14)' },
+              { label: 'Tools',    value: 'Lovable, SerpAPI, Excel', icon: '🛠', accent: '#6d28d9', bg: 'rgba(109,40,217,0.06)', border: 'rgba(109,40,217,0.14)' },
+              { label: 'Impact',   value: '~70% time reduction',     icon: '⚡', accent: '#059669', bg: 'rgba(5,150,105,0.06)',  border: 'rgba(5,150,105,0.14)' },
+            ].map((m, i) => (
+              <div key={i}
+                className="rounded-2xl p-5 cursor-default flex flex-col items-center text-center"
+                style={{
+                  background: m.bg,
+                  border: `1px solid ${m.border}`,
+                  transition: 'transform 0.18s ease, box-shadow 0.18s ease',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'translateY(-3px) scale(1.04)';
+                  e.currentTarget.style.boxShadow = `0 8px 24px -6px ${m.border.replace('0.14','0.3')}`;
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <span className="text-2xl block mb-3">{m.icon}</span>
+                <p className="text-[9px] font-extrabold uppercase tracking-[0.2em] mb-1.5" style={{color: m.accent, opacity:0.8}}>{m.label}</p>
+                <p className="text-sm font-bold text-[#292524] leading-snug">{m.value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* ── Context ── */}
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-3">Context</p>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#292524] mb-3">The Problem Worth Solving</p>
+            <p className="text-[#57534e] font-medium mb-4">I was working in executive search, running projects to identify senior academic leaders for UK universities. One project type kept creating a bottleneck: identifying researchers using publication data.</p>
+            <p className="text-[#57534e] font-medium mb-4">The task sounds straightforward — check whether a researcher has published in high-impact journals relevant to a role. In practice, it meant opening hundreds of Google Scholar profiles one by one, hunting for papers that met a very specific set of criteria: journal tier, recency, whether the researcher was a lead author, and whether the publication was original research (not a review or conference paper). With a longlist of ~5,000 researchers, that translated to an estimated 400 hours of manual checking per project.</p>
+            <blockquote className="border-l-2 border-primary/30 pl-4 text-[#57534e]/70 italic font-medium">
+              "The real problem wasn't the volume. It was that the criteria were complex and context-dependent — and that complexity was locked inside people's heads, not a system."
+            </blockquote>
+          </div>
+
+          {/* ── Screenshot ── */}
+          <ToolPreview compact={false} />
+
+          {/* ── Problem Framing ── */}
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-3">Problem Framing</p>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#292524] mb-3">Defining the Right Requirements</p>
+            <p className="text-[#57534e] font-medium mb-5">Before building anything, I had to translate months of implicit knowledge into explicit, testable logic. The most important piece was what I called a <strong className="text-[#292524]">scenario tree</strong>: a structured decision framework mapping every meaningful case the tool might encounter.</p>
+
+            {/* Scenario tree visual */}
+            <div className="rounded-2xl overflow-hidden mb-5" style={{border:'1px solid rgba(3,105,161,0.1)'}}>
+              <div className="px-4 py-3" style={{background:'rgba(3,105,161,0.06)'}}>
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-primary">Scenario Tree — Edge Cases Mapped</p>
+              </div>
+              {[
+                { q: 'Is this journal tier-appropriate?', eg: 'Nature flagship vs Nature subsidiary journals' },
+                { q: 'Is the researcher lead author?', eg: 'Position requirements vary by seniority level' },
+                { q: 'Is this original research?', eg: 'Excludes reviews, book chapters, conference papers' },
+                { q: 'Is the author list complete?', eg: 'SerpAPI truncates lists on high-contributor papers — documented as constraint' },
+              ].map((item, i) => (
+                <div key={i} className="flex gap-3 px-4 py-3 items-start" style={{borderTop:'1px solid rgba(3,105,161,0.07)'}}>
+                  <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center text-[9px] font-extrabold text-primary">{i+1}</span>
+                  <div>
+                    <p className="text-sm font-bold text-[#292524]">{item.q}</p>
+                    <p className="text-xs text-[#57534e]/60 mt-0.5">{item.eg}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-[#57534e] font-medium italic text-xs">Writing the scenario tree was the moment the project became a product problem rather than a tech problem.</p>
+          </div>
+
+          {/* ── Building & Iteration ── */}
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-3">Building &amp; Iteration</p>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#292524] mb-3">Version 1 → Version 2: What Changed</p>
+            <p className="text-[#57534e] font-medium mb-5">V1 — built by my engineer friend, with me in a PM capacity (requirements, testing, feedback) — proved the concept. But when he travelled abroad, the dependency broke. V2 was my answer: a version the team could own.</p>
+
+            <div className="grid grid-cols-2 gap-3 mb-5">
+              <div className="rounded-2xl p-4" style={{background:'rgba(87,83,78,0.05)', border:'1px solid rgba(87,83,78,0.1)'}}>
+                <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#57534e]/50 mb-3">V1 — Engineer built, me as PM</p>
+                <ul className="space-y-2 text-xs text-[#57534e] font-medium">
+                  <li className="flex gap-2"><span className="text-[#57534e]/30 mt-0.5">✕</span>Manual webscraper, throttled</li>
+                  <li className="flex gap-2"><span className="text-[#57534e]/30 mt-0.5">✕</span>Required engineer availability</li>
+                  <li className="flex gap-2"><span className="text-[#57534e]/30 mt-0.5">✕</span>Fragile, not scalable</li>
+                  <li className="flex gap-2"><span className="text-[#57534e]/30 mt-0.5">✕</span>Single point of failure</li>
+                </ul>
+              </div>
+              <div className="rounded-2xl p-4" style={{background:'rgba(3,105,161,0.05)', border:'1px solid rgba(3,105,161,0.12)'}}>
+                <p className="text-[9px] font-extrabold uppercase tracking-widest text-primary mb-3">V2 — Built by me</p>
+                <ul className="space-y-2 text-xs text-[#292524] font-medium">
+                  <li className="flex gap-2"><span className="text-emerald-500 mt-0.5">✓</span>SerpAPI — legitimate, structured</li>
+                  <li className="flex gap-2"><span className="text-emerald-500 mt-0.5">✓</span>Team runs independently</li>
+                  <li className="flex gap-2"><span className="text-emerald-500 mt-0.5">✓</span>Batches of 200 profiles</li>
+                  <li className="flex gap-2"><span className="text-emerald-500 mt-0.5">✓</span>Built &amp; owned by non-engineer</li>
+                </ul>
+              </div>
+            </div>
+
+            <p className="text-[#57534e] font-medium mb-3">The most consequential decision in V2 was identifying SerpAPI as the data layer — a legitimate, structured API for extracting publication data from Scholar profiles at scale. This was my first time independently integrating an external API, configured entirely through Lovable.</p>
+            <p className="text-[#57534e] font-medium">I built iteratively, treating each run as a test. After each batch I compared outputs against a manually-checked gold-standard sample. I also prepared a specific set of tricky cases — conference papers, reviews, ambiguous author positions. <strong className="text-[#292524]">QA wasn't a phase at the end. It was the feedback loop that shaped every iteration.</strong></p>
+          </div>
+
+          {/* ── Outcome ── */}
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-3">Outcome</p>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#292524] mb-3">Adoption &amp; Results</p>
+            <p className="text-[#57534e] font-medium mb-5">I shipped the working version immediately before a one-week holiday — a deliberate decision to force a real test of independence. They ran it successfully without me. What previously required manually opening each Google Scholar profile became: assemble a CSV, upload, wait 10–15 minutes, review results.</p>
+
+            <div className="grid grid-cols-2 gap-3 mb-5">
+              <div className="rounded-2xl p-4" style={{background:'rgba(87,83,78,0.05)'}}>
+                <p className="text-[10px] font-extrabold text-[#57534e]/50 uppercase tracking-widest mb-3">Before</p>
+                <ul className="space-y-2 text-[#57534e] text-xs font-medium">
+                  <li>~400 hrs manual checking per project</li>
+                  <li>Dependent on engineer's availability</li>
+                  <li>Criteria implicit, not documented</li>
+                  <li>Single point of failure</li>
+                </ul>
+              </div>
+              <div className="rounded-2xl p-4" style={{background:'rgba(3,105,161,0.06)', border:'1px solid rgba(3,105,161,0.1)'}}>
+                <p className="text-[10px] font-extrabold text-primary uppercase tracking-widest mb-3">After</p>
+                <ul className="space-y-2 text-[#292524] text-xs font-medium">
+                  <li>~120 hrs — <strong>70% reduction</strong></li>
+                  <li>Team ran independently from day one</li>
+                  <li>Logic explicit, documented, testable</li>
+                  <li>Batches of 200 profiles in ~15 mins</li>
+                </ul>
+              </div>
+            </div>
+
+            <blockquote className="border-l-2 border-secondary/40 pl-4 text-[#57534e]/70 italic font-medium">
+              "The bottleneck shifted from 'can we do this?' to 'how quickly can we prepare the input file?'"
+            </blockquote>
+          </div>
+
+          {/* ── Reflection ── */}
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-3">Reflection</p>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#292524] mb-3">What This Taught Me About Product Thinking</p>
+            <p className="text-[#57534e] font-medium mb-4">The most PM-relevant part of this project wasn't the building — it was the problem framing. The team had been doing manual research for months. The pain was visible. But nobody had sat down to define what 'good' looked like in a form precise enough to build against.</p>
+            <p className="text-[#57534e] font-medium mb-5">The limitations I couldn't fully resolve taught me something equally important: shipping with known constraints is a product decision, not a failure. Documenting them explicitly, designing the workflow around them, and being transparent with the team about what the tool would and wouldn't do — that's what made it trustworthy enough to actually get used.</p>
+
+            {/* V3 future vision */}
+            <div className="rounded-2xl p-5" style={{background:'rgba(109,40,217,0.04)', border:'1px solid rgba(109,40,217,0.1)'}}>
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] mb-3" style={{color:'#6d28d9'}}>If I were building V3 today</p>
+              <ul className="space-y-2.5">
+                {[
+                  'Add a confidence scoring layer visible in the results table — so reviewers can prioritise their attention on uncertain cases rather than skimming everything equally.',
+                  'Formalise the test suite so any logic update can be regression-tested against the gold-standard sample before shipping.',
+                  'Build a feedback loop where manual corrections to the review tab inform future runs — closing the loop between human judgement and automated output.',
+                  'Explore whether SerpAPI\'s author list truncation can be mitigated through multi-step enrichment — fetching additional data passes for papers where the full author list matters.',
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-3 text-sm text-[#57534e] font-medium">
+                    <span className="flex-shrink-0 mt-1 w-1.5 h-1.5 rounded-full" style={{background:'rgba(109,40,217,0.4)'}} />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* ── Skills ── */}
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/40 mb-3">Skills Demonstrated</p>
+            <div className="flex flex-wrap gap-2">
+              {['Problem framing','Requirements definition','Scenario tree / PRD','QA methodology','Human-in-the-loop design','API integration (no code)','Stakeholder adoption'].map(s => (
+                <span key={s} className="px-3 py-1.5 rounded-full text-xs font-bold text-[#57534e]" style={{background:'rgba(87,83,78,0.07)', border:'1px solid rgba(41,37,36,0.08)'}}>{s}</span>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </Modal>
+    </>
+  );
+}
+
+/* ─── Case Study 2 ─── */
+function CaseStudy2() {
+  const ref = useReveal();
+  const [open, setOpen] = useState(false);
+  const layers = [
+    { n: '01', label: 'North Star',               labelSub: null,          sub: 'Who do I want to become?', bg: 'bg-primary' },
+    { n: '02', label: 'Objectives & Key Results', labelSub: null,          sub: 'What this quarter?',       bg: 'bg-secondary' },
+    { n: '03', label: 'Weekly Tasks',             labelSub: 'P0 · P1 · P2', sub: 'What do I do this week?', bg: 'bg-emerald-500' },
+  ];
+  return (
+    <>
+      <article ref={ref} onClick={() => setOpen(true)} className="reveal case-card glass rounded-[2.5rem] overflow-hidden flex flex-col group cursor-pointer">
+        <div className="p-8 flex flex-col flex-1">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
+            <div className="flex gap-2">
+              <span className="pill-tag px-4 py-1.5 rounded-full bg-sky-100 text-sky-800 text-[10px] font-extrabold uppercase tracking-widest">B2C App</span>
+              <span className="pill-tag px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-extrabold uppercase tracking-widest">2026</span>
+            </div>
+            <span className="pill-tag px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-widest">Live beta</span>
+          </div>
+
+          <h3 className="font-headline text-2xl font-extrabold text-[#292524] mb-2 leading-snug">Stride — 0 to Live Product in 6 Weeks</h3>
+          <p className="text-[#57534e] text-sm leading-relaxed mb-6 font-medium">
+            A weekly execution engine connecting life vision to quarterly OKRs to this week's tasks. Built solo, shipped to real users, ~£25 in infrastructure costs.
+          </p>
+
+          <div className="bg-[#F4F3F1] rounded-2xl p-4 space-y-1.5">
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/50 mb-3">How Stride works</p>
+            {layers.map((t, i) => (
+              <div key={i} className={`${t.bg} rounded-xl px-4 py-2.5 flex items-center justify-between gap-3`}>
+                <div className="flex items-center gap-3">
+                  <span className="text-[10px] font-bold text-white/40">{t.n}</span>
+                  <div>
+                    <span className="text-sm font-bold text-white leading-tight block">{t.label}</span>
+                    {t.labelSub && <span className="text-[10px] font-medium text-white/60 leading-tight block mt-0.5">{t.labelSub}</span>}
+                  </div>
+                </div>
+                <span className="text-xs text-white/50 hidden sm:block shrink-0">{t.sub}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-auto pt-6 flex flex-col gap-3">
+            <a href="https://stridehq.app" target="_blank" rel="noopener noreferrer"
+              onClick={e => e.stopPropagation()}
+              className="inline-flex items-center gap-2 text-secondary font-bold text-sm hover:opacity-70 transition-opacity self-start">
+              View live product
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </a>
+            <div className="inline-flex items-center gap-3 text-primary font-extrabold text-sm tracking-widest">
+              READ CASE STUDY
+              <span className="read-line" />
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <div className="space-y-8 text-sm leading-relaxed">
+
+          {/* ── Header ── */}
+          <div>
+            <div className="flex gap-2 mb-3">
+              <span className="px-4 py-1.5 rounded-full bg-sky-100 text-sky-800 text-[10px] font-extrabold uppercase tracking-widest">B2C App</span>
+              <span className="px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-extrabold uppercase tracking-widest">Solo Founder &amp; PM · 2026</span>
+              <span className="px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-widest">Live beta</span>
+            </div>
+            <h2 className="font-headline text-3xl font-extrabold text-[#292524] mt-2 mb-1">Stride — 0 to Live Product</h2>
+            <p className="text-[#57534e] text-base font-medium">Weekly execution engine: life vision → quarterly OKRs → this week's tasks</p>
+          </div>
+
+          {/* ── Meta tiles ── */}
+          <div className="grid grid-cols-4 gap-3">
+            {[
+              { label:'Role', value:'Solo Founder & PM', icon:'🧠', accent:'#0369a1', bg:'rgba(3,105,161,0.06)', border:'rgba(3,105,161,0.14)' },
+              { label:'Timeline', value:'Early 2026 — ongoing', icon:'📅', accent:'#b45309', bg:'rgba(180,83,9,0.06)', border:'rgba(180,83,9,0.14)' },
+              { label:'Tools', value:'Lovable · Supabase · Claude', icon:'🛠', accent:'#6d28d9', bg:'rgba(109,40,217,0.06)', border:'rgba(109,40,217,0.14)' },
+              { label:'Status', value:'Live beta · stridehq.app', icon:'🚀', accent:'#059669', bg:'rgba(5,150,105,0.06)', border:'rgba(5,150,105,0.14)' },
+            ].map((m, i) => (
+              <div key={i} className="flex flex-col items-center text-center rounded-2xl p-4 transition-all duration-200 cursor-default"
+                style={{background:m.bg, border:`1px solid ${m.border}`}}
+                onMouseEnter={e => { e.currentTarget.style.transform='translateY(-3px) scale(1.04)'; e.currentTarget.style.boxShadow=`0 8px 20px -4px ${m.accent}30`; }}
+                onMouseLeave={e => { e.currentTarget.style.transform=''; e.currentTarget.style.boxShadow=''; }}>
+                <span className="text-2xl mb-2">{m.icon}</span>
+                <p className="text-[9px] font-extrabold uppercase tracking-widest mb-1" style={{color:m.accent}}>{m.label}</p>
+                <p className="text-xs font-bold text-[#292524] leading-snug">{m.value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* ── Context ── */}
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/50 mb-3">A Gap Before the Gap</p>
+            <p className="text-[#57534e] font-medium mb-3">Every goal-setting tool I tried had the same flaw: it was built for people who already knew what they wanted.</p>
+            <p className="text-[#57534e] font-medium">When I decided to pivot into product management, I tried to map out where I actually wanted to go — not next month's tasks, the bigger picture. I tried Excel templates, Asana's personal goals tab, Notion. All of them assumed I already had goals figured out. None helped me arrive at the goals in the first place. The gap wasn't between vision and weekly tasks. It was earlier: between wanting clarity and knowing how to get there.</p>
+          </div>
+
+          {/* ── Discovery ── */}
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/50 mb-3">Discovery — Three Interviews Before I Told Anyone What I Was Building</p>
+            <p className="text-[#57534e] font-medium mb-4">Following The Mom Test — avoid announcing what you're building, because people will try to help rather than tell the truth — I spoke with three people who each had some relationship with goal-setting. I didn't mention Stride at all.</p>
+            <p className="text-[#57534e] font-medium mb-3">After the interviews I showed people what I'd built. The feedback was immediate: too much. The wheel of life, monthly tracking, weekly focus reviews — cut. What people needed was simpler: clarity on where they're going and a direct line to this week's tasks.</p>
+            <p className="text-[#57534e] font-medium mb-5">The hardest product lesson: not treating the app as my baby. Hearing "this is too much" and responding with curiosity rather than defensiveness.</p>
+
+            {/* Persona Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {[
+                {
+                  archetype: 'The Systems Builder',
+                  role: 'Engineer · 6 years of structured goal-setting',
+                  pill: 'Target user',
+                  pillBg: 'rgba(3,105,161,0.1)', pillColor: '#0369a1',
+                  borderColor: '#0369a1',
+                  system: ['Quarterly OKRs in Google Sheets', 'Weekly tasks in a separate work tool', 'Manual bridge between the two every Monday'],
+                  frustration: 'Strategy and execution live in different places with nothing connecting them.',
+                  quote: '"There\'s no connection between operational planning and strategic planning — why doesn\'t the system schedule time to actually do the work?"',
+                  why: 'Validated that the strategy-execution gap is painful enough to pay to solve, even for someone with a sophisticated existing system.',
+                },
+                {
+                  archetype: 'The Visual Planner',
+                  role: 'UX Researcher · Intuitive, multi-tool system',
+                  pill: 'Validates problem / won\'t pay',
+                  pillBg: 'rgba(180,83,9,0.1)', pillColor: '#b45309',
+                  borderColor: '#d97706',
+                  system: ['Quarterly intentions in analog notebook', 'Mood boards on Pinterest', 'Tasks split across Notion and Todoist'],
+                  frustration: 'Vision lives in her head and notebook; tasks live in apps. Nothing connects them.',
+                  quote: '"I want a vision that flows into goals, then cascades into tasks — connected, all the way down."',
+                  why: 'Articulated the exact value proposition unprompted. Confirmed the problem but ruled herself out as a paying user due to strong Notion loyalty — a product constraint worth knowing early.',
+                },
+                {
+                  archetype: 'The Overwhelmed Sceptic',
+                  role: 'Creative professional · Chronic system abandoner',
+                  pill: 'Not target user',
+                  pillBg: 'rgba(120,60,60,0.08)', pillColor: '#9f3a3a',
+                  borderColor: '#c47070',
+                  system: ['Notes app (rarely revisited)', 'Has tried: Excel, Trello, habit trackers, calendar blocking', 'Only thing that works: weekly external accountability call'],
+                  frustration: 'Ambitious planning for two days, then complete abandonment — every time.',
+                  quote: '"The problem isn\'t that there\'s a missing feature. The problem is somewhere else. I honestly don\'t know where."',
+                  why: 'Confirmed that Stride is not for people whose relationship with productivity is fundamentally broken. Knowing who you\'re not building for is a product decision.',
+                },
+              ].map((p, i) => (
+                <div key={i} className="rounded-2xl p-4 flex flex-col gap-3 bg-[#F4F3F1]"
+                  style={{borderLeft:`3px solid ${p.borderColor}`}}>
+                  <div>
+                    <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#57534e]/50 mb-0.5">{p.archetype}</p>
+                    <p className="text-[11px] text-[#57534e]/60 font-medium">{p.role}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#57534e]/40 mb-1.5">Current system</p>
+                    <ul className="space-y-1">
+                      {p.system.map((s, j) => (
+                        <li key={j} className="flex gap-2 text-[11px] text-[#57534e] font-medium">
+                          <span className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0" style={{background:p.borderColor}} />
+                          {s}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <p className="text-[11px] text-[#57534e]/80 italic font-medium leading-snug">{p.frustration}</p>
+
+                  <p className="text-xs text-[#292524] font-semibold leading-snug">{p.quote}</p>
+
+                  <p className="text-[10px] text-[#57534e]/60 font-medium leading-snug border-t border-[#292524]/6 pt-2">{p.why}</p>
+
+                  <span className="self-start px-2.5 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wider"
+                    style={{background:p.pillBg, color:p.pillColor}}>{p.pill}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Building ── */}
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/50 mb-3">Building &amp; Iteration — Stripping Back to What Actually Matters</p>
+            <p className="text-[#57534e] font-medium mb-4">The version that exists today is three tiers. The North Star isn't a text field — it's an exercise in clarity. The AI flow asks five questions I designed to help someone articulate a life vision even if they've never done this before, then distils the answers into a statement they can regenerate until it resonates. Built in four weeks using Lovable and Supabase, alongside certification coursework. I handled everything: product design, build, infrastructure, beta user management.</p>
+
+            <div className="bg-[#F4F3F1] rounded-2xl p-5">
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/40 mb-4">The framework</p>
+              <div className="space-y-2">
+                {[
+                  { n:'01', label:'North Star', desc:'Self-written or AI-guided — 5 questions that help you articulate a life vision even if you\'ve never done this before', bg:'bg-primary text-white' },
+                  { n:'02', label:'Objectives & Key Results', desc:'Quarterly goal tracking — the middle layer that translates vision into measurable targets', bg:'bg-secondary text-white' },
+                  { n:'03', label:'Weekly Tasks', desc:'P0 (must happen) · P1 (important) · P2 (optional) — derived from the OKRs above them', bg:'bg-emerald-500 text-white' },
+                ].map((t, i) => (
+                  <div key={i} className={`${t.bg} rounded-xl px-4 py-3 flex gap-4 items-start`}>
+                    <span className="text-[10px] font-bold opacity-40 mt-0.5 flex-shrink-0">{t.n}</span>
+                    <div>
+                      <p className="font-bold text-sm">{t.label}</p>
+                      <p className="text-xs opacity-60 mt-0.5 font-medium">{t.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ── What I'm Learning ── */}
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/50 mb-3">What I'm Learning — Honest Beta Feedback</p>
+            <p className="text-[#57534e] font-medium mb-4">Stride has five beta users. Most went through onboarding and didn't return — a real signal worth understanding, not minimising. Two things are driving it: no notification system (browser-only, no habit trigger), and onboarding that asks too much too soon. One user said directly: too much typing before she'd seen enough to know it was worth the effort. Another found the OKR distinction unclear despite example text.</p>
+            <p className="text-[#57534e] font-medium mb-4">Low retention with minimal promotion and no notifications isn't a verdict. It's a diagnosis. The job is to fix the specific things breaking the loop.</p>
+
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div className="rounded-2xl p-4" style={{background:'rgba(5,150,105,0.05)', border:'1px solid rgba(5,150,105,0.12)'}}>
+                <p className="text-[9px] font-extrabold uppercase tracking-widest text-emerald-700 mb-2">What's working</p>
+                <ul className="space-y-1.5">
+                  {['Users who completed onboarding understood what they\'d built','The AI North Star flow was positively received — one user said she\'d never been able to articulate her vision that clearly before'].map((s, i) => (
+                    <li key={i} className="flex gap-2 text-[11px] text-[#57534e] font-medium">
+                      <span className="text-emerald-500 flex-shrink-0">✓</span>{s}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="rounded-2xl p-4" style={{background:'rgba(180,83,9,0.05)', border:'1px solid rgba(180,83,9,0.12)'}}>
+                <p className="text-[9px] font-extrabold uppercase tracking-widest text-amber-700 mb-2">Fixing next</p>
+                <ul className="space-y-1.5">
+                  {['Minimum viable input — progressive disclosure','Inline OKR coaching on objective vs key result','Activate email reminders via Resend','Explore mobile-optimised experience'].map((s, i) => (
+                    <li key={i} className="flex gap-2 text-[11px] text-[#57534e] font-medium">
+                      <span className="text-amber-500 flex-shrink-0">→</span>{s}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Reflection ── */}
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/50 mb-3">Reflection</p>
+            <p className="text-[#57534e] font-medium mb-3">The most valuable lesson wasn't technical. It was learning to separate my attachment to what I'd built from what the product actually needed. The first version had features I was proud of that nobody wanted. Cutting them felt like loss. It wasn't — it was the job.</p>
+            <p className="text-[#57534e] font-medium">Stride is a live product with real users, real problems to solve, and a clear direction: an AI layer that moves it from a container you fill in to a coach that helps you think. That — not a perfect launch metric — is what this project was for.</p>
+          </div>
+
+          {/* ── Skills ── */}
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/50 mb-3">Skills Demonstrated</p>
+            <div className="flex flex-wrap gap-2">
+              {['Mom Test discovery interviews','0→1 solo build','Feature prioritisation under constraint','Onboarding UX design','AI prompt & flow design','Beta user management','Lovable + Supabase (no code)'].map(s => (
+                <span key={s} className="px-3 py-1.5 rounded-full text-xs font-bold bg-[#F4F3F1] text-[#57534e] border border-[#292524]/8">{s}</span>
+              ))}
+            </div>
+          </div>
+
+          <a href="https://stridehq.app" target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3.5 bg-secondary text-white rounded-full text-sm font-bold hover:opacity-90 transition-opacity shadow-[0_8px_24px_-6px_rgba(217,119,6,0.4)]">
+            View live product — stridehq.app
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+
+        </div>
+      </Modal>
+    </>
+  );
+}
+
+/* ─── Work ─── */
+function Work() {
+  const ref = useReveal();
+  return (
+    <section id="work" className="py-28 px-6 relative overflow-hidden">
+      <div className="max-w-4xl mx-auto relative z-10">
+        <div ref={ref} className="reveal mb-14 flex items-end gap-6">
+          <div>
+            <span className="text-secondary font-extrabold uppercase tracking-[0.2em] text-xs mb-2 block">Case Studies</span>
+            <h2 className="font-headline text-4xl sm:text-5xl font-extrabold text-[#292524]">
+              Selected <span className="text-secondary italic">work.</span>
+            </h2>
+          </div>
+          <div className="h-[2px] flex-grow bg-gradient-to-r from-primary/20 to-transparent mb-3 hidden sm:block" />
+        </div>
+        <div className="grid gap-6 sm:grid-cols-2">
+          <CaseStudy1 />
+          <CaseStudy2 />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── About ─── */
+function About() {
+  const ref = useReveal();
+  const bulbRef = useRef(null);
+  const [bulbLit, setBulbLit] = useState(false);
+
+  useEffect(() => {
+    const el = bulbRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        obs.disconnect();
+        setTimeout(() => setBulbLit(true), 1400);
+      }
+    }, { threshold: 0.5 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const facts = [
+    { icon: "📍", text: "London, UK" },
+    { icon: "🎓", text: "BA International Business Management · University of Lincoln, UK" },
+    { icon: "🛠", text: "Building with: Lovable, Supabase, Claude" },
+    { icon: "🗣", text: <span>🇬🇧 English (fluent) · 🇺🇦 Ukrainian (native)</span> },
+  ];
+
+  return (
+    <section id="about" className="py-28 px-6 relative overflow-hidden">
+      <div className="max-w-4xl mx-auto relative z-10">
+
+        {/* Two-column grid: body text left, sidebar right — grid starts at heading level */}
+        <div ref={ref} className="reveal grid md:grid-cols-5 gap-12 items-start">
+
+          {/* ── Left: heading + all body paragraphs ── */}
+          <div className="md:col-span-3">
+            <div className="mb-8">
+              <span className="text-secondary font-extrabold uppercase tracking-[0.2em] text-xs mb-2 block">About</span>
+              <h2 className="font-headline text-4xl sm:text-5xl font-extrabold text-[#292524]">Hi, I'm <span className="text-secondary italic">Veronika.</span></h2>
+            </div>
+            <div className="space-y-3 text-[#57534e] leading-relaxed font-medium">
+            <p>So here's the thing: I spent 10 years in HR and executive search working with people and systems. Turns out, the core skills I was building — <span style={{textDecoration:'underline', textDecorationColor:'#d97706', textUnderlineOffset:3}}>understanding what people actually need</span> and bridging the gap between business goals and execution — are central to product management.</p>
+            <p>Whether I was consulting at EY, supporting teams as a People Partner, or placing senior leaders at UK universities, the job was always the same: <span style={{textDecoration:'underline', textDecorationColor:'#d97706', textUnderlineOffset:3}}>figure out what people needed</span> (not what they said they needed), ask the right questions until you got to the truth, and deliver something that worked.</p>
+
+            {/* Lightbulb callout */}
+            <div ref={bulbRef} className="glass rounded-[2rem] overflow-hidden relative"
+              style={{
+                boxShadow:'0 2px 16px rgba(0,0,0,0.07)',
+                transition:'transform 0.2s ease, box-shadow 0.2s ease',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform='translateY(-4px) scale(1.02)'; e.currentTarget.style.boxShadow='0 16px 40px rgba(0,0,0,0.11)'; }}
+              onMouseLeave={e => { e.currentTarget.style.transform=''; e.currentTarget.style.boxShadow='0 2px 16px rgba(0,0,0,0.07)'; }}>
+
+              <div className="flex items-center gap-6 p-6 relative">
+                {/* Warm glow — centered on bulb, torch effect via overflow:hidden */}
+                <div className={`bulb-glow${bulbLit ? ' lit' : ''}`} style={{
+                  position:'absolute', left:42, top:'50%',
+                  transform:'translate(-50%, -50%)',
+                  width:340, height:300,
+                  borderRadius:'50%',
+                  background:'radial-gradient(ellipse at center, rgba(255,228,90,0.62) 0%, rgba(255,200,55,0.35) 22%, rgba(255,175,35,0.15) 48%, transparent 68%)',
+                  pointerEvents:'none',
+                  zIndex:0,
+                }} />
+                <span className={`bulb-emoji${bulbLit ? ' lit' : ''}`} style={{
+                  fontSize:36, flexShrink:0, lineHeight:1,
+                  display:'inline-block',
+                  position:'relative', zIndex:1,
+                }}>💡</span>
+                <div className="text-[#57534e] font-medium" style={{position:'relative', zIndex:1}}>
+                  <p>The shift happened when I got annoyed at a manual research process and built an automation tool to fix it. Zero technical background. Learned vibe-coding.</p>
+                  <p style={{margin:'0.6rem 0', fontWeight:700, color:'#292524'}}>400 hours → 120 hours <span style={{color:'#d97706', fontWeight:500}}>(70% reduction)</span></p>
+                  <p>That's when tedious research suddenly became fun.<br/>That's when I knew I'd <span style={{textDecoration:'underline', textDecorationColor:'#d97706', textUnderlineOffset:3}}>found my thing.</span></p>
+                </div>
+              </div>
+            </div>
+
+            <p>Since then: PM and AI courses, lots of PM books, Lenny's Podcast obsession, and non-stop experiments with AI tools. The biggest lesson? You learn more from one week of real usage than six months of trying to predict edge cases.</p>
+            <p>Now I'm looking for my first PM role at an early-stage startup. I'm looking for a team where being wrong isn't a problem — it's part of the process. Where you ship, learn, break things, fix them, and go again.</p>
+            <p>If this resonates, <a href="#contact" onClick={e=>{e.preventDefault();document.getElementById('contact').scrollIntoView({behavior:'smooth'});}} style={{color:'#d97706', fontWeight:700, fontStyle:'italic', textDecoration:'none', display:'inline-block', position:'relative', transition:'transform 0.2s ease, opacity 0.2s ease'}} onMouseEnter={e=>{e.currentTarget.style.transform='scale(1.06)';e.currentTarget.style.opacity='0.8';}} onMouseLeave={e=>{e.currentTarget.style.transform='scale(1)';e.currentTarget.style.opacity='1';}}>let's talk.<span style={{position:'absolute', bottom:-4, left:0, width:'100%', height:6, background:'rgba(217,119,6,0.12)', borderRadius:3, transform:'rotate(-1deg)', zIndex:-1}} /></a></p>
+            </div>
+          </div>
+
+          {/* ── Right: photo + glance + cert ── */}
+          <div className="md:col-span-2">
+            <div className="mb-6">
+              <img src="photo.jpg" alt="Veronika Dergal"
+                style={{width:'100%', aspectRatio:'1/1', borderRadius:'50%', objectFit:'cover', objectPosition:'center top', display:'block', boxShadow:'0 4px 20px rgba(0,0,0,0.12)'}} />
+            </div>
+
+            <h3 className="text-[10px] font-extrabold tracking-[0.2em] uppercase text-[#57534e]/40 mb-4">At a glance</h3>
+            <ul className="space-y-3 mb-8">
+              {facts.map((f, i) => (
+                <li key={i} className="flex gap-3 text-sm text-[#57534e] font-medium">
+                  <span className="flex-shrink-0">{f.icon}</span>
+                  <span>{f.text}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="rounded-2xl p-5" style={{background:'#fff', border:'1px solid rgba(0,0,0,0.09)', boxShadow:'0 2px 14px rgba(0,0,0,0.07)'}}>
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/40 mb-4">Certifications</p>
+              <div className="flex items-center gap-4">
+                <img src="ibm_badge.png" alt="IBM badge" className="w-14 h-14 object-contain flex-shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-[#292524]">IBM AI Product Manager</p>
+                  <p className="text-xs text-[#57534e]/70 mt-0.5 font-medium">Professional Certificate · March 2026 · Coursera</p>
+                  <div className="flex gap-3 mt-2">
+                    <a href="https://coursera.org/verify/professional-cert/IO6UFAJQOKZQ" target="_blank" rel="noopener noreferrer"
+                      className="text-xs font-bold text-primary hover:opacity-70 transition-opacity flex items-center gap-1">
+                      Verify <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                    </a>
+                    <a href="Veronika_Dergal_IBM_AI_PM_Certificate.pdf" download
+                      className="text-xs font-bold text-[#57534e]/60 hover:text-[#292524] transition-colors flex items-center gap-1">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                      PDF
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </section>
+  );
+}
+
+/* ─── Now ─── */
+function Now() {
+  const ref = useReveal();
+  const listRef = useReveal();
+  const items = [
+    { icon: "🚀", label: "Building", content: <span>Stride — a personal goal-execution app, live in beta at <a href="https://stridehq.app" target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="text-primary font-bold hover:opacity-70 transition-opacity underline underline-offset-2">stridehq.app</a></span> },
+    { icon: "🔎", label: "Discovering", content: <span>Running user interviews for Stride · Developing a product critique of Airbnb · Open to exchanging ideas</span> },
+    { icon: "🎓", label: "Learning", content: <span>Agentic AI course at DeepLearning.AI</span> },
+    { icon: "🔍", label: "Looking for", content: <span>Associate PM at an early-stage startup in London</span> },
+  ];
+  return (
+    <section id="now" className="py-28 px-6 relative overflow-hidden">
+      <div className="max-w-4xl mx-auto relative z-10">
+        <div ref={ref} className="reveal mb-12">
+          <span className="text-secondary font-extrabold uppercase tracking-[0.2em] text-xs mb-2 block">Currently</span>
+          <h2 className="font-headline text-4xl sm:text-5xl font-extrabold text-[#292524]">What I'm working on<br/>right now.</h2>
+        </div>
+        <ul className="reveal-group space-y-0" ref={listRef}>
+          {items.map((item, i) => (
+            <li key={i} className={`ri flex gap-5 items-start py-5 ${i < items.length - 1 ? 'border-b border-[#292524]/6' : ''}`}>
+              <span className="text-2xl flex-shrink-0 mt-0.5 w-8 text-center">{item.icon}</span>
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-secondary mb-1">{item.label}</p>
+                <p className="text-base text-[#57534e] leading-relaxed font-medium">{item.content}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Footer / CTA ─── */
+function Footer() {
+  return (
+    <>
+      {/* CTA — reinstated card */}
+      <section id="contact" className="px-6 py-28">
+        <div className="max-w-4xl mx-auto">
+          <div className="rounded-[2rem] text-white text-center px-10 py-12 sm:px-16 sm:py-14" style={{background:'#0369a1'}}>
+            <h2 className="font-headline text-4xl sm:text-5xl font-extrabold mb-4 leading-tight tracking-tight">
+              Ready to build something real?
+            </h2>
+            <p className="text-lg mb-10 font-medium" style={{opacity:0.85}}>
+              Open to Associate PM roles in London. Let's talk product.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
+              <a href="https://linkedin.com/in/veronikadergal" target="_blank" rel="noopener noreferrer"
+                className="bg-white font-extrabold px-10 py-4 rounded-full text-sm shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 active:scale-95 flex items-center justify-center gap-2" style={{color:'#0369a1'}}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                Connect on LinkedIn
+              </a>
+              <a href="Veronika_Dergal_PM_CV.pdf" download
+                className="border-2 border-white/40 text-white font-extrabold px-10 py-4 rounded-full text-sm hover:bg-white/10 hover:border-white/70 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 flex items-center justify-center gap-2">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download CV
+              </a>
+              <a href="mailto:dergalv@gmail.com"
+                className="border-2 border-white/40 text-white font-extrabold px-10 py-4 rounded-full text-sm hover:bg-white/10 hover:border-white/70 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 flex items-center justify-center">
+                Say hello
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="mt-16 py-12 px-8 border-t border-[#292524]/6">
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex flex-col items-center md:items-start gap-1">
+            <span className="font-headline font-extrabold text-secondary tracking-tight">Veronika Dergal</span>
+            <p className="text-xs text-[#57534e]/60 font-medium">London, UK</p>
+          </div>
+          <div className="flex gap-8">
+            {[
+              { label: 'LinkedIn', href: 'https://linkedin.com/in/veronikadergal' },
+              { label: 'Email', href: 'mailto:dergalv@gmail.com' },
+            ].map(l => (
+              <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer"
+                className="text-xs font-bold uppercase tracking-widest text-[#57534e]/60 hover:text-primary transition-colors">{l.label}</a>
+            ))}
+          </div>
+          <p className="text-xs text-[#57534e]/40 font-medium">Built with Claude Code · 2026</p>
+        </div>
+      </footer>
+    </>
+  );
+}
+
+/* ─── App ─── */
+function App() {
+  return (
+    <>
+      <Nav />
+      <main>
+        <Hero />
+        <About />
+        <Work />
+        <Now />
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
