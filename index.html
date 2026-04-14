@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Veronika Dergal — Product Manager</title>
+  <meta property="og:title" content="Veronika Dergal — Product Manager" />
+  <meta property="og:description" content="PM transitioning from HR & Executive Search. Built AI-powered tools that cut 400 hrs to 120. Looking for Associate PM roles in London." />
+  <meta property="og:image" content="photo.jpg" />
+  <meta property="og:type" content="website" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -24,20 +28,6 @@
             headline: ['"Plus Jakarta Sans"', 'sans-serif'],
             body:     ['Manrope', 'sans-serif'],
           },
-          keyframes: {
-            fadeInUp: { '0%': { opacity: '0', transform: 'translateY(28px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-            float:    { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-14px)' } },
-            blob:     { '0%,100%': { borderRadius: '40% 60% 70% 30% / 40% 50% 60% 40%' }, '50%': { borderRadius: '60% 40% 30% 70% / 50% 60% 40% 50%' } },
-            fadeIn:   { from: { opacity: '0' }, to: { opacity: '1' } },
-            slideUp:  { from: { opacity: '0', transform: 'translateY(24px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
-          },
-          animation: {
-            fadeInUp: 'fadeInUp 0.7s ease-out forwards',
-            float:    'float 6s ease-in-out infinite',
-            blob:     'blob 10s ease-in-out infinite',
-            fadeIn:   'fadeIn 0.18s ease',
-            slideUp:  'slideUp 0.22s ease',
-          },
         },
       },
     }
@@ -51,6 +41,7 @@
   <style>
     html {
       scroll-behavior: smooth;
+      scroll-snap-type: y proximity;
       /* Single gradient spanning the entire document — no section cuts */
       background: linear-gradient(160deg, #FDFCFA 0%, #FAFBFC 55%, #F8F9FC 100%);
       min-height: 100%;
@@ -62,7 +53,6 @@
     .blob-bg { filter: blur(80px); pointer-events: none; }
 
     /* ── Scroll snapping ── */
-    html { scroll-snap-type: y proximity; }
     section { scroll-snap-align: start; }
 
     /* ── Scroll reveal ──
@@ -207,9 +197,7 @@ function Nav() {
             ))}
           </ul>
           <a
-            href="https://linkedin.com/in/veronikadergal"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#contact"
             className="hidden sm:block bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:bg-sky-800 transition-all duration-200 active:scale-95"
           >
             Let's talk
@@ -263,7 +251,7 @@ function Hero() {
         <div className="flex flex-wrap gap-6">
           {[
             { delay:'0.62s', primary:true,  label:'View my work', href:'#work', icon:null },
-            { delay:'0.72s', primary:false, label:'Connect on LinkedIn', href:'https://linkedin.com/in/veronikadergal', external:true, icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> },
+            { delay:'0.72s', primary:false, label:'Connect on LinkedIn', href:'https://www.linkedin.com/in/veronika-dergal/', external:true, icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> },
             { delay:'0.82s', primary:false, label:'Download CV', href:'Veronika_Dergal_PM_CV.pdf', download:true, icon:<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> },
           ].map(btn => (
             <a key={btn.label}
@@ -307,7 +295,7 @@ function Hero() {
 }
 
 /* ─── Modal — centered panel with clickable side backdrop ─── */
-function Modal({ open, onClose, children }) {
+function Modal({ open, onClose, title, children }) {
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = 'hidden';
@@ -329,28 +317,25 @@ function Modal({ open, onClose, children }) {
         background:'rgba(253,252,250,0.88)',
         backdropFilter:'blur(6px)',
         WebkitBackdropFilter:'blur(6px)',
-        fontFamily:'Manrope, sans-serif',
         color:'#292524',
         animation:'fadeIn 0.2s ease both',
         overflowY:'auto',
         padding:'40px 0 80px',
       }}
     >
-      {/* hint arrows on the sides */}
+      {/* hint text on the sides */}
       <div style={{
         position:'fixed', left:0, top:'50%', transform:'translateY(-50%)',
-        width:'12%', display:'flex', flexDirection:'column', alignItems:'center', gap:6,
+        width:'12%', display:'flex', flexDirection:'column', alignItems:'center',
         opacity:0.3, pointerEvents:'none', userSelect:'none',
       }}>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#292524" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         <span style={{fontSize:9,fontWeight:700,letterSpacing:'0.12em',textTransform:'uppercase',color:'#292524',writingMode:'vertical-rl',transform:'rotate(180deg)'}}>click to close</span>
       </div>
       <div style={{
         position:'fixed', right:0, top:'50%', transform:'translateY(-50%)',
-        width:'12%', display:'flex', flexDirection:'column', alignItems:'center', gap:6,
+        width:'12%', display:'flex', flexDirection:'column', alignItems:'center',
         opacity:0.3, pointerEvents:'none', userSelect:'none',
       }}>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#292524" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         <span style={{fontSize:9,fontWeight:700,letterSpacing:'0.12em',textTransform:'uppercase',color:'#292524',writingMode:'vertical-rl'}}>click to close</span>
       </div>
 
@@ -380,7 +365,7 @@ function Modal({ open, onClose, children }) {
           zIndex:2,
         }}>
           <span style={{fontSize:10,fontWeight:800,letterSpacing:'0.2em',textTransform:'uppercase',color:'#57534e',opacity:0.5}}>
-            Case Study
+            {title || 'Case Study'}
           </span>
           <button
             onClick={onClose}
@@ -443,7 +428,7 @@ function CaseStudy1() {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <article ref={ref} onClick={() => setOpen(true)} className="reveal case-card glass rounded-[2.5rem] overflow-hidden flex flex-col group cursor-pointer">
+      <article ref={ref} onClick={() => setOpen(true)} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(true); } }} className="reveal case-card glass rounded-[2.5rem] overflow-hidden flex flex-col group cursor-pointer">
         <div className="p-8 flex flex-col flex-1">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
             <div className="flex gap-2">
@@ -467,7 +452,7 @@ function CaseStudy1() {
         </div>
       </article>
 
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Modal open={open} onClose={() => setOpen(false)} title="ReSearchlight">
         <div className="space-y-10 text-sm leading-relaxed">
 
           {/* ── Header ── */}
@@ -654,6 +639,22 @@ function CaseStudy1() {
             </div>
           </div>
 
+          {/* ── Micro-CTA ── */}
+          <div className="rounded-2xl px-6 py-5" style={{background:'rgba(3,105,161,0.05)', border:'1px solid rgba(3,105,161,0.1)'}}>
+            <p className="text-sm text-[#57534e] font-medium mb-4">Want to discuss automation workflows or see the detailed scenario tree?</p>
+            <div className="flex gap-3 flex-wrap">
+              <a href="https://calendly.com/veronikadergal/new-meeting" target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-full text-xs font-bold hover:opacity-90 transition-opacity">
+                Book a chat
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+              </a>
+              <a href="mailto:dergalv@gmail.com"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold transition-opacity hover:opacity-70" style={{background:'rgba(3,105,161,0.1)', color:'#0369a1'}}>
+                dergalv@gmail.com
+              </a>
+            </div>
+          </div>
+
         </div>
       </Modal>
     </>
@@ -671,7 +672,7 @@ function CaseStudy2() {
   ];
   return (
     <>
-      <article ref={ref} onClick={() => setOpen(true)} className="reveal case-card glass rounded-[2.5rem] overflow-hidden flex flex-col group cursor-pointer">
+      <article ref={ref} onClick={() => setOpen(true)} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(true); } }} className="reveal case-card glass rounded-[2.5rem] overflow-hidden flex flex-col group cursor-pointer">
         <div className="p-8 flex flex-col flex-1">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
             <div className="flex gap-2">
@@ -717,7 +718,7 @@ function CaseStudy2() {
         </div>
       </article>
 
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Modal open={open} onClose={() => setOpen(false)} title="Stride">
         <div className="space-y-8 text-sm leading-relaxed">
 
           {/* ── Header ── */}
@@ -790,7 +791,7 @@ function CaseStudy2() {
                   why: 'Articulated the exact value proposition unprompted. Confirmed the problem but ruled herself out as a paying user due to strong Notion loyalty — a product constraint worth knowing early.',
                 },
                 {
-                  archetype: 'The Overwhelmed Sceptic',
+                  archetype: 'The System Abandoner',
                   role: 'Creative professional · Chronic system abandoner',
                   pill: 'Not target user',
                   pillBg: 'rgba(120,60,60,0.08)', pillColor: '#9f3a3a',
@@ -890,7 +891,7 @@ function CaseStudy2() {
 
           {/* ── Reflection ── */}
           <div>
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/50 mb-3">Reflection</p>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-3">Reflection</p>
             <p className="text-[#57534e] font-medium mb-3">The most valuable lesson wasn't technical. It was learning to separate my attachment to what I'd built from what the product actually needed. The first version had features I was proud of that nobody wanted. Cutting them felt like loss. It wasn't — it was the job.</p>
             <p className="text-[#57534e] font-medium">Stride is a live product with real users, real problems to solve, and a clear direction: an AI layer that moves it from a container you fill in to a coach that helps you think. That — not a perfect launch metric — is what this project was for.</p>
           </div>
@@ -902,6 +903,22 @@ function CaseStudy2() {
               {['Mom Test discovery interviews','0→1 solo build','Feature prioritisation under constraint','Onboarding UX design','AI prompt & flow design','Beta user management','Lovable + Supabase (no code)'].map(s => (
                 <span key={s} className="px-3 py-1.5 rounded-full text-xs font-bold bg-[#F4F3F1] text-[#57534e] border border-[#292524]/8">{s}</span>
               ))}
+            </div>
+          </div>
+
+          {/* ── Micro-CTA ── */}
+          <div className="rounded-2xl px-6 py-5" style={{background:'rgba(217,119,6,0.05)', border:'1px solid rgba(217,119,6,0.12)'}}>
+            <p className="text-sm text-[#57534e] font-medium mb-4">Want to try Stride or hear about the beta user feedback?</p>
+            <div className="flex gap-3 flex-wrap">
+              <a href="https://calendly.com/veronikadergal/new-meeting" target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-secondary text-white rounded-full text-xs font-bold hover:opacity-90 transition-opacity">
+                Book a chat
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+              </a>
+              <a href="https://www.linkedin.com/in/veronika-dergal/" target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold transition-opacity hover:opacity-70" style={{background:'rgba(217,119,6,0.12)', color:'#b45309'}}>
+                Get in touch
+              </a>
             </div>
           </div>
 
@@ -1019,7 +1036,7 @@ function About() {
 
             <p>Since then: PM and AI courses, lots of PM books, Lenny's Podcast obsession, and non-stop experiments with AI tools. The biggest lesson? You learn more from one week of real usage than six months of trying to predict edge cases.</p>
             <p>Now I'm looking for my first PM role at an early-stage startup. I'm looking for a team where being wrong isn't a problem — it's part of the process. Where you ship, learn, break things, fix them, and go again.</p>
-            <p>If this resonates, <a href="#contact" onClick={e=>{e.preventDefault();document.getElementById('contact').scrollIntoView({behavior:'smooth'});}} style={{color:'#d97706', fontWeight:700, fontStyle:'italic', textDecoration:'none', display:'inline-block', position:'relative', transition:'transform 0.2s ease, opacity 0.2s ease'}} onMouseEnter={e=>{e.currentTarget.style.transform='scale(1.06)';e.currentTarget.style.opacity='0.8';}} onMouseLeave={e=>{e.currentTarget.style.transform='scale(1)';e.currentTarget.style.opacity='1';}}>let's talk.<span style={{position:'absolute', bottom:-4, left:0, width:'100%', height:6, background:'rgba(217,119,6,0.12)', borderRadius:3, transform:'rotate(-1deg)', zIndex:-1}} /></a></p>
+            <p>If this resonates, <a href="#contact" style={{color:'#d97706', fontWeight:700, fontStyle:'italic', textDecoration:'none', display:'inline-block', position:'relative', transition:'transform 0.2s ease, opacity 0.2s ease'}} onMouseEnter={e=>{e.currentTarget.style.transform='scale(1.06)';e.currentTarget.style.opacity='0.8';}} onMouseLeave={e=>{e.currentTarget.style.transform='scale(1)';e.currentTarget.style.opacity='1';}}>let's talk.<span style={{position:'absolute', bottom:-4, left:0, width:'100%', height:6, background:'rgba(217,119,6,0.12)', borderRadius:3, transform:'rotate(-1deg)', zIndex:-1}} /></a></p>
             </div>
           </div>
 
@@ -1077,7 +1094,7 @@ function Now() {
   const listRef = useReveal();
   const items = [
     { icon: "🚀", label: "Building", content: <span>Stride — a personal goal-execution app, live in beta at <a href="https://stridehq.app" target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="text-primary font-bold hover:opacity-70 transition-opacity underline underline-offset-2">stridehq.app</a></span> },
-    { icon: "🔎", label: "Discovering", content: <span>Running user interviews for Stride · Developing a product critique of Airbnb · Open to exchanging ideas</span> },
+    { icon: "🔍", label: "Discovering", content: <span>Running user interviews for Stride · Developing a product critique of Airbnb · Open to exchanging ideas</span> },
     { icon: "🎓", label: "Learning", content: <span>Agentic AI course at DeepLearning.AI</span> },
     { icon: "🔍", label: "Looking for", content: <span>Associate PM at an early-stage startup in London</span> },
   ];
@@ -1088,7 +1105,7 @@ function Now() {
           <span className="text-secondary font-extrabold uppercase tracking-[0.2em] text-xs mb-2 block">Currently</span>
           <h2 className="font-headline text-4xl sm:text-5xl font-extrabold text-[#292524]">What I'm working on<br/>right now.</h2>
         </div>
-        <ul className="reveal-group space-y-0" ref={listRef}>
+        <ul className="reveal-group" ref={listRef}>
           {items.map((item, i) => (
             <li key={i} className={`ri flex gap-5 items-start py-5 ${i < items.length - 1 ? 'border-b border-[#292524]/6' : ''}`}>
               <span className="text-2xl flex-shrink-0 mt-0.5 w-8 text-center">{item.icon}</span>
@@ -1119,7 +1136,7 @@ function Footer() {
               Open to Associate PM roles in London. Let's talk product.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
-              <a href="https://linkedin.com/in/veronikadergal" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.linkedin.com/in/veronika-dergal/" target="_blank" rel="noopener noreferrer"
                 className="bg-white font-extrabold px-10 py-4 rounded-full text-sm shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 active:scale-95 flex items-center justify-center gap-2" style={{color:'#0369a1'}}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                 Connect on LinkedIn
@@ -1131,7 +1148,7 @@ function Footer() {
               </a>
               <a href="mailto:dergalv@gmail.com"
                 className="border-2 border-white/40 text-white font-extrabold px-10 py-4 rounded-full text-sm hover:bg-white/10 hover:border-white/70 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 flex items-center justify-center">
-                Say hello
+                dergalv@gmail.com
               </a>
             </div>
           </div>
@@ -1146,10 +1163,10 @@ function Footer() {
           </div>
           <div className="flex gap-8">
             {[
-              { label: 'LinkedIn', href: 'https://linkedin.com/in/veronikadergal' },
-              { label: 'Email', href: 'mailto:dergalv@gmail.com' },
+              { label: 'LinkedIn', href: 'https://www.linkedin.com/in/veronika-dergal/', external: true },
+              { label: 'dergalv@gmail.com', href: 'mailto:dergalv@gmail.com' },
             ].map(l => (
-              <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer"
+              <a key={l.label} href={l.href} {...(l.external ? {target:'_blank', rel:'noopener noreferrer'} : {})}
                 className="text-xs font-bold uppercase tracking-widest text-[#57534e]/60 hover:text-primary transition-colors">{l.label}</a>
             ))}
           </div>
