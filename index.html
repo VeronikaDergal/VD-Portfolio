@@ -8,7 +8,11 @@
   <meta property="og:description" content="PM transitioning from HR & Executive Search. Built AI-powered tools that cut 400 hrs to 120. Looking for Associate PM roles in London." />
   <meta property="og:image" content="photo.jpg" />
   <meta property="og:type" content="website" />
-  <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual';</script>
+  <script>
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.addEventListener('load', function() { window.scrollTo(0, 0); });
+    window.addEventListener('beforeunload', function() { window.scrollTo(0, 0); });
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -223,7 +227,7 @@ function Nav() {
 /* ─── Hero ─── */
 function Hero() {
   return (
-    <section className="relative px-6" style={{minHeight:'100vh', display:'flex', alignItems:'center', paddingTop:'80px'}}>
+    <section style={{minHeight:'100vh', display:'flex', alignItems:'center', paddingTop:'80px', paddingLeft:'1.5rem', paddingRight:'1.5rem', position:'relative'}}>
 
       <div className="max-w-4xl mx-auto w-full relative z-10">
         <span style={{animationDelay:'0s'}} className="hero-item inline-block text-[11px] font-extrabold uppercase tracking-[0.2em] mb-8 text-secondary">
