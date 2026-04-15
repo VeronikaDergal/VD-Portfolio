@@ -187,7 +187,7 @@ function Nav() {
     <>
       <nav className="fixed top-4 inset-x-0 z-50 flex justify-center px-4">
         <div className="glass rounded-full shadow-[0_8px_40px_-8px_rgba(3,105,161,0.14)] px-6 py-2.5 flex items-center gap-8">
-          <span className="font-headline font-extrabold text-primary tracking-tight text-sm">Veronika Dergal</span>
+          <a href="#" onClick={e => { e.preventDefault(); window.scrollTo({top:0, behavior:'smooth'}); }} className="font-headline font-extrabold text-primary tracking-tight text-sm hover:opacity-70 transition-opacity">Veronika Dergal</a>
           <ul className="hidden sm:flex gap-6">
             {links.map(l => (
               <li key={l.label}>
@@ -1215,6 +1215,11 @@ function Footer() {
 
 /* ─── App ─── */
 function App() {
+  useEffect(() => {
+    // Disable browser scroll restoration and force top on every load
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Nav />
