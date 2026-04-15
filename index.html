@@ -41,7 +41,7 @@
   <style>
     html {
       scroll-behavior: smooth;
-      scroll-snap-type: y proximity;
+      scroll-snap-type: y mandatory;
       /* Single gradient spanning the entire document — no section cuts */
       background: linear-gradient(160deg, #FDFCFA 0%, #FAFBFC 55%, #F8F9FC 100%);
       min-height: 100%;
@@ -182,7 +182,6 @@ function Nav() {
     { label: 'About', href: '#about' },
     { label: 'Work', href: '#work' },
     { label: 'Now', href: '#now' },
-    { label: 'Contact', href: '#contact' },
   ];
   return (
     <>
@@ -1134,8 +1133,8 @@ function Footer() {
 
           <p className="text-[#57534e] text-lg leading-relaxed font-medium mb-10">
             I am based in London and open to{' '}
-            <span style={{color:'#d97706'}}>Associate PM and Junior PM roles</span>{' '}
-            at fast-moving, product-led teams. Always happy to connect with people in product.
+            <span style={{color:'#d97706'}}>Associate PM roles</span>{' '}
+            at fast-moving, product-led teams. If you're building something interesting — or just want to talk product — I'd love to hear from you.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center flex-wrap">
@@ -1168,7 +1167,8 @@ function Footer() {
             {/* View CV — secondary outlined */}
             <a
               href="Veronika_Dergal_PM_CV.pdf"
-              download
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 text-[#57534e] font-semibold px-7 py-4 rounded-full border border-[#57534e]/20 text-sm active:scale-95"
               style={{boxShadow:'0 1px 4px rgba(0,0,0,0.07)', transition:'transform 0.3s ease, box-shadow 0.3s ease'}}
               onMouseEnter={e => { e.currentTarget.style.transform='translateY(-3px)'; e.currentTarget.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'; }}
