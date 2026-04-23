@@ -234,10 +234,9 @@ function Hero() {
           HR &amp; Executive Search → Product Management
         </span>
 
-        <h1 className="font-headline text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.06] tracking-tight text-[#292524] mb-6">
-          <span style={{animationDelay:'0.1s'}} className="hero-item block">From Executive Search</span>
+        <h1 className="font-headline text-3xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.06] tracking-tight text-[#292524] mb-6">
+          <span style={{animationDelay:'0.1s'}} className="hero-item block">From Executive<br className="sm:hidden"/> Search to</span>
           <span style={{animationDelay:'0.25s'}} className="hero-item block">
-            to{' '}
             <span className="text-secondary relative inline-block">
               Product Management.
               <span className="absolute -bottom-3 left-0 w-full h-3 bg-secondary/10 -rotate-1 -z-10 rounded" />
@@ -549,7 +548,7 @@ function CaseStudy1() {
             <p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#292524] mb-3">Version 1 → Version 2: What Changed</p>
             <p className="text-[#57534e] font-medium mb-5">V1 — built by my engineer friend, with me in a PM capacity (requirements, testing, feedback) — proved the concept. But when he travelled abroad, the dependency broke. V2 was my answer: a version the team could own.</p>
 
-            <div className="grid grid-cols-2 gap-3 mb-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
               <div className="rounded-2xl p-4" style={{background:'rgba(87,83,78,0.05)', border:'1px solid rgba(87,83,78,0.1)'}}>
                 <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#57534e]/50 mb-3">V1 — Engineer built, me as PM</p>
                 <ul className="space-y-2 text-xs text-[#57534e] font-medium">
@@ -580,7 +579,7 @@ function CaseStudy1() {
             <p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#292524] mb-3">Adoption &amp; Results</p>
             <p className="text-[#57534e] font-medium mb-5">I shipped the working version immediately before a one-week holiday — a deliberate decision to force a real test of independence. They ran it successfully without me. What previously required manually opening each Google Scholar profile became: assemble a CSV, upload, wait 10–15 minutes, review results.</p>
 
-            <div className="grid grid-cols-2 gap-3 mb-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
               <div className="rounded-2xl p-4" style={{background:'rgba(87,83,78,0.05)'}}>
                 <p className="text-[10px] font-extrabold text-[#57534e]/50 uppercase tracking-widest mb-3">Before</p>
                 <ul className="space-y-2 text-[#57534e] text-xs font-medium">
@@ -726,7 +725,7 @@ function CaseStudy2() {
 
           {/* ── Header ── */}
           <div>
-            <div className="flex gap-2 mb-3">
+            <div className="flex flex-wrap gap-2 mb-3">
               <span className="px-4 py-1.5 rounded-full bg-sky-100 text-sky-800 text-[10px] font-extrabold uppercase tracking-widest">B2C App</span>
               <span className="px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-extrabold uppercase tracking-widest">Solo Founder &amp; PM · 2026</span>
               <span className="px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-widest">Live beta</span>
@@ -736,7 +735,7 @@ function CaseStudy2() {
           </div>
 
           {/* ── Meta tiles ── */}
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               { label:'Role', value:'Solo Founder & PM', icon:'🧠', accent:'#0369a1', bg:'rgba(3,105,161,0.06)', border:'rgba(3,105,161,0.14)' },
               { label:'Timeline', value:'Early 2026 — ongoing', icon:'📅', accent:'#b45309', bg:'rgba(180,83,9,0.06)', border:'rgba(180,83,9,0.14)' },
@@ -1104,7 +1103,7 @@ function Now() {
       <div className="max-w-4xl mx-auto relative z-10">
         <div ref={ref} className="reveal mb-12">
           <span className="text-secondary font-extrabold uppercase tracking-[0.2em] text-xs mb-2 block">Currently</span>
-          <h2 className="font-headline text-4xl sm:text-5xl font-extrabold text-[#292524]">What I'm working on<br/>right now.</h2>
+          <h2 className="font-headline text-3xl sm:text-5xl font-extrabold text-[#292524]">What I'm working on<br/>right now.</h2>
         </div>
         <ul className="reveal-group" ref={listRef}>
           {items.map((item, i) => (
