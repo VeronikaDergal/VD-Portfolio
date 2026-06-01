@@ -1123,7 +1123,7 @@ function Now() {
 
   const timeSlices = [
     { pct: 35, color: '#0369a1', text: 'Building AI-powered tools — refusing to do boring work manually' },
-    { pct: 15, color: '#d97706', text: 'Exploring UK hiking trails with my dog' },
+    { pct: 15, color: '#d97706', text: <span>Exploring UK hiking trails with my <a href="https://drive.google.com/file/d/1BI1f9l-vof7yfhp7jE_XQEh00aBda2AK/view" target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="font-bold underline underline-offset-2 hover:opacity-70 transition-opacity" style={{color:'#d97706'}}>dog</a></span> },
     { pct: 30, color: '#0e7490', text: "Reading PM books, Lenny's Podcast, building with Claude Code" },
     { pct: 20, color: '#92400e', text: 'Practicing Ashtanga yoga and pushing limits with HIIT' },
   ];
