@@ -1142,13 +1142,13 @@ function Now() {
 
   const timeSlices = [
     { pct: 35, color: '#0369a1', text: 'Building AI-powered tools — refusing to do boring work manually' },
-    { pct: 15, color: '#d97706', text: <span>Exploring UK hiking trails with my <a href="https://drive.google.com/file/d/1BI1f9l-vof7yfhp7jE_XQEh00aBda2AK/view" target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="font-bold underline underline-offset-2 hover:opacity-70 transition-opacity" style={{color:'#d97706'}}>dog</a></span> },
+    { pct: 15, color: '#d97706', text: <span>Exploring UK hiking trails with my <a href="https://drive.google.com/file/d/1BI1f9l-vof7yfhp7jE_XQEh00aBda2AK/view" target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">dog</a></span> },
     { pct: 30, color: '#059669', text: "Reading PM books, Lenny's Podcast, building with Claude Code" },
     { pct: 20, color: '#9333ea', text: 'Practicing Ashtanga yoga and pushing limits with HIIT' },
   ];
 
   // Circle-stroke donut — animatable via strokeDashoffset
-  const R = 70, SW = 34;
+  const R = 70, SW = 44;
   const C = 2 * Math.PI * R;
   const GAP_DEG = 3;
   let cumul = 0;
@@ -1186,7 +1186,7 @@ function Now() {
           </ul>
 
           {/* Right — My Time card */}
-          <div className="reveal glass rounded-[2rem] p-7" ref={chartRef}>
+          <div className="reveal glass rounded-[2.5rem] overflow-hidden p-7" style={{boxShadow:'0 2px 16px rgba(0,0,0,0.07)'}} ref={chartRef}>
             <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-5">My Time</p>
 
             {/* Animated donut */}
@@ -1217,10 +1217,6 @@ function Now() {
                     <text x="100" y="97" textAnchor="middle" fontSize="26" fontWeight="800"
                       fill={timeSlices[hovered].color} fontFamily="'Plus Jakarta Sans', sans-serif">
                       {timeSlices[hovered].pct}%
-                    </text>
-                    <text x="100" y="114" textAnchor="middle" fontSize="8" fontWeight="700"
-                      fill="#57534e" opacity="0.45" fontFamily="sans-serif" letterSpacing="1.5">
-                      OF MY TIME
                     </text>
                   </g>
                 )}
