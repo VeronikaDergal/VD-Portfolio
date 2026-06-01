@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Veronika Dergal — Product Manager</title>
   <meta property="og:title" content="Veronika Dergal — Product Manager" />
-  <meta property="og:description" content="PM transitioning from HR & Executive Search. Built AI-powered tools that cut 400 hrs to 120. Looking for Associate PM roles in London." />
+  <meta property="og:description" content="PM transitioning from HR & Executive Search. Built AI-powered tools that cut 400 hrs to 120. Seeking PM roles at fast-moving companies." />
   <meta property="og:image" content="https://veronikadergal.github.io/VD-Portfolio/og-image.jpg" />
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -1066,16 +1066,34 @@ function About() {
               onMouseEnter={e => { e.currentTarget.style.transform='translateY(-4px) scale(1.02)'; e.currentTarget.style.boxShadow='0 16px 40px rgba(0,0,0,0.11)'; }}
               onMouseLeave={e => { e.currentTarget.style.transform=''; e.currentTarget.style.boxShadow='0 2px 14px rgba(0,0,0,0.07)'; }}>
               <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/40 mb-4">Certifications</p>
-              <div className="flex items-center gap-4">
-                <img src="ibm_badge.png" alt="IBM badge" className="w-14 h-14 object-contain flex-shrink-0" />
-                <div className="min-w-0">
-                  <p className="text-sm font-bold text-[#292524]">IBM AI Product Manager</p>
-                  <p className="text-xs text-[#57534e]/70 mt-0.5 font-medium">Professional Certificate · March 2026 · Coursera</p>
-                  <div className="flex gap-3 mt-2">
-                    <a href="https://coursera.org/verify/professional-cert/IO6UFAJQOKZQ" target="_blank" rel="noopener noreferrer"
-                      className="text-xs font-bold text-primary hover:opacity-70 transition-opacity flex items-center gap-1">
-                      Verify <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                    </a>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-4">
+                  <img src="ibm_badge.png" alt="IBM badge" className="w-14 h-14 object-contain flex-shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-[#292524]">IBM AI Product Manager</p>
+                    <p className="text-xs text-[#57534e]/70 mt-0.5 font-medium">Professional Certificate · March 2026 · Coursera</p>
+                    <div className="flex gap-3 mt-2">
+                      <a href="https://coursera.org/verify/professional-cert/IO6UFAJQOKZQ" target="_blank" rel="noopener noreferrer"
+                        className="text-xs font-bold text-primary hover:opacity-70 transition-opacity flex items-center gap-1">
+                        Verify <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="h-px bg-[#57534e]/10" />
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center" style={{background:'linear-gradient(135deg,#1a6fff 0%,#0047cc 100%)'}}>
+                    <span className="text-white font-extrabold text-[11px] tracking-widest uppercase">AMP</span>
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-[#292524]">Amplitude Analytics</p>
+                    <p className="text-xs text-[#57534e]/70 mt-0.5 font-medium">Product Analytics Certification · 2026 · Amplitude</p>
+                    <div className="flex gap-3 mt-2">
+                      <a href="https://www.credly.com/badges/12ea6c9a-6136-48d4-b74c-b4b122e98cb2/linked_in_profile" target="_blank" rel="noopener noreferrer"
+                        className="text-xs font-bold text-primary hover:opacity-70 transition-opacity flex items-center gap-1">
+                        Verify <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1096,9 +1114,9 @@ function Now() {
   const listRef = useReveal();
   const items = [
     { icon: "🚀", label: "Building", content: <span>Stride — a personal goal-execution app, live in beta at <a href="https://stridehq.app" target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="text-primary font-bold hover:opacity-70 transition-opacity underline underline-offset-2">stridehq.app</a></span> },
-    { icon: "🔍", label: "Discovering", content: <span>Running user interviews for Stride · Developing a product critique of Airbnb · Open to exchanging ideas</span> },
+    { icon: "🔍", label: "Discovering", content: <span>Running user interviews for Stride · Open to exchanging ideas</span> },
     { icon: "🎓", label: "Learning", content: <span>Agentic AI course at DeepLearning.AI</span> },
-    { icon: "🔍", label: "Looking for", content: <span>Associate PM at an early-stage startup in London</span> },
+    { icon: "🔍", label: "Looking for", content: <span>Seeking PM roles at fast-moving companies where I can build, test, and iterate</span> },
   ];
   return (
     <section id="now" className="py-28 px-6 relative overflow-hidden">
@@ -1118,6 +1136,68 @@ function Now() {
             </li>
           ))}
         </ul>
+
+        {/* ── My Time donut chart ── */}
+        <div className="reveal mt-14" ref={useReveal()}>
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-6">My Time</p>
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8">
+            {/* Donut SVG */}
+            <div className="flex-shrink-0">
+              {(() => {
+                const slices = [
+                  { pct: 35, color: '#0369a1', label: 'A' },
+                  { pct: 15, color: '#b45309', label: 'B' },
+                  { pct: 30, color: '#4d7c0f', label: 'C' },
+                  { pct: 20, color: '#6d28d9', label: 'D' },
+                ];
+                const cx = 80, cy = 80, r = 58, inner = 32;
+                let angle = -90;
+                const toRad = d => d * Math.PI / 180;
+                const polarX = (a, rad) => cx + rad * Math.cos(toRad(a));
+                const polarY = (a, rad) => cy + rad * Math.sin(toRad(a));
+                const paths = slices.map(s => {
+                  const start = angle;
+                  const sweep = s.pct / 100 * 360;
+                  angle += sweep;
+                  const end = angle - 0.4;
+                  const large = sweep > 180 ? 1 : 0;
+                  const d = [
+                    `M ${polarX(start, r)} ${polarY(start, r)}`,
+                    `A ${r} ${r} 0 ${large} 1 ${polarX(end, r)} ${polarY(end, r)}`,
+                    `L ${polarX(end, inner)} ${polarY(end, inner)}`,
+                    `A ${inner} ${inner} 0 ${large} 0 ${polarX(start, inner)} ${polarY(start, inner)}`,
+                    'Z'
+                  ].join(' ');
+                  return { ...s, d };
+                });
+                return (
+                  <svg width="160" height="160" viewBox="0 0 160 160">
+                    {paths.map(p => (
+                      <path key={p.label} d={p.d} fill={p.color} opacity="0.9" />
+                    ))}
+                  </svg>
+                );
+              })()}
+            </div>
+            {/* Legend */}
+            <div className="flex flex-col gap-3 justify-center">
+              {[
+                { color:'#0369a1', label:'A', text:'Building AI-powered tools because I refuse to do boring work manually' },
+                { color:'#b45309', label:'B', text:'Exploring UK hiking trails with my dog' },
+                { color:'#4d7c0f', label:'C', text:'Reading PM books, listening to Lenny\'s Podcast, building with Claude Code' },
+                { color:'#6d28d9', label:'D', text:'Practicing Ashtanga yoga and pushing limits with HIIT' },
+              ].map(item => (
+                <div key={item.label} className="flex items-start gap-3">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5" style={{background:item.color}}>
+                    <span className="text-white font-extrabold" style={{fontSize:9}}>{item.label}</span>
+                  </span>
+                  <p className="text-sm text-[#57534e] font-medium leading-snug">{item.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );
@@ -1138,9 +1218,8 @@ function Footer() {
           </h2>
 
           <p className="text-[#57534e] text-lg leading-relaxed font-medium mb-10">
-            I am based in London and open to{' '}
-            <span style={{color:'#d97706'}}>Associate PM roles</span>{' '}
-            at fast-moving, product-led teams. If you're building something interesting and want to think through it together — I'd love to hear from you.
+            Seeking <span style={{color:'#d97706'}}>PM roles</span>{' '}
+            at fast-moving companies where I can build, test, and iterate. If you're building something interesting and want to think through it together — I'd love to hear from you.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center flex-wrap">
