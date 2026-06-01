@@ -1108,60 +1108,68 @@ function About() {
   );
 }
 
+/* ─── useInView — fires once when element enters viewport ─── */
+function useInView(threshold = 0.3) {
+  const ref = React.useRef(null);
+  const [visible, setVisible] = React.useState(false);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return [ref, visible];
+}
+
 /* ─── Now ─── */
 function Now() {
   const ref      = useReveal();
   const listRef  = useReveal();
   const chartRef = useReveal();
+  const [donutRef, donutVisible] = useInView(0.2);
+  const [hovered, setHovered] = React.useState(null);
 
   const items = [
-    { icon: "🚀", label: "Building",      content: <span>Stride — a personal goal-execution app, live in beta at <a href="https://stridehq.app" target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="text-primary font-bold hover:opacity-70 transition-opacity underline underline-offset-2">stridehq.app</a></span> },
-    { icon: "🔍", label: "Discovering",   content: <span>Running user interviews for Stride · Open to exchanging ideas</span> },
-    { icon: "🎓", label: "Learning",      content: <span>Agentic AI course at DeepLearning.AI</span> },
-    { icon: "🔍", label: "Looking for",   content: <span>Seeking PM roles at fast-moving companies where I can build, test, and iterate</span> },
+    { icon: "🚀", label: "Building",    content: <span>Stride — a personal goal-execution app, live in beta at <a href="https://stridehq.app" target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="text-primary font-bold hover:opacity-70 transition-opacity underline underline-offset-2">stridehq.app</a></span> },
+    { icon: "🔍", label: "Discovering", content: <span>Running user interviews for Stride · Open to exchanging ideas</span> },
+    { icon: "🎓", label: "Learning",    content: <span>Agentic AI course at DeepLearning.AI</span> },
+    { icon: "🔍", label: "Looking for", content: <span>Seeking PM roles at fast-moving companies where I can build, test, and iterate</span> },
   ];
 
   const timeSlices = [
     { pct: 35, color: '#0369a1', text: 'Building AI-powered tools — refusing to do boring work manually' },
     { pct: 15, color: '#d97706', text: <span>Exploring UK hiking trails with my <a href="https://drive.google.com/file/d/1BI1f9l-vof7yfhp7jE_XQEh00aBda2AK/view" target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="font-bold underline underline-offset-2 hover:opacity-70 transition-opacity" style={{color:'#d97706'}}>dog</a></span> },
-    { pct: 30, color: '#0e7490', text: "Reading PM books, Lenny's Podcast, building with Claude Code" },
-    { pct: 20, color: '#92400e', text: 'Practicing Ashtanga yoga and pushing limits with HIIT' },
+    { pct: 30, color: '#059669', text: "Reading PM books, Lenny's Podcast, building with Claude Code" },
+    { pct: 20, color: '#9333ea', text: 'Practicing Ashtanga yoga and pushing limits with HIIT' },
   ];
 
-  const buildDonut = () => {
-    const cx = 100, cy = 100, r = 80, inner = 50, gap = 1.8;
-    const toRad = d => d * Math.PI / 180;
-    const px = (a, rad) => cx + rad * Math.cos(toRad(a));
-    const py = (a, rad) => cy + rad * Math.sin(toRad(a));
-    let angle = -90;
-    return timeSlices.map((s, i) => {
-      const sweep = s.pct / 100 * 360;
-      const start = angle + gap / 2;
-      const end   = angle + sweep - gap / 2;
-      angle += sweep;
-      const large = sweep > 180 ? 1 : 0;
-      const d = [
-        `M ${px(start,r)} ${py(start,r)}`,
-        `A ${r} ${r} 0 ${large} 1 ${px(end,r)} ${py(end,r)}`,
-        `L ${px(end,inner)} ${py(end,inner)}`,
-        `A ${inner} ${inner} 0 ${large} 0 ${px(start,inner)} ${py(start,inner)}`,
-        'Z',
-      ].join(' ');
-      return { ...s, d, i };
-    });
-  };
+  // Circle-stroke donut — animatable via strokeDashoffset
+  const R = 70, SW = 34;
+  const C = 2 * Math.PI * R;
+  const GAP_DEG = 3;
+  let cumul = 0;
+  const slices = timeSlices.map((s, i) => {
+    const fullDeg  = s.pct / 100 * 360;
+    const arcDeg   = fullDeg - GAP_DEG;
+    const startDeg = -90 + cumul + GAP_DEG / 2;
+    const sliceLen = arcDeg / 360 * C;
+    cumul += fullDeg;
+    return { ...s, sliceLen, startDeg, i };
+  });
 
   return (
     <section id="now" className="py-28 px-6 relative overflow-hidden">
       <div className="max-w-4xl mx-auto relative z-10">
 
-        {/* Heading */}
         <div ref={ref} className="reveal mb-12">
           <span className="text-secondary font-extrabold uppercase tracking-[0.2em] text-xs mb-2 block">Currently</span>
           <h2 className="font-headline text-3xl sm:text-5xl font-extrabold text-[#292524]">What I'm working on<br/>right now.</h2>
         </div>
 
-        {/* Two-column grid */}
         <div className="grid md:grid-cols-2 gap-10 items-start">
 
           {/* Left — items list */}
@@ -1179,28 +1187,55 @@ function Now() {
 
           {/* Right — My Time card */}
           <div className="reveal glass rounded-[2rem] p-7" ref={chartRef}>
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-6">My Time</p>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-5">My Time</p>
 
-            {/* Donut */}
-            <div className="flex justify-center mb-6">
-              <svg width="200" height="200" viewBox="0 0 200 200">
-                {buildDonut().map(p => (
-                  <path key={p.i} d={p.d} fill={p.color} />
+            {/* Animated donut */}
+            <div className="flex justify-center mb-5" ref={donutRef}>
+              <svg width="200" height="200" viewBox="0 0 200 200" style={{overflow:'visible'}}>
+                {slices.map(s => (
+                  <circle
+                    key={s.i}
+                    cx="100" cy="100" r={R}
+                    fill="none"
+                    stroke={s.color}
+                    strokeWidth={hovered === s.i ? SW + 6 : SW}
+                    strokeLinecap="butt"
+                    strokeDasharray={`${s.sliceLen} ${C}`}
+                    strokeDashoffset={donutVisible ? 0 : s.sliceLen}
+                    transform={`rotate(${s.startDeg}, 100, 100)`}
+                    style={{
+                      transition: `stroke-dashoffset 0.9s cubic-bezier(0.4,0,0.2,1) ${s.i * 0.2}s, stroke-width 0.15s ease, opacity 0.15s ease`,
+                      cursor: 'pointer',
+                      opacity: hovered !== null && hovered !== s.i ? 0.3 : 1,
+                    }}
+                    onMouseEnter={() => setHovered(s.i)}
+                    onMouseLeave={() => setHovered(null)}
+                  />
                 ))}
-                {/* Centre label */}
-                <text x="100" y="96"  textAnchor="middle" fontSize="11" fontWeight="700" fill="#57534e" opacity="0.5" fontFamily="sans-serif">MY</text>
-                <text x="100" y="112" textAnchor="middle" fontSize="11" fontWeight="700" fill="#57534e" opacity="0.5" fontFamily="sans-serif">TIME</text>
+                {hovered !== null && (
+                  <g style={{pointerEvents:'none'}}>
+                    <text x="100" y="97" textAnchor="middle" fontSize="26" fontWeight="800"
+                      fill={timeSlices[hovered].color} fontFamily="'Plus Jakarta Sans', sans-serif">
+                      {timeSlices[hovered].pct}%
+                    </text>
+                    <text x="100" y="114" textAnchor="middle" fontSize="8" fontWeight="700"
+                      fill="#57534e" opacity="0.45" fontFamily="sans-serif" letterSpacing="1.5">
+                      OF MY TIME
+                    </text>
+                  </g>
+                )}
               </svg>
             </div>
 
-            {/* Legend */}
-            <div className="flex flex-col gap-3">
+            {/* Legend — hover synced, no percentages */}
+            <div className="flex flex-col gap-2.5">
               {timeSlices.map((s, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="flex-shrink-0 flex items-center gap-1.5 pt-0.5">
-                    <span className="block w-2.5 h-2.5 rounded-sm" style={{background: s.color}} />
-                    <span className="text-[10px] font-extrabold tabular-nums" style={{color: s.color}}>{s.pct}%</span>
-                  </div>
+                <div key={i} className="flex items-start gap-3"
+                  style={{opacity: hovered !== null && hovered !== i ? 0.3 : 1, transition:'opacity 0.15s ease', cursor:'pointer'}}
+                  onMouseEnter={() => setHovered(i)}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  <span className="block w-2.5 h-2.5 rounded-sm flex-shrink-0 mt-1" style={{background: s.color}} />
                   <p className="text-xs text-[#57534e] font-medium leading-snug">{s.text}</p>
                 </div>
               ))}
