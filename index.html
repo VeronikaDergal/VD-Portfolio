@@ -1112,6 +1112,7 @@ function About() {
 function Now() {
   const ref = useReveal();
   const listRef = useReveal();
+  const chartRef = useReveal();
   const items = [
     { icon: "🚀", label: "Building", content: <span>Stride — a personal goal-execution app, live in beta at <a href="https://stridehq.app" target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="text-primary font-bold hover:opacity-70 transition-opacity underline underline-offset-2">stridehq.app</a></span> },
     { icon: "🔍", label: "Discovering", content: <span>Running user interviews for Stride · Open to exchanging ideas</span> },
@@ -1138,7 +1139,7 @@ function Now() {
         </ul>
 
         {/* ── My Time donut chart ── */}
-        <div className="reveal mt-14" ref={useReveal()}>
+        <div className="reveal mt-14" ref={chartRef}>
           <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-6">My Time</p>
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8">
             {/* Donut SVG */}
