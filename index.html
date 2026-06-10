@@ -863,6 +863,39 @@ function CaseStudy2() {
             </div>
           </div>
 
+          {/* ── QA Cycle ── */}
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-3">QA Cycle — Onboarding Reliability</p>
+            <p className="text-[#57534e] font-medium mb-4">Ran 3 structured QA sessions over 24 hours. Session 1 identified a critical bug blocking 100% of new signups — root cause: an auth configuration mismatch causing a silent frontend failure with no user-facing error.</p>
+
+            <div className="space-y-3 mb-4">
+              {[
+                { n:'Session 1', color:'#dc2626', bg:'rgba(220,38,38,0.06)', border:'rgba(220,38,38,0.14)', label:'Critical bug found', desc:'100% of new signups blocked. Silent failure — no error shown to user. Root cause traced to auth configuration mismatch.' },
+                { n:'Session 2', color:'#d97706', bg:'rgba(217,119,6,0.06)', border:'rgba(217,119,6,0.14)', label:'Fix in test', desc:'Diagnosed and resolved. Re-tested across all 3 onboarding paths: full completion, partial skip, skip-all.' },
+                { n:'Session 3', color:'#059669', bg:'rgba(5,150,105,0.06)', border:'rgba(5,150,105,0.14)', label:'All paths passing', desc:'Every onboarding route confirmed clean. Defensive error handling added: 10-second timeouts + three-branch signup logic to prevent future silent failures.' },
+              ].map((s, i) => (
+                <div key={i} className="rounded-2xl p-4 flex gap-4 items-start" style={{background:s.bg, border:`1px solid ${s.border}`}}>
+                  <span className="text-[9px] font-extrabold uppercase tracking-widest mt-0.5 flex-shrink-0 w-16" style={{color:s.color}}>{s.n}</span>
+                  <div>
+                    <p className="text-xs font-bold text-[#292524] mb-0.5">{s.label}</p>
+                    <p className="text-[11px] text-[#57534e] font-medium leading-snug">{s.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="rounded-2xl p-4" style={{background:'rgba(3,105,161,0.05)', border:'1px solid rgba(3,105,161,0.12)'}}>
+              <p className="text-[9px] font-extrabold uppercase tracking-widest text-primary mb-2">Defensive patterns shipped</p>
+              <ul className="space-y-1.5">
+                {['10-second auth timeout — surfaces errors instead of hanging silently','Three-branch signup logic — handles success, timeout, and unexpected failure as distinct states','QA across all user paths before each release — full completion, partial skip, skip-all'].map((item, i) => (
+                  <li key={i} className="flex gap-2 text-[11px] text-[#57534e] font-medium">
+                    <span className="text-primary flex-shrink-0">→</span>{item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
           {/* ── What I'm Learning ── */}
           <div>
             <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-3">What I'm Learning — Honest Beta Feedback</p>
@@ -904,7 +937,7 @@ function CaseStudy2() {
           <div>
             <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-3">Skills Demonstrated</p>
             <div className="flex flex-wrap gap-2">
-              {['Mom Test discovery interviews','0→1 solo build','Feature prioritisation under constraint','Onboarding UX design','AI prompt & flow design','Beta user management','Lovable + Supabase (no code)'].map(s => (
+              {['Mom Test discovery interviews','0→1 solo build','Feature prioritisation under constraint','Onboarding UX design','AI prompt & flow design','Beta user management','Structured QA methodology','Defensive error handling','Lovable + Supabase (no code)'].map(s => (
                 <span key={s} className="px-3 py-1.5 rounded-full text-xs font-bold bg-[#F4F3F1] text-[#57534e] border border-[#292524]/8">{s}</span>
               ))}
             </div>
