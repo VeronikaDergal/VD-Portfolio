@@ -1369,14 +1369,39 @@ function AboutChangelog() {
               <p className="font-headline text-2xl font-extrabold text-[#292524] leading-snug mb-2">
                 Product manager &amp; <span className="text-secondary">vibe coder.</span>
               </p>
-              <p className="text-[#57534e] font-medium leading-relaxed mb-4">
-                Discovery → hypotheses → working with engineers → shipped.
+              <p className="text-[#57534e] font-medium leading-relaxed mb-5">
+                I move fast, work close to engineering, and turn ambiguous problems into things people actually use.
               </p>
 
-              <div className="space-y-2 text-[#57534e] font-medium leading-relaxed">
-                <p>Currently in product at <a href="https://odevo.com" target="_blank" rel="noopener noreferrer" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Odevo</a> — on an internal financial crime monitoring platform used across six operating companies.</p>
-                <p>Built <span style={{fontWeight:700, color:'#292524'}}>ReSearchlight</span> (400 hrs → 120 hrs) and <span style={{fontWeight:700, color:'#292524'}}>Stride</span> (live beta).</p>
-              </div>
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-2.5">
+                At <a href="https://odevo.com" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 hover:opacity-70 transition-opacity">Odevo</a>
+              </p>
+              <ul className="space-y-2 mb-5">
+                {[
+                  <span>Day-to-day product responsibility for an internal financial crime compliance platform used across <span style={{fontWeight:700, color:'#292524'}}>six operating companies</span>, working directly with engineering and group compliance.</span>,
+                  <span>Ran discovery with frontline compliance officers — interviews, watching them work, mapping how they move between systems — and turned it into roadmap priorities.</span>,
+                  <span>Took features from user request to release: user stories, acceptance criteria, user-facing guidance, then iterated once it was live.</span>,
+                  <span>Sometimes the finding was that we <span style={{fontWeight:700, color:'#d97706'}}>shouldn't build it</span> — and saying so is part of the job.</span>,
+                ].map((t, i) => (
+                  <li key={i} className="flex gap-2.5 text-[#57534e] font-medium leading-relaxed">
+                    <span className="mt-[9px] w-1 h-1 rounded-full flex-shrink-0" style={{background:'#d97706'}} />
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-2.5">Shipped</p>
+              <ul className="space-y-2">
+                {[
+                  <span><span style={{fontWeight:700, color:'#292524'}}>ReSearchlight</span> — AI screening tool I built and the team adopted. Cut a <span style={{fontWeight:700, color:'#292524'}}>400-hour</span> research process to <span style={{fontWeight:700, color:'#292524'}}>120</span>, and removed a dependency on one engineer's availability.</span>,
+                  <span><span style={{fontWeight:700, color:'#292524'}}>Stride</span> — goal-setting app, nothing to live beta in <span style={{fontWeight:700, color:'#292524'}}>four weeks</span>, running on about £25 of infrastructure. Real users, real retention problems, documented honestly.</span>,
+                ].map((t, i) => (
+                  <li key={i} className="flex gap-2.5 text-[#57534e] font-medium leading-relaxed">
+                    <span className="mt-[9px] w-1 h-1 rounded-full flex-shrink-0" style={{background:'#0369a1'}} />
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
 
               <div className="mt-5 pt-4" style={{borderTop:'1px solid rgba(41,37,36,0.08)'}}>
                 <p className="text-[#57534e] font-medium leading-relaxed">
@@ -1388,15 +1413,29 @@ function AboutChangelog() {
             {/* ── VERSION HISTORY ── */}
             <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#57534e]/40 mb-1">Version history</p>
 
-            <ReleaseRow v="v2.0" title="The patch that changed everything" bulb={true}>
-              <p>I got annoyed at a manual research process and built an automation tool to fix it. Zero technical background. Learned vibe-coding.</p>
+            <ReleaseRow v="v2.0" title="The patch that changed everything" meta="2024–25 · while still in executive search" bulb={true}>
+              <p>The shift happened when I got annoyed at a manual research process and built an automation tool to fix it. Zero technical background. Learned vibe-coding.</p>
               <p style={{fontWeight:700, color:'#292524'}}>400 hours → 120 hours <span style={{color:'#d97706', fontWeight:500}}>(70% reduction)</span></p>
+              <p>Nobody asked me to build it. I defined the problem, built the thing, and got the team using it — which turned out to be the hardest part and the best training I could have had.</p>
               <p>That's when tedious research suddenly became fun. That's when I knew I'd <span style={{fontWeight:700, color:'#d97706'}}>found my thing.</span></p>
             </ReleaseRow>
 
             <ReleaseRow v="v1.0" title="Ten years in people &amp; search" meta="EY · Odgers Berndtson · Fozzy Group · Veredus">
-              <p>Consulting at EY, supporting teams as a People Partner, placing senior leaders at UK universities. The job was always the same: <span style={{fontWeight:700, color:'#d97706'}}>figure out what people needed</span> (not what they said they needed), ask the right questions until you got to the truth, and deliver something that worked.</p>
-              <p className="text-[13px] text-[#57534e]/70">32 senior leaders placed · onboarding platform built 0→1 · new-hire turnover 29% → 18%</p>
+              <p>I spent 10 years in HR and executive search working with people and systems. Consulting at EY, supporting teams as a People Partner, placing senior leaders at UK universities. The job was always the same: <span style={{fontWeight:700, color:'#d97706'}}>figure out what people needed</span> (not what they said they needed), ask the right questions until you got to the truth, and deliver something that worked.</p>
+              <p>Turns out that is most of product management. I was also building before I had the title — at Fozzy I took an onboarding platform from 0→1: defined the requirements, wrote the user stories, and shipped it with engineering and design.</p>
+              <ul className="space-y-1.5 pt-1">
+                {[
+                  '32 senior leaders placed in UK Higher Education',
+                  'New-hire turnover 29% → 18% in 12 months, using survey data to find the friction',
+                  "First performance management cycle for 300+ employees, balancing fairness, budget and retention",
+                  'Asana workflow system that gave back ~150 hours a year',
+                ].map((t, i) => (
+                  <li key={i} className="flex gap-2.5 text-[13px] text-[#57534e]/80 font-medium leading-relaxed">
+                    <span className="mt-[8px] w-1 h-1 rounded-full flex-shrink-0" style={{background:'rgba(87,83,78,0.35)'}} />
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
             </ReleaseRow>
           </div>
 
