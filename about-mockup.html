@@ -1358,7 +1358,7 @@ function AboutChangelog() {
                   fontFamily:mono, fontSize:11, fontWeight:700, color:'#b45309',
                   background:'rgba(217,119,6,0.1)', border:'1px solid rgba(217,119,6,0.22)',
                   padding:'3px 8px', borderRadius:6, flexShrink:0,
-                }}>v3.0</span>
+                }}>v4.0</span>
                 <span style={{
                   width:9, height:9, borderRadius:'50%', background:'#059669',
                   boxShadow:'0 0 0 4px rgba(5,150,105,0.17)', display:'inline-block', flexShrink:0,
@@ -1368,29 +1368,11 @@ function AboutChangelog() {
               </div>
 
               <p className="font-headline text-2xl font-extrabold text-[#292524] leading-snug mb-2">
-                Product manager &amp; <span className="text-secondary">vibe coder.</span>
+                A <span className="text-secondary">practical</span> product manager.
               </p>
               <p className="text-[#57534e] font-medium leading-relaxed mb-5">
-                I move fast, work close to engineering, and turn ambiguous problems into things people actually use.
+                I build and ship tools with AI and no-code. But what I'm actually best at is people — earning engineers' trust, staying curious about what users need, and keeping complicated stakeholders pointing in the same direction.
               </p>
-
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-2.5">
-                At <a href="https://odevo.com" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 hover:opacity-70 transition-opacity">Odevo</a>
-              </p>
-              <ul className="space-y-2 mb-5">
-                {[
-                  <span>Day-to-day product for an internal KYC/AML compliance platform used across <span style={{fontWeight:700, color:'#292524'}}>six operating companies</span>, working directly with engineering and group compliance.</span>,
-                  <span>Led two platform migrations — merging two companies' screening accounts, then re-platforming Client Risk Assessments onto the group's core system and decommissioning the legacy vendor. Scoped the impact with engineering, managed the vendors, aligned stakeholders. <span style={{fontWeight:700, color:'#292524'}}>No disruption to reporting</span>, and assessment completeness moved from <span style={{fontWeight:700, color:'#292524'}}>60% toward 100%</span>.</span>,
-                  <span>Built automated matching of <span style={{fontWeight:700, color:'#292524'}}>~9,000 historical screening reports</span> to subjects in the new system, with a review UI for the weak matches — so nothing in the compliance history was lost in the move.</span>,
-                  <span>Ran discovery with frontline compliance officers through interviews and live workflow observation, and turned it into the roadmap.</span>,
-                  <span>Sometimes the finding was that we <span style={{fontWeight:700, color:'#d97706'}}>shouldn't build it</span> — and saying so is part of the job.</span>,
-                ].map((t, i) => (
-                  <li key={i} className="flex gap-2.5 text-[#57534e] font-medium leading-relaxed">
-                    <span className="mt-[9px] w-1 h-1 rounded-full flex-shrink-0" style={{background:'#d97706'}} />
-                    <span>{t}</span>
-                  </li>
-                ))}
-              </ul>
 
               <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-2.5">Built on my own time</p>
               <ul className="space-y-2">
@@ -1408,7 +1390,7 @@ function AboutChangelog() {
 
               <div className="mt-5 pt-4" style={{borderTop:'1px solid rgba(41,37,36,0.08)'}}>
                 <p className="text-[#57534e] font-medium leading-relaxed">
-                  Looking for a full-time PM role at a fast-moving, product-led team. If this resonates, <a href="#contact" style={{color:'#d97706', fontWeight:700, fontStyle:'italic', textDecoration:'none', display:'inline-block', position:'relative'}}>let's talk.<span style={{position:'absolute', bottom:-4, left:0, width:'100%', height:6, background:'rgba(217,119,6,0.12)', borderRadius:3, transform:'rotate(-1deg)', zIndex:-1}} /></a>
+                  Looking for my next adventure — a team of any size where I can bring clarity to ambiguous problems and keep the work to a high standard. If this resonates, <a href="#contact" style={{color:'#d97706', fontWeight:700, fontStyle:'italic', textDecoration:'none', display:'inline-block', position:'relative'}}>let's talk.<span style={{position:'absolute', bottom:-4, left:0, width:'100%', height:6, background:'rgba(217,119,6,0.12)', borderRadius:3, transform:'rotate(-1deg)', zIndex:-1}} /></a>
                 </p>
               </div>
             </div>
@@ -1416,11 +1398,17 @@ function AboutChangelog() {
             {/* ── VERSION HISTORY ── */}
             <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#57534e]/40 mb-1" style={{paddingLeft:'1.75rem'}}>Version history</p>
 
+            <ReleaseRow v="v3.0" title="Product at Odevo" meta="Jul – Nov 2026 · internal KYC/AML compliance platform">
+              <p>Day-to-day product for a platform used across <span style={{fontWeight:700, color:'#292524'}}>six of the group's businesses</span>. Two vendor migrations, <span style={{fontWeight:700, color:'#292524'}}>~9,000</span> historical screening reports to move without losing any compliance history, and a lot of people who had to agree before anything shipped.</p>
+              <p>The part I'd actually tell you about: sitting with frontline compliance officers and watching them work. What they described in an interview and what they did on screen were not the same thing — and that gap is where the roadmap came from.</p>
+              <p>I also learned to say when something <span style={{fontWeight:700, color:'#d97706'}}>shouldn't be built.</span> That turned out to be as useful as shipping.</p>
+            </ReleaseRow>
+
             <ReleaseRow v="v2.0" title="ReSearchlight — the patch that changed everything" meta="2024–25 · Veredus · while still in executive search" bulb={true}>
-              <p>The shift happened when I got annoyed at a manual research process and built a tool to fix it. Zero technical background. Learned vibe-coding, integrated an API to pull publication data, and screened it against the role criteria automatically.</p>
-              <p style={{fontWeight:700, color:'#292524'}}>400 hours → 120 hours per project <span style={{color:'#d97706', fontWeight:500}}>(70% faster, 280 hours back)</span></p>
-              <p>Nobody asked me to build it. I owned the whole thing — discovery, requirements, stakeholder buy-in, working with engineering, and getting the team to actually use it. That last part turned out to be the hardest, and the best training I could have had.</p>
-              <p>That's when tedious research suddenly became fun. That's when I knew I'd <span style={{fontWeight:700, color:'#d97706'}}>found my thing.</span></p>
+              <p>The shift happened when I got annoyed at a manual research process and built a tool to fix it. Zero technical background. Learned vibe-coding as I went.</p>
+              <p style={{fontWeight:700, color:'#292524'}}>400 hours → 120 hours per project <span style={{color:'#d97706', fontWeight:500}}>(70% faster)</span></p>
+              <p>Getting people to actually use it turned out to be harder than building it, and taught me more. That's when tedious research suddenly became fun, and when I knew I'd <span style={{fontWeight:700, color:'#d97706'}}>found my thing.</span></p>
+              <p className="pt-1"><a href="#work" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Read the full case study →</a></p>
             </ReleaseRow>
 
             <ReleaseRow v="v1.0" title="Ten years in people &amp; search" meta="EY · Odgers Berndtson · Fozzy Group · Veredus">
