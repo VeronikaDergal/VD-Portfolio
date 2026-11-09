@@ -1534,6 +1534,192 @@ function AboutChangelog() {
   );
 }
 
+/* ─── About (OPTION D — full width, no sidebar) ─── */
+function AboutWide() {
+  const ref = useReveal();
+  const [nowRef, nowVisible] = useInView(0.15);
+  const mono = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+
+  const chips = [
+    { icon: "📍", text: "London, UK" },
+    { icon: "🎓", text: "BA International Business Management · Lincoln" },
+    { icon: "🛠", text: "Lovable, Claude Code, Codex" },
+    { icon: "🗣", text: "🇬🇧 English · 🇺🇦 Ukrainian" },
+  ];
+
+  return (
+    <section id="about-wide" className="py-28 px-6 relative overflow-hidden">
+      <div className="max-w-4xl mx-auto relative z-10">
+        <div ref={ref} className="reveal">
+
+          {/* ── Header strip: photo + name + identity line ── */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-8 mb-6">
+            <img src="photo.jpg" alt="Veronika Dergal"
+              className="flex-shrink-0"
+              style={{width:124, height:124, borderRadius:'50%', objectFit:'cover', objectPosition:'center top', boxShadow:'0 4px 20px rgba(0,0,0,0.12)'}} />
+            <div className="min-w-0">
+              <span className="text-secondary font-extrabold uppercase tracking-[0.2em] text-xs mb-2 block">About</span>
+              <h2 className="font-headline text-4xl sm:text-5xl font-extrabold text-[#292524] leading-tight">
+                Hi, I'm <span className="text-secondary italic">Veronika.</span>
+              </h2>
+            </div>
+          </div>
+
+          {/* ── At-a-glance chip row ── */}
+          <div className="flex flex-wrap gap-x-5 gap-y-2 mb-9 pb-6" style={{borderBottom:'1px solid rgba(41,37,36,0.08)'}}>
+            {chips.map((c, i) => (
+              <span key={i} className="flex items-center gap-2 text-[13px] text-[#57534e] font-medium">
+                <span>{c.icon}</span>{c.text}
+              </span>
+            ))}
+          </div>
+
+          {/* ── NOW SHIPPING — full width ── */}
+          <div ref={nowRef} className="glass rounded-[2rem] p-7 sm:p-9 mb-10" style={{
+            boxShadow:'0 2px 16px rgba(0,0,0,0.07)',
+            border:'1px solid rgba(217,119,6,0.22)',
+            opacity: nowVisible ? 1 : 0,
+            transform: nowVisible ? 'none' : 'translateY(18px)',
+            transition:'opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1)',
+          }}>
+            <div className="flex items-center gap-2.5 mb-4">
+              <span style={{
+                fontFamily:mono, fontSize:11, fontWeight:700, color:'#b45309',
+                background:'rgba(217,119,6,0.1)', border:'1px solid rgba(217,119,6,0.22)',
+                padding:'3px 8px', borderRadius:6, flexShrink:0,
+              }}>v3.0</span>
+              <span style={{
+                width:9, height:9, borderRadius:'50%', background:'#059669',
+                boxShadow:'0 0 0 4px rgba(5,150,105,0.17)', display:'inline-block', flexShrink:0, marginLeft:2,
+              }} />
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-emerald-700">Now shipping</span>
+            </div>
+
+            <p className="font-headline text-2xl sm:text-3xl font-extrabold text-[#292524] leading-snug mb-2">
+              A <span className="text-secondary">practical</span> product manager.
+            </p>
+            <p className="text-[#57534e] font-medium leading-relaxed mb-7 max-w-2xl">
+              I build and ship tools with AI and no-code. But what I'm actually best at is people — earning engineers' trust, staying curious about what users need, and keeping complicated stakeholders pointing in the same direction.
+            </p>
+
+            {/* Product internship — achievements | what I learned */}
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-1.5">Product internship</p>
+            <p className="text-[#57534e] font-medium leading-relaxed mb-4">
+              <a href="https://odevo.com" target="_blank" rel="noopener noreferrer" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Odevo</a>, Jul–Nov 2026. Owned day-to-day product delivery for an internal KYC/AML compliance platform used across <span style={{fontWeight:700, color:'#292524'}}>six of the group's businesses</span>, working cross-functionally with engineering and group compliance.
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-x-8 gap-y-5 mb-7">
+              <ul className="space-y-2">
+                {[
+                  <span>Led data migration to merge the SmartSearch accounts of two group businesses: scoped platform impact with engineering, managed the third-party vendor, and aligned stakeholders, without disrupting reporting.</span>,
+                  <span>Re-platformed Client Risk Assessments onto the group's core screening system and decommissioned the legacy vendor, then drove CRA completeness from <span style={{fontWeight:700, color:'#292524'}}>60% toward 100%</span>.</span>,
+                  <span>Built automated matching of <span style={{fontWeight:700, color:'#292524'}}>~9,000</span> historical screening reports to subjects in the new system, with a review UI for weak matches, preserving the full compliance history through the migration.</span>,
+                  <span>Ran discovery with frontline compliance officers through interviews and live workflow observations, translating insights into the product roadmap and regular product updates for the team.</span>,
+                ].map((t, i) => (
+                  <li key={i} className="flex gap-2.5 text-[14px] text-[#57534e] font-medium leading-relaxed">
+                    <span className="mt-[9px] w-1 h-1 rounded-full flex-shrink-0" style={{background:'#d97706'}} />
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="rounded-2xl px-5 py-4 self-start" style={{background:'rgba(3,105,161,0.04)', border:'1px solid rgba(3,105,161,0.11)'}}>
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-primary/70 mb-2.5">What I learned</p>
+                <ul className="space-y-1.5">
+                  {[
+                    'Not knowing is part of the job — ask the basic questions anyway.',
+                    'Saying no is product work.',
+                    "Stakeholders don't stay aligned on their own.",
+                    'Priorities need overcommunicating.',
+                  ].map((t, i) => (
+                    <li key={i} className="flex gap-2 text-[13px] font-semibold text-[#292524] leading-relaxed">
+                      <span className="text-primary/60 flex-shrink-0">→</span>{t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Built on my own time — three across */}
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-3">Built on my own time</p>
+            <div className="grid sm:grid-cols-3 gap-4 mb-7">
+              {[
+                { name:'Stride', body:<span>AI goal-setting app. Nothing to live beta in <span style={{fontWeight:700, color:'#292524'}}>four weeks</span>, on about £25 of infrastructure.</span>, link:'Read the case study →' },
+                { name:'A PM career hub', body:<span>Scenario-based skill practice and job-pipeline tracking. Built for a problem I was living through.</span> },
+                { name:'10+ smaller builds', body:<span>A memory game, a language-learning tool, a recipe book, a ratio calculator. Some useful, all of it practice.</span> },
+              ].map((p, i) => (
+                <div key={i} className="rounded-2xl p-4" style={{background:'rgba(3,105,161,0.035)', border:'1px solid rgba(3,105,161,0.1)'}}>
+                  <p className="text-[13px] font-extrabold text-[#292524] mb-1">{p.name}</p>
+                  <p className="text-[12.5px] text-[#57534e] font-medium leading-relaxed">{p.body}</p>
+                  {p.link && (
+                    <a href="#work" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity text-[12.5px] mt-1.5 inline-block" style={{whiteSpace:'nowrap'}}>{p.link}</a>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-5" style={{borderTop:'1px solid rgba(41,37,36,0.08)'}}>
+              <p className="text-[#57534e] font-medium leading-relaxed">
+                Looking for my next adventure — a team of any size where I can bring clarity to ambiguous problems and keep the work to a high standard. If this resonates, <a href="#contact" style={{color:'#d97706', fontWeight:700, fontStyle:'italic', textDecoration:'none', display:'inline-block', position:'relative'}}>let's talk.<span style={{position:'absolute', bottom:-4, left:0, width:'100%', height:6, background:'rgba(217,119,6,0.12)', borderRadius:3, transform:'rotate(-1deg)', zIndex:-1}} /></a>
+              </p>
+            </div>
+          </div>
+
+          {/* ── Version history ── */}
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#57534e]/40 mb-1" style={{paddingLeft:'1.75rem'}}>Version history</p>
+
+          <ReleaseRow v="v2.0" title="The pivot — I got annoyed at a manual process and built a tool" meta="2024–25 · Veredus · while still in executive search" bulb={true}>
+            <p>The shift happened when I got annoyed at a manual research process and built a tool to fix it. Zero technical background. Learned vibe-coding as I went.</p>
+            <p style={{fontWeight:700, color:'#292524'}}>400 hours → 120 hours per project <span style={{color:'#d97706', fontWeight:500}}>(70% faster)</span></p>
+            <p>Getting people to actually use it turned out to be harder than building it, and taught me more. That's when tedious research suddenly became fun, and when I knew I'd <span style={{fontWeight:700, color:'#d97706'}}>found my thing.</span></p>
+            <p className="pt-1"><a href="#work" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Read the full case study →</a></p>
+          </ReleaseRow>
+
+          <ReleaseRow v="v1.0" title="Ten years solving problems with and for people" meta="EY · Odgers Berndtson · Fozzy Group · Veredus">
+            <p>I spent 10 years in HR and executive search working with people and systems. Consulting at EY, supporting teams as a People Partner, placing senior leaders at UK universities. The job was always the same: <span style={{fontWeight:700, color:'#d97706'}}>figure out what people needed</span> (not what they said they needed), ask the right questions until you got to the truth, and deliver something that worked.</p>
+            <p>Turns out that is most of product management. I was also building before I had the title — at Fozzy I took an onboarding platform from 0→1: defined the requirements, wrote the user stories, and shipped it with engineering and design.</p>
+            <ul className="space-y-1.5 pt-1">
+              {[
+                'New-hire turnover 29% → 18% in 12 months, using survey data to find the friction',
+                'Enterprise transformation research and workshops at EY for companies of 7,000–60,000 people',
+                '10+ C-suite executives placed end-to-end, from brief to offer',
+                'Asana delivery and tracking system that gave back ~150 hours a year',
+              ].map((t, i) => (
+                <li key={i} className="flex gap-2.5 text-[13px] text-[#57534e]/80 font-medium leading-relaxed">
+                  <span className="mt-[8px] w-1 h-1 rounded-full flex-shrink-0" style={{background:'rgba(87,83,78,0.35)'}} />
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ul>
+          </ReleaseRow>
+
+          {/* ── Credentials strip ── */}
+          <div className="mt-10 pt-6 flex flex-wrap items-center gap-x-8 gap-y-4" style={{borderTop:'1px solid rgba(41,37,36,0.08)'}}>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/40">Certifications</p>
+            <div className="flex items-center gap-3">
+              <img src="ibm_badge.png" alt="IBM badge" className="w-10 h-10 object-contain flex-shrink-0" />
+              <div>
+                <p className="text-[13px] font-bold text-[#292524] leading-tight">IBM AI Product Manager</p>
+                <p className="text-[11px] text-[#57534e]/70 font-medium">Professional Certificate · March 2026 · Coursera</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg flex-shrink-0 flex items-center justify-center" style={{background:'linear-gradient(135deg,#1a6fff 0%,#0047cc 100%)'}}>
+                <span className="text-white font-extrabold text-[9px] tracking-widest uppercase">AMP</span>
+              </div>
+              <div>
+                <p className="text-[13px] font-bold text-[#292524] leading-tight">Amplitude Analytics</p>
+                <p className="text-[11px] text-[#57534e]/70 font-medium">Product Analytics Certification · 2026</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── useInView — fires once when element enters viewport ─── */
 function useInView(threshold = 0.3) {
   const ref = React.useRef(null);
@@ -1787,12 +1973,10 @@ function App() {
   return (
     <>
       <main>
-        <MockLabel text="OPTION A — CURRENT (long text)" tone="#57534e" />
-        <AboutCurrent />
-        <MockLabel text="OPTION B — SCROLL-DRIVEN CHAPTER CARDS" tone="#d97706" />
-        <AboutNew />
-        <MockLabel text="OPTION C — RELEASE NOTES (now shipping + version history)" tone="#0369a1" />
+        <MockLabel text="OPTION C — two columns (current)" tone="#0369a1" />
         <AboutChangelog />
+        <MockLabel text="OPTION D — full width, no sidebar" tone="#047857" />
+        <AboutWide />
       </main>
     </>
   );
