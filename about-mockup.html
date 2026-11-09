@@ -1708,8 +1708,8 @@ function AboutWide() {
               <a href="https://odevo.com" target="_blank" rel="noopener noreferrer" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Odevo</a>, Jul–Nov 2026. Owned day-to-day product delivery for an internal KYC/AML compliance platform used across <span style={{fontWeight:700, color:'#292524'}}>six of the group's businesses</span>, working cross-functionally with engineering and group compliance.
             </p>
 
-            <div className="grid md:grid-cols-5 gap-x-8 gap-y-5 mb-7">
-              <ul className="space-y-2 md:col-span-3">
+            <div className="grid md:grid-cols-12 gap-x-8 gap-y-5 mb-7">
+              <ul className="space-y-2 md:col-span-8">
                 {[
                   <span>Led data migration to merge the SmartSearch accounts of two group businesses: scoped platform impact with engineering, managed the third-party vendor, and aligned stakeholders, without disrupting reporting.</span>,
                   <span>Re-platformed Client Risk Assessments onto the group's core screening system and decommissioned the legacy vendor, then drove CRA completeness from <span style={{fontWeight:700, color:'#292524'}}>60% toward 100%</span>.</span>,
@@ -1723,16 +1723,16 @@ function AboutWide() {
                 ))}
               </ul>
 
-              <div className="rounded-2xl px-5 py-4 self-start md:col-span-2" style={{background:'rgba(3,105,161,0.04)', border:'1px solid rgba(3,105,161,0.11)'}}>
+              <div className="rounded-2xl px-4 py-4 self-start md:col-span-4" style={{background:'rgba(3,105,161,0.04)', border:'1px solid rgba(3,105,161,0.11)'}}>
                 <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-primary/70 mb-2.5">What I learned</p>
                 <ul className="space-y-1.5">
                   {[
-                    'Not knowing is part of the job — ask the basic questions anyway.',
+                    'Not knowing is part of the job.',
                     'Saying no is product work.',
                     "Stakeholders don't stay aligned on their own.",
                     'Priorities need overcommunicating.',
                   ].map((t, i) => (
-                    <li key={i} className="flex gap-2 text-[13px] font-semibold text-[#292524] leading-relaxed">
+                    <li key={i} className="flex gap-2 text-[12.5px] font-semibold text-[#292524] leading-relaxed">
                       <span className="text-primary/60 flex-shrink-0">→</span>{t}
                     </li>
                   ))}
@@ -1768,7 +1768,7 @@ function AboutWide() {
           {/* ── Version history ── */}
           <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#57534e]/40 mb-3">Version history</p>
 
-          <ReleaseCard v="v2.0" title="The pivot — I got annoyed at a manual process and built a tool" meta="2024–25 · Veredus · while still in executive search" bulb={true}>
+          <ReleaseCard v="v2.0" title="The pivot — I got annoyed at a manual process and built a tool" meta="2024–25 · Veredus · while still in executive search">
             <p>The shift happened when I got annoyed at a manual research process and built a tool to fix it. Zero technical background. Learned vibe-coding as I went.</p>
             <p style={{fontWeight:700, color:'#292524'}}>400 hours → 120 hours per project <span style={{color:'#d97706', fontWeight:500}}>(70% faster)</span></p>
             <p>Getting people to actually use it turned out to be harder than building it, and taught me more. That's when tedious research suddenly became fun, and when I knew I'd <span style={{fontWeight:700, color:'#d97706'}}>found my thing.</span></p>
