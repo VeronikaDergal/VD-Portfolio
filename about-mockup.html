@@ -1358,7 +1358,7 @@ function AboutChangelog() {
                   fontFamily:mono, fontSize:11, fontWeight:700, color:'#b45309',
                   background:'rgba(217,119,6,0.1)', border:'1px solid rgba(217,119,6,0.22)',
                   padding:'3px 8px', borderRadius:6, flexShrink:0,
-                }}>v4.0</span>
+                }}>v3.0</span>
                 <span style={{
                   width:9, height:9, borderRadius:'50%', background:'#059669',
                   boxShadow:'0 0 0 4px rgba(5,150,105,0.17)', display:'inline-block', flexShrink:0,
@@ -1374,8 +1374,26 @@ function AboutChangelog() {
                 I build and ship tools with AI and no-code. But what I'm actually best at is people — earning engineers' trust, staying curious about what users need, and keeping complicated stakeholders pointing in the same direction.
               </p>
 
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-1.5">Product internship</p>
+              <p className="text-[#57534e] font-medium leading-relaxed mb-3">
+                <a href="https://odevo.com" target="_blank" rel="noopener noreferrer" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Odevo</a>, Jul–Nov 2026. Day-to-day product on an internal KYC/AML compliance platform used across six of the group's businesses, with engineering and group compliance.
+              </p>
+              <ul className="space-y-2 mb-6">
+                {[
+                  <span>Merged two businesses' screening accounts. Scoped the platform impact with engineering, managed the third-party vendor, and kept reporting running through the switch.</span>,
+                  <span>Re-platformed Client Risk Assessments onto the group's core screening system and shut down the legacy vendor. Completeness moved from <span style={{fontWeight:700, color:'#292524'}}>60% toward 100%</span>.</span>,
+                  <span>Moved <span style={{fontWeight:700, color:'#292524'}}>~9,000</span> historical screening reports into the new system with automated matching and a review UI for weak matches. No compliance history lost.</span>,
+                  <span>Ran discovery with frontline compliance officers: interviews, then watching them work. What they described and what they did on screen were different — <span style={{fontWeight:700, color:'#d97706'}}>that gap set the roadmap.</span></span>,
+                ].map((t, i) => (
+                  <li key={i} className="flex gap-2.5 text-[#57534e] font-medium leading-relaxed">
+                    <span className="mt-[9px] w-1 h-1 rounded-full flex-shrink-0" style={{background:'#d97706'}} />
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+
               <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-2.5">Built on my own time</p>
-              <ul className="space-y-2">
+              <ul className="space-y-2 mb-6">
                 {[
                   <span><span style={{fontWeight:700, color:'#292524'}}>Stride</span> — AI goal-setting app. Nothing to live beta in <span style={{fontWeight:700, color:'#292524'}}>four weeks</span>, on about £25 of infrastructure. Real users, real retention problems, documented honestly.</span>,
                   <span><span style={{fontWeight:700, color:'#292524'}}>A PM career hub</span> — scenario-based skill practice and job-pipeline tracking. Built for a problem I was living through at the time.</span>,
@@ -1388,6 +1406,22 @@ function AboutChangelog() {
                 ))}
               </ul>
 
+              <div className="rounded-2xl p-5" style={{background:'rgba(3,105,161,0.04)', border:'1px solid rgba(3,105,161,0.11)'}}>
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-primary/70 mb-3">What I learned</p>
+                <div className="space-y-3">
+                  {[
+                    ['Not knowing is part of the job.', 'I came into financial crime compliance with no background. Asking the basic questions in a room of experts is how you find the things nobody has questioned in years.'],
+                    ['Saying no is product work.', 'Some requests were real problems with the wrong solution attached. Catching that early saved more than building fast would have.'],
+                    ['Stakeholders do not stay aligned on their own.', 'Six businesses, one platform. What was agreed in a meeting had to be written down and repeated, or it drifted.'],
+                    ['Priorities need overcommunicating.', 'If people have to ask what is coming next, that costs more than the update would have.'],
+                  ].map(([lead, body], i) => (
+                    <p key={i} className="text-[13px] text-[#57534e] font-medium leading-relaxed">
+                      <span style={{fontWeight:700, color:'#292524'}}>{lead}</span> {body}
+                    </p>
+                  ))}
+                </div>
+              </div>
+
               <div className="mt-5 pt-4" style={{borderTop:'1px solid rgba(41,37,36,0.08)'}}>
                 <p className="text-[#57534e] font-medium leading-relaxed">
                   Looking for my next adventure — a team of any size where I can bring clarity to ambiguous problems and keep the work to a high standard. If this resonates, <a href="#contact" style={{color:'#d97706', fontWeight:700, fontStyle:'italic', textDecoration:'none', display:'inline-block', position:'relative'}}>let's talk.<span style={{position:'absolute', bottom:-4, left:0, width:'100%', height:6, background:'rgba(217,119,6,0.12)', borderRadius:3, transform:'rotate(-1deg)', zIndex:-1}} /></a>
@@ -1397,12 +1431,6 @@ function AboutChangelog() {
 
             {/* ── VERSION HISTORY ── */}
             <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#57534e]/40 mb-1" style={{paddingLeft:'1.75rem'}}>Version history</p>
-
-            <ReleaseRow v="v3.0" title="Product at Odevo" meta="Jul – Nov 2026 · internal KYC/AML compliance platform">
-              <p>Day-to-day product for a platform used across <span style={{fontWeight:700, color:'#292524'}}>six of the group's businesses</span>. Two vendor migrations, <span style={{fontWeight:700, color:'#292524'}}>~9,000</span> historical screening reports to move without losing any compliance history, and a lot of people who had to agree before anything shipped.</p>
-              <p>The part I'd actually tell you about: sitting with frontline compliance officers and watching them work. What they described in an interview and what they did on screen were not the same thing — and that gap is where the roadmap came from.</p>
-              <p>I also learned to say when something <span style={{fontWeight:700, color:'#d97706'}}>shouldn't be built.</span> That turned out to be as useful as shipping.</p>
-            </ReleaseRow>
 
             <ReleaseRow v="v2.0" title="ReSearchlight — the patch that changed everything" meta="2024–25 · Veredus · while still in executive search" bulb={true}>
               <p>The shift happened when I got annoyed at a manual research process and built a tool to fix it. Zero technical background. Learned vibe-coding as I went.</p>
