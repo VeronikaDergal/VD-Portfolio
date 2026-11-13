@@ -228,24 +228,48 @@ function Nav() {
 
 /* ─── Hero ─── */
 function Hero() {
+  const facts = (
+    <div className="space-y-2.5 text-left inline-block">
+      {[
+        { icon:<><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></>,
+          text:<span>London, UK</span> },
+        { icon:<><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></>,
+          text:<span>BA International Business Management<br/>University of Lincoln, UK</span> },
+        { icon:<><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 000 18 14 14 0 000-18z"/></>,
+          text:<span>🇬🇧 English · 🇺🇦 Ukrainian</span> },
+      ].map((f, i) => (
+        <p key={i} className="text-[12px] font-semibold text-[#57534e]/75 flex gap-2.5 items-start">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"
+            className="flex-shrink-0 mt-[2px] opacity-65">{f.icon}</svg>
+          {f.text}
+        </p>
+      ))}
+    </div>
+  );
   return (
     <section style={{minHeight:'100vh', display:'flex', alignItems:'center', paddingTop:'80px', paddingLeft:'1.5rem', paddingRight:'1.5rem', position:'relative'}}>
 
-      <div className="max-w-4xl mx-auto w-full relative z-10">
-        <h1 className="font-headline text-[2rem] sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-[#292524] mb-6">
-          <span style={{animationDelay:'0.1s'}} className="hero-item block">Product manager.</span>
-          <span style={{animationDelay:'0.25s'}} className="hero-item block">
-            I take <span className="text-secondary">friction</span> out of work people do every day.
+      <div className="max-w-4xl mx-auto w-full relative z-10 grid md:grid-cols-12 gap-10 md:gap-8 items-start">
+
+        <div className="md:col-span-8 order-2 md:order-1">
+        <p style={{animationDelay:'0.05s'}} className="hero-item font-headline text-xl font-extrabold text-[#292524] mb-5">
+          Hi, I'm <span className="text-secondary italic">Veronika!</span>
+        </p>
+
+        <h1 className="font-headline text-[1.9rem] sm:text-4xl lg:text-5xl font-extrabold leading-[1.12] tracking-tight text-[#292524] mb-5">
+          <span style={{animationDelay:'0.18s'}} className="hero-item block">
+            Product manager who takes <span className="text-secondary italic" style={{paddingRight:'0.08em'}}>friction</span> out of work people do every day.
           </span>
         </h1>
 
-        <p style={{animationDelay:'0.4s'}} className="hero-item text-lg text-[#57534e] max-w-xl leading-relaxed mb-14 font-medium">
+        <p style={{animationDelay:'0.4s'}} className="hero-item text-[16px] text-[#57534e] leading-relaxed mb-10 font-medium">
           Ten years solving problems with and for people, now in product. I build and ship tools with AI and no-code, and work close to the engineers, the people who'll use it, and the people who have to agree.
         </p>
 
-        <div className="flex flex-wrap gap-6">
+        <div className="flex flex-wrap gap-4">
           {[
-            { delay:'0.62s', primary:true,  label:'See the work', href:'#work', external:false, icon:null },
+            { delay:'0.62s', primary:true,  label:'Read the case studies', href:'#work', external:false, icon:null },
             { delay:'0.72s', primary:false, label:'Connect on LinkedIn', href:'https://www.linkedin.com/in/veronika-dergal/', external:true, icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> },
             { delay:'0.82s', primary:false, label:'View CV', href:'Veronika_Dergal_PM_CV.pdf', external:true, icon:<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> },
           ].map(btn => (
@@ -283,6 +307,20 @@ function Hero() {
             </a>
           ))}
         </div>
+
+        {/* facts — below the CTAs on phones, beside the photo on desktop */}
+        <div style={{animationDelay:'0.9s'}} className="hero-item md:hidden mt-10">{facts}</div>
+        </div>
+
+        <div style={{animationDelay:'0.3s'}} className="hero-item md:col-span-4 order-1 md:order-2 flex md:block justify-center md:mt-1">
+          <div className="text-center">
+            <img src="photo.jpg" alt="Veronika Dergal"
+              style={{width:188, height:188, borderRadius:'50%', objectFit:'cover', objectPosition:'center top', boxShadow:'0 8px 30px rgba(0,0,0,0.14)'}}
+              className="mx-auto" />
+            <div className="hidden md:block mt-5">{facts}</div>
+          </div>
+        </div>
+
       </div>
     </section>
   );
@@ -1058,65 +1096,17 @@ function About() {
       <div className="max-w-4xl mx-auto relative z-10">
         <div ref={ref} className="reveal">
 
-          {/* ── Header strip: photo + name ── */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-8 mb-8">
-            <img src="photo.jpg" alt="Veronika Dergal"
-              className="flex-shrink-0"
-              style={{width:124, height:124, borderRadius:'50%', objectFit:'cover', objectPosition:'center top', boxShadow:'0 4px 20px rgba(0,0,0,0.12)'}} />
-            <div className="min-w-0">
-              <span className="text-secondary font-extrabold uppercase tracking-[0.2em] text-xs mb-2 block">About</span>
-              <h2 className="font-headline text-4xl sm:text-5xl font-extrabold text-[#292524] leading-tight">
-                Hi, I'm <span className="text-secondary italic">Veronika.</span>
-              </h2>
-            </div>
+          {/* ── Header ── */}
+          <div className="mb-6">
+            <span className="text-secondary font-extrabold uppercase tracking-[0.2em] text-xs mb-2 block">About</span>
+            <h2 className="font-headline text-4xl sm:text-5xl font-extrabold text-[#292524] leading-tight">
+              How I got <span className="text-secondary italic">here.</span>
+            </h2>
           </div>
 
-          {/* ── Two columns: at a glance | certifications ── */}
-          <div className="grid sm:grid-cols-2 gap-x-10 gap-y-7 mb-9 pb-7" style={{borderBottom:'1px solid rgba(41,37,36,0.08)'}}>
-
-            <div>
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/40 mb-3">At a glance</p>
-              <ul className="space-y-2.5">
-                {[
-                  { icon:"📍", text:"London, UK" },
-                  { icon:"🎓", text:"BA International Business Management · University of Lincoln, UK" },
-                  { icon:"🛠", text:"Building with Lovable, Claude Code and Codex" },
-                  { icon:"🗣", text:"🇬🇧 English · 🇺🇦 Ukrainian" },
-                ].map((f, i) => (
-                  <li key={i} className="flex gap-3 text-[13px] text-[#57534e] font-medium leading-relaxed">
-                    <span className="flex-shrink-0">{f.icon}</span>
-                    <span>{f.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/40 mb-3">Certifications</p>
-              <div className="space-y-4">
-              {[
-                { badge:<img src="ibm_badge.png" alt="IBM badge" className="w-10 h-10 object-contain flex-shrink-0" />,
-                  name:'IBM AI Product Manager', meta:'Professional Certificate · March 2026 · Coursera',
-                  href:'https://coursera.org/verify/professional-cert/IO6UFAJQOKZQ' },
-                { badge:<div className="w-10 h-10 rounded-lg flex-shrink-0 flex items-center justify-center" style={{background:'linear-gradient(135deg,#1a6fff 0%,#0047cc 100%)'}}><span className="text-white font-extrabold text-[9px] tracking-widest uppercase">AMP</span></div>,
-                  name:'Amplitude Analytics', meta:'Product Analytics Certification · 2026',
-                  href:'https://www.credly.com/badges/12ea6c9a-6136-48d4-b74c-b4b122e98cb2/linked_in_profile' },
-              ].map((c, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  {c.badge}
-                  <div className="min-w-0">
-                    <p className="text-[13px] font-bold text-[#292524] leading-tight">{c.name}</p>
-                    <p className="text-[11px] text-[#57534e]/70 font-medium mt-0.5">{c.meta}</p>
-                    <a href={c.href} target="_blank" rel="noopener noreferrer"
-                      className="text-[11px] font-bold text-primary hover:opacity-70 transition-opacity flex items-center gap-1 mt-1">
-                      Verify <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                    </a>
-                  </div>
-                </div>
-              ))}
-              </div>
-            </div>
-          </div>
+          <p className="text-[#57534e] font-medium leading-relaxed mb-10 max-w-2xl text-[17px]">
+            My career hasn't been a straight line: consulting, then executive search and HR, then product. Three versions to get here. <span style={{fontWeight:700, color:'#292524'}}>Product is the one that uses all of it.</span>
+          </p>
 
           {/* ── NOW SHIPPING ── */}
           <div ref={nowRef} className="glass rounded-[2rem] p-7 sm:p-9 mb-10" style={{
@@ -1136,21 +1126,21 @@ function About() {
                 width:9, height:9, borderRadius:'50%', background:'#059669',
                 boxShadow:'0 0 0 4px rgba(5,150,105,0.17)', display:'inline-block', flexShrink:0, marginLeft:2,
               }} />
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-emerald-700">Now shipping</span>
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-emerald-700">Current version</span>
             </div>
 
             <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-1.5 mt-1">Product internship</p>
             <p className="text-[#57534e] font-medium leading-relaxed mb-4">
-              <a href="https://odevo.com" target="_blank" rel="noopener noreferrer" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Odevo</a>, Jul–Nov 2026. Owned day-to-day product delivery for an internal KYC/AML compliance platform used across <span style={{fontWeight:700, color:'#292524'}}>six of the group's businesses</span>, working cross-functionally with engineering and group compliance.
+              <a href="https://odevo.com" target="_blank" rel="noopener noreferrer" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Odevo</a>, Jul–Nov 2026. Owned day-to-day product delivery for an internal KYC/AML compliance platform used across six of the group's businesses, working cross-functionally with engineering and group compliance.
             </p>
 
             <div className="mb-7">
               <ul className="space-y-2">
                 {[
-                  <span>Led data migration to merge the SmartSearch accounts of two group businesses: scoped platform impact with engineering, managed the third-party vendor, and aligned stakeholders, without disrupting reporting.</span>,
-                  <span>Re-platformed Client Risk Assessments onto the group's core screening system and decommissioned the legacy vendor, then drove CRA completeness from <span style={{fontWeight:700, color:'#292524'}}>60% toward 100%</span>.</span>,
-                  <span>Built automated matching of <span style={{fontWeight:700, color:'#292524'}}>~9,000</span> historical screening reports to subjects in the new system, with a review UI for weak matches, preserving the full compliance history through the migration.</span>,
-                  <span>Ran discovery with frontline compliance officers through interviews and live workflow observations, translating insights into the product roadmap and regular product updates for the team.</span>,
+                  <span>Led <span style={{fontWeight:700, color:'#292524'}}>data migration</span> to merge the SmartSearch accounts of two group businesses: scoped platform impact with engineering, managed the third-party vendor, and aligned stakeholders, without disrupting reporting.</span>,
+                  <span><span style={{fontWeight:700, color:'#292524'}}>Re-platformed</span> Client Risk Assessments onto the group's core screening system and decommissioned the legacy vendor, then drove CRA completeness from <span style={{fontWeight:700, color:'#292524'}}>60% toward 100%</span>.</span>,
+                  <span>Built automated <span style={{fontWeight:700, color:'#292524'}}>matching of ~9,000</span> historical screening reports to subjects in the new system, with a review UI for weak matches, preserving the full compliance history through the migration.</span>,
+                  <span>Ran <span style={{fontWeight:700, color:'#292524'}}>discovery</span> with frontline compliance officers through interviews and live workflow observations, translating insights into the product roadmap and regular product updates for the team.</span>,
                 ].map((t, i) => (
                   <li key={i} className="flex gap-2.5 text-[14px] text-[#57534e] font-medium leading-relaxed">
                     <span className="mt-[9px] w-1 h-1 rounded-full flex-shrink-0" style={{background:'#d97706'}} />
@@ -1160,7 +1150,9 @@ function About() {
               </ul>
             </div>
 
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-3">Built on my own time</p>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-3">
+              Built on my own time <span style={{color:'rgba(41,37,36,0.72)'}}>with Lovable, Claude Code and Codex</span>
+            </p>
             <div className="grid sm:grid-cols-3 gap-4 mb-7">
               {[
                 { name:<a href="https://stridehq.app" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 hover:opacity-70 transition-opacity">Stride</a>,
@@ -1179,6 +1171,33 @@ function About() {
               ))}
             </div>
 
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-3">Certifications</p>
+            <div className="grid sm:grid-cols-3 gap-4 mb-7">
+              {[
+                { badge:<img src="ibm_badge.png" alt="IBM badge" className="w-9 h-9 object-contain flex-shrink-0" />,
+                  name:'IBM AI Product Manager', meta:'Professional Certificate · March 2026 · Coursera',
+                  href:'https://coursera.org/verify/professional-cert/IO6UFAJQOKZQ' },
+                { badge:<div className="w-9 h-9 rounded-lg flex-shrink-0 flex items-center justify-center" style={{background:'linear-gradient(135deg,#1a6fff 0%,#0047cc 100%)'}}><span className="text-white font-extrabold text-[8px] tracking-widest uppercase">AMP</span></div>,
+                  name:'Amplitude Analytics', meta:'Product Analytics Certification · 2026',
+                  href:'https://www.credly.com/badges/12ea6c9a-6136-48d4-b74c-b4b122e98cb2/linked_in_profile' },
+                { badge:<div className="w-9 h-9 rounded-lg flex-shrink-0 flex items-center justify-center" style={{background:'linear-gradient(135deg,#1f2937 0%,#0b1220 100%)'}}><span className="text-white font-extrabold text-[8px] tracking-wider uppercase">DL·AI</span></div>,
+                  name:'AI for Everyone', meta:'DeepLearning.AI · March 2026',
+                  href:'https://www.deeplearning.ai/certificates/5e47ca0c-2064-447d-8002-4fe047cd4a4f' },
+              ].map((c, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  {c.badge}
+                  <div className="min-w-0">
+                    <p className="text-[13px] font-bold text-[#292524] leading-tight">{c.name}</p>
+                    <p className="text-[11px] text-[#57534e]/70 font-medium mt-0.5">{c.meta}</p>
+                    <a href={c.href} target="_blank" rel="noopener noreferrer"
+                      className="text-[11px] font-bold text-primary hover:opacity-70 transition-opacity flex items-center gap-1 mt-1">
+                      Verify <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+
             <div className="pt-5" style={{borderTop:'1px solid rgba(41,37,36,0.08)'}}>
               <p className="text-[#57534e] font-medium leading-relaxed">
                 Looking for my next adventure — a team of any size where I can bring clarity to ambiguous problems and keep the work to a high standard. If this resonates, <a href="#contact" style={{color:'#d97706', fontWeight:700, fontStyle:'italic', textDecoration:'none', display:'inline-block', position:'relative'}}>let's talk.<span style={{position:'absolute', bottom:-4, left:0, width:'100%', height:6, background:'rgba(217,119,6,0.12)', borderRadius:3, transform:'rotate(-1deg)', zIndex:-1}} /></a>
@@ -1189,7 +1208,7 @@ function About() {
           {/* ── Version history ── */}
           <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#57534e]/40 mb-3">Version history</p>
 
-          <ReleaseCard v="v2.0" title="The pivot — I got annoyed at a manual process and built a tool" meta="2024–25 · Veredus · while still in executive search">
+          <ReleaseCard v="v2.0" title="The pivot — I built a tool to fix my own job" meta="2024–25 · Veredus · while still in executive search">
             <p>The shift happened when I got annoyed at a manual research process and built a tool to fix it. Zero technical background. Learned vibe-coding as I went.</p>
             <p style={{fontWeight:700, color:'#292524'}}>400 hours → 120 hours per project <span style={{color:'#d97706', fontWeight:500}}>(70% faster)</span></p>
             <p>Getting people to actually use it turned out to be harder than building it, and taught me more. That's when tedious research suddenly became fun, and when I knew I'd <span style={{fontWeight:700, color:'#d97706'}}>found my thing.</span></p>
@@ -1197,8 +1216,8 @@ function About() {
           </ReleaseCard>
 
           <ReleaseCard v="v1.0" title="Ten years solving problems with and for people" meta="EY · Odgers Berndtson · Fozzy Group · Veredus">
-            <p>Ten years in HR, consulting and executive search. Transformation research at EY, building internal tools as a People Partner at Fozzy, placing senior leaders at UK universities. The job was always the same: <span style={{fontWeight:700, color:'#d97706'}}>figure out what people needed</span> (not what they said they needed), ask the right questions until you got to the truth, find the solution and deliver it.</p>
-            <p>That decade is what prepared me for the two parts of product that are hardest to learn from a book: <span style={{fontWeight:700, color:'#292524'}}>complex stakeholders</span>, and <span style={{fontWeight:700, color:'#292524'}}>discovery</span> — sitting with people and working out what they actually need.</p>
+            <p>Ten years in consulting, executive search and HR. Transformation research at EY, building internal tools as a People Partner at Fozzy, placing senior leaders at UK universities. The job was always the same: ask enough questions to <span style={{fontWeight:700, color:'#d97706'}}>find out what people actually needed</span> — rarely what they first asked for — then find the solution and deliver it.</p>
+            <p><span style={{fontWeight:700, color:'#292524'}}>Complex stakeholders</span> in every one of those roles, and hundreds of <span style={{fontWeight:700, color:'#292524'}}>interviews</span> to understand what people actually did day to day.</p>
             <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 pt-2">Key deliverables</p>
             <ul className="space-y-1.5">
               {[
