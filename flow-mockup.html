@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flow mockup — A vs C</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg:      '#FAF9F7',
+            surface: '#FAF9F7',
+            'surface-container': '#F4F3F1',
+            primary: '#0369a1',
+            'primary-light': '#e0f2fe',
+            secondary: '#d97706',
+            'secondary-light': '#fef3c7',
+            'on-surface': '#292524',
+            'on-variant': '#57534e',
+          },
+          fontFamily: {
+            headline: ['"Plus Jakarta Sans"', 'sans-serif'],
+            body:     ['Manrope', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+      background: linear-gradient(160deg, #FDFCFA 0%, #FAFBFC 55%, #F8F9FC 100%);
+      min-height: 100%;
+    }
+    body { background: transparent; }
+    ::selection { background: #e0f2fe; color: #0369a1; }
+    .glass { background: rgba(255,255,255,0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.65); }
+  </style>
+</head>
+<body class="font-body antialiased text-[#292524]">
+  <div id="root"></div>
+
+  <script type="text/babel">
+const { useState } = React;
+const mono = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+
+/* ─── Mockup chrome ─── */
+function MockLabel({ text, tone, note }) {
+  return (
+    <div style={{background:tone}} className="sticky top-0 z-40 px-6 py-3 shadow-lg">
+      <div className="max-w-4xl mx-auto">
+        <p className="text-white font-headline font-extrabold tracking-wide text-sm">{text}</p>
+        {note && <p className="text-white/80 text-[12px] font-medium mt-0.5">{note}</p>}
+      </div>
+    </div>
+  );
+}
+
+function Annot({ children }) {
+  return (
+    <div className="max-w-4xl mx-auto px-6 my-6">
+      <div className="rounded-xl px-4 py-3 text-[12.5px] leading-relaxed font-medium"
+        style={{background:'rgba(217,119,6,0.07)', border:'1px dashed rgba(217,119,6,0.4)', color:'#92400e'}}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Shared CTA row ─── */
+function Ctas() {
+  const btns = [
+    { primary:true,  label:'Read the case studies' },
+    { primary:false, label:'Connect on LinkedIn' },
+    { primary:false, label:'View CV' },
+  ];
+  return (
+    <div className="flex flex-wrap gap-4">
+      {btns.map(b => (
+        <span key={b.label}
+          style={b.primary
+            ? { boxShadow:'0 16px 40px -10px rgba(3,105,161,0.4)' }
+            : { boxShadow:'0 1px 4px rgba(0,0,0,0.07)' }}
+          className={b.primary
+            ? 'bg-primary text-white font-bold px-7 py-3.5 rounded-full text-sm'
+            : 'text-[#57534e] font-semibold px-5 py-3.5 rounded-full border border-[#57534e]/20 text-sm'}>
+          {b.label}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+const SUBLINE = "Ten years solving problems with and for people, now in product. I build and ship tools with AI and no-code, and work close to the engineers, the people who'll use it, and the people who have to agree.";
+
+/* ─── HERO — option A: photo beside the headline ─── */
+function HeroA() {
+  return (
+    <section className="px-6 pt-20 pb-24">
+      <div className="max-w-4xl mx-auto grid md:grid-cols-12 gap-10 md:gap-8 items-start">
+
+        <div className="md:col-span-8 order-2 md:order-1">
+          <p className="font-headline text-xl font-extrabold text-[#292524] mb-5">
+            Hi, I'm <span className="text-secondary italic">Veronika!</span>
+          </p>
+          <h1 className="font-headline text-[1.9rem] sm:text-4xl lg:text-5xl font-extrabold leading-[1.12] tracking-tight text-[#292524] mb-5">
+            Product manager who takes <span className="text-secondary italic" style={{paddingRight:'0.08em'}}>friction</span> out of work people do every day.
+          </h1>
+          <p className="text-[16px] text-[#57534e] leading-relaxed mb-10 font-medium">{SUBLINE}</p>
+          <Ctas />
+        </div>
+
+        <div className="md:col-span-4 order-1 md:order-2 flex md:block justify-center md:mt-1">
+          <div className="text-center">
+            <img src="photo.jpg" alt="Veronika Dergal"
+              style={{width:188, height:188, borderRadius:'50%', objectFit:'cover', objectPosition:'center top', boxShadow:'0 8px 30px rgba(0,0,0,0.14)'}}
+              className="mx-auto" />
+            <div className="mt-5 space-y-2.5 text-left inline-block">
+              {[
+                { icon:<><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></>,
+                  text:<span>London, UK</span> },
+                { icon:<><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></>,
+                  text:<span>BA International Business Management<br/>University of Lincoln, UK</span> },
+                { icon:<><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 000 18 14 14 0 000-18z"/></>,
+                  text:<span>🇬🇧 English · 🇺🇦 Ukrainian</span> },
+              ].map((f, i) => (
+                <p key={i} className="text-[12px] font-semibold text-[#57534e]/75 flex gap-2.5 items-start">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"
+                    className="flex-shrink-0 mt-[2px] opacity-65">{f.icon}</svg>
+                  {f.text}
+                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+/* ─── HERO — option C: exactly what is live today ─── */
+function HeroC() {
+  return (
+    <section className="px-6 pt-20 pb-24">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="font-headline text-[2rem] sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-[#292524] mb-6">
+          <span className="block">Product manager.</span>
+          <span className="block">I take <span className="text-secondary">friction</span> out of work people do every day.</span>
+        </h1>
+        <p className="text-lg text-[#57534e] max-w-xl leading-relaxed mb-14 font-medium">{SUBLINE}</p>
+        <Ctas />
+      </div>
+    </section>
+  );
+}
+
+/* ─── Collapsed release card ─── */
+function ReleaseCard({ v, title, meta, children }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="glass rounded-[2rem] mb-4 relative overflow-hidden" style={{
+      boxShadow:'0 2px 16px rgba(0,0,0,0.07)', border:'1px solid rgba(41,37,36,0.1)',
+    }}>
+      <button onClick={() => setOpen(o => !o)} aria-expanded={open}
+        className="w-full text-left group px-6 sm:px-7 py-6"
+        style={{position:'relative', zIndex:1, background:'none', border:'none', cursor:'pointer'}}>
+        <div className="flex items-start gap-4 sm:gap-5">
+          <span className="flex-shrink-0 mt-0.5" style={{
+            fontFamily:mono, fontSize:11, fontWeight:700, color:'#57534e',
+            background:'rgba(87,83,78,0.07)', border:'1px solid rgba(87,83,78,0.14)',
+            padding:'3px 8px', borderRadius:6, display:'inline-block',
+          }}>{v}</span>
+          <div className="min-w-0 flex-grow">
+            <p className="font-bold text-[#292524] text-[15px] leading-snug group-hover:text-primary transition-colors">{title}</p>
+            {meta && <p className="text-[11px] font-semibold text-[#57534e]/55 mt-0.5">{meta}</p>}
+          </div>
+          <span className="flex-shrink-0 flex items-center justify-center rounded-full transition-colors"
+            style={{
+              width:32, height:32,
+              background: open ? 'rgba(3,105,161,0.1)' : 'rgba(87,83,78,0.07)',
+              border: `1px solid ${open ? 'rgba(3,105,161,0.25)' : 'rgba(87,83,78,0.16)'}`,
+              color: open ? '#0369a1' : '#57534e',
+            }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+              strokeLinecap="round" strokeLinejoin="round"
+              style={{transform: open ? 'rotate(180deg)' : 'none', transition:'transform 0.3s ease'}}>
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </span>
+        </div>
+      </button>
+      <div style={{
+        display:'grid', gridTemplateRows: open ? '1fr' : '0fr',
+        transition:'grid-template-rows 0.4s cubic-bezier(0.22,1,0.36,1)',
+        position:'relative', zIndex:1,
+      }}>
+        <div style={{overflow:'hidden'}}>
+          <div className="text-[#57534e] font-medium leading-relaxed space-y-2 px-6 sm:px-7 pb-7 sm:ml-[3.8rem]">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Certifications row — now living at the foot of v3.0 ─── */
+function Certs() {
+  const items = [
+    { badge:<img src="ibm_badge.png" alt="IBM badge" className="w-9 h-9 object-contain flex-shrink-0" />,
+      name:'IBM AI Product Manager', meta:'Professional Certificate · March 2026 · Coursera',
+      href:'https://coursera.org/verify/professional-cert/IO6UFAJQOKZQ' },
+    { badge:<div className="w-9 h-9 rounded-lg flex-shrink-0 flex items-center justify-center" style={{background:'linear-gradient(135deg,#1a6fff 0%,#0047cc 100%)'}}><span className="text-white font-extrabold text-[8px] tracking-widest uppercase">AMP</span></div>,
+      name:'Amplitude Analytics', meta:'Product Analytics Certification · 2026',
+      href:'https://www.credly.com/badges/12ea6c9a-6136-48d4-b74c-b4b122e98cb2/linked_in_profile' },
+    { badge:<div className="w-9 h-9 rounded-lg flex-shrink-0 flex items-center justify-center" style={{background:'linear-gradient(135deg,#1f2937 0%,#0b1220 100%)'}}><span className="text-white font-extrabold text-[8px] tracking-wider uppercase">DL·AI</span></div>,
+      name:'AI for Everyone', meta:'DeepLearning.AI · March 2026',
+      href:'https://www.deeplearning.ai/certificates/5e47ca0c-2064-447d-8002-4fe047cd4a4f' },
+  ];
+  return (
+    <>
+      <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-3">Certifications</p>
+      <div className="grid sm:grid-cols-3 gap-4 mb-7">
+        {items.map((c, i) => (
+          <div key={i} className="flex items-center gap-3">
+            {c.badge}
+            <div className="min-w-0">
+              <p className="text-[13px] font-bold text-[#292524] leading-tight">{c.name}</p>
+              <p className="text-[11px] text-[#57534e]/70 font-medium mt-0.5">{c.meta}</p>
+              <a href={c.href} target="_blank" rel="noopener noreferrer"
+                className="text-[11px] font-bold text-primary hover:opacity-70 transition-opacity flex items-center gap-1 mt-1">
+                Verify <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+/* ─── ABOUT — shared body, greeting optional ─── */
+function About({ greeting }) {
+  return (
+    <section className="pt-10 pb-24 px-6 relative overflow-hidden">
+      <div className="max-w-4xl mx-auto relative z-10">
+
+        {/* ── Header ── */}
+        {greeting ? (
+          <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-8 mb-6">
+            <img src="photo.jpg" alt="Veronika Dergal"
+              className="flex-shrink-0"
+              style={{width:124, height:124, borderRadius:'50%', objectFit:'cover', objectPosition:'center top', boxShadow:'0 4px 20px rgba(0,0,0,0.12)'}} />
+            <div className="min-w-0">
+              <span className="text-secondary font-extrabold uppercase tracking-[0.2em] text-xs mb-2 block">About</span>
+              <h2 className="font-headline text-4xl sm:text-5xl font-extrabold text-[#292524] leading-tight">
+                Hi, I'm <span className="text-secondary italic">Veronika.</span>
+              </h2>
+            </div>
+          </div>
+        ) : (
+          <div className="mb-6">
+            <span className="text-secondary font-extrabold uppercase tracking-[0.2em] text-xs mb-2 block">About</span>
+            <h2 className="font-headline text-4xl sm:text-5xl font-extrabold text-[#292524] leading-tight">
+              How I got <span className="text-secondary italic">here.</span>
+            </h2>
+          </div>
+        )}
+
+        {/* ── The bridge ── */}
+        <p className="text-[#57534e] font-medium leading-relaxed mb-10 max-w-2xl text-[17px]">
+          My career hasn't been a straight line: consulting, then executive search and HR, then product. Three versions to get here. <span style={{fontWeight:700, color:'#292524'}}>Product is the one that uses all of it.</span>
+        </p>
+
+        {/* ── v3.0 ── */}
+        <div className="glass rounded-[2rem] p-7 sm:p-9 mb-10" style={{
+          boxShadow:'0 2px 16px rgba(0,0,0,0.07)', border:'1px solid rgba(217,119,6,0.22)',
+        }}>
+          <div className="flex items-center gap-2.5 mb-4">
+            <span style={{
+              fontFamily:mono, fontSize:11, fontWeight:700, color:'#b45309',
+              background:'rgba(217,119,6,0.1)', border:'1px solid rgba(217,119,6,0.22)',
+              padding:'3px 8px', borderRadius:6, flexShrink:0,
+            }}>v3.0</span>
+            <span style={{
+              width:9, height:9, borderRadius:'50%', background:'#059669',
+              boxShadow:'0 0 0 4px rgba(5,150,105,0.17)', display:'inline-block', flexShrink:0, marginLeft:2,
+            }} />
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-emerald-700">Current version</span>
+          </div>
+
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-1.5 mt-1">Product internship</p>
+          <p className="text-[#57534e] font-medium leading-relaxed mb-4">
+            <a href="https://odevo.com" target="_blank" rel="noopener noreferrer" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Odevo</a>, Jul–Nov 2026. Owned day-to-day product delivery for an internal KYC/AML compliance platform used across six of the group's businesses, working cross-functionally with engineering and group compliance.
+          </p>
+
+          <div className="mb-7">
+            <ul className="space-y-2">
+              {[
+                <span>Led <span style={{fontWeight:700, color:'#292524'}}>data migration</span> to merge the SmartSearch accounts of two group businesses: scoped platform impact with engineering, managed the third-party vendor, and aligned stakeholders, without disrupting reporting.</span>,
+                <span><span style={{fontWeight:700, color:'#292524'}}>Re-platformed</span> Client Risk Assessments onto the group's core screening system and decommissioned the legacy vendor, then drove CRA completeness from <span style={{fontWeight:700, color:'#292524'}}>60% toward 100%</span>.</span>,
+                <span>Built automated <span style={{fontWeight:700, color:'#292524'}}>matching of ~9,000</span> historical screening reports to subjects in the new system, with a review UI for weak matches, preserving the full compliance history through the migration.</span>,
+                <span>Ran <span style={{fontWeight:700, color:'#292524'}}>discovery</span> with frontline compliance officers through interviews and live workflow observations, translating insights into the product roadmap and regular product updates for the team.</span>,
+              ].map((t, i) => (
+                <li key={i} className="flex gap-2.5 text-[14px] text-[#57534e] font-medium leading-relaxed">
+                  <span className="mt-[9px] w-1 h-1 rounded-full flex-shrink-0" style={{background:'#d97706'}} />
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-3">
+            Built on my own time <span style={{color:'rgba(41,37,36,0.72)'}}>with Lovable, Claude Code and Codex</span>
+          </p>
+          <div className="grid sm:grid-cols-3 gap-4 mb-7">
+            {[
+              { name:<a href="https://stridehq.app" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 hover:opacity-70 transition-opacity">Stride</a>,
+                body:<span>AI goal-setting app. Nothing to live beta in <span style={{fontWeight:700, color:'#292524'}}>four weeks</span>, on about £25 of infrastructure.</span>,
+                link:'Read the case study →' },
+              { name:'A PM career hub', body:<span>Scenario-based skill practice and job-pipeline tracking. Built for a problem I was living through.</span> },
+              { name:'10+ smaller builds', body:<span>A memory game, a language-learning tool, a recipe book, a ratio calculator. Some useful, all of it practice.</span> },
+            ].map((p, i) => (
+              <div key={i} className="rounded-2xl p-4" style={{background:'rgba(3,105,161,0.035)', border:'1px solid rgba(3,105,161,0.1)'}}>
+                <p className="text-[13px] font-extrabold text-[#292524] mb-1">{p.name}</p>
+                <p className="text-[12.5px] text-[#57534e] font-medium leading-relaxed">{p.body}</p>
+                {p.link && (
+                  <a href="#work" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity text-[12.5px] mt-1.5 inline-block" style={{whiteSpace:'nowrap'}}>{p.link}</a>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <Certs />
+
+          <div className="pt-5" style={{borderTop:'1px solid rgba(41,37,36,0.08)'}}>
+            <p className="text-[#57534e] font-medium leading-relaxed">
+              Looking for my next adventure — a team of any size where I can bring clarity to ambiguous problems and keep the work to a high standard. If this resonates, <a href="#contact" style={{color:'#d97706', fontWeight:700, fontStyle:'italic', textDecoration:'none', display:'inline-block', position:'relative'}}>let's talk.<span style={{position:'absolute', bottom:-4, left:0, width:'100%', height:6, background:'rgba(217,119,6,0.12)', borderRadius:3, transform:'rotate(-1deg)', zIndex:-1}} /></a>
+            </p>
+          </div>
+        </div>
+
+        {/* ── Version history ── */}
+        <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#57534e]/40 mb-3">Version history</p>
+
+        <ReleaseCard v="v2.0" title="The pivot — I built a tool to fix my own job" meta="2024–25 · Veredus · while still in executive search">
+          <p>The shift happened when I got annoyed at a manual research process and built a tool to fix it. Zero technical background. Learned vibe-coding as I went.</p>
+          <p style={{fontWeight:700, color:'#292524'}}>400 hours → 120 hours per project <span style={{color:'#d97706', fontWeight:500}}>(70% faster)</span></p>
+          <p>Getting people to actually use it turned out to be harder than building it, and taught me more. That's when tedious research suddenly became fun, and when I knew I'd <span style={{fontWeight:700, color:'#d97706'}}>found my thing.</span></p>
+          <p className="pt-1"><a href="#work" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Read the full case study →</a></p>
+        </ReleaseCard>
+
+        <ReleaseCard v="v1.0" title="Ten years solving problems with and for people" meta="EY · Odgers Berndtson · Fozzy Group · Veredus">
+          <p>Ten years in consulting, executive search and HR. Transformation research at EY, building internal tools as a People Partner at Fozzy, placing senior leaders at UK universities. The job was always the same: ask enough questions to <span style={{fontWeight:700, color:'#d97706'}}>find out what people actually needed</span> — rarely what they first asked for — then find the solution and deliver it.</p>
+          <p><span style={{fontWeight:700, color:'#292524'}}>Complex stakeholders</span> in every one of those roles, and hundreds of <span style={{fontWeight:700, color:'#292524'}}>interviews</span> to understand what people actually did day to day.</p>
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 pt-2">Key deliverables</p>
+          <ul className="space-y-1.5">
+            {[
+              <span>Onboarding platform at Fozzy, <span style={{fontWeight:700, color:'#292524'}}>0→1</span>: defined the requirements, wrote the user stories, shipped it with engineering and design — welcome page, automated workflows, pulse surveys.</span>,
+              <span>New-hire turnover <span style={{fontWeight:700, color:'#292524'}}>29% → 18%</span> in 12 months, using survey data to find and fix the friction points.</span>,
+              <span>Structured delivery and project tracking in Asana at Veredus — visibility across concurrent projects, <span style={{fontWeight:700, color:'#292524'}}>~150 hours a year</span> of admin removed.</span>,
+              <span>Enterprise transformation research and workshops at EY for companies of 7,000–60,000 employees, plus market and competitive analysis on HR trends and workforce analytics.</span>,
+            ].map((t, i) => (
+              <li key={i} className="flex gap-2.5 text-[13px] text-[#57534e]/80 font-medium leading-relaxed">
+                <span className="mt-[8px] w-1 h-1 rounded-full flex-shrink-0" style={{background:'rgba(87,83,78,0.35)'}} />
+                <span>{t}</span>
+              </li>
+            ))}
+          </ul>
+        </ReleaseCard>
+
+      </div>
+    </section>
+  );
+}
+
+function App() {
+  return (
+    <>
+      <MockLabel text="OPTION A — round 2" tone="#0369a1"
+        note="Education moved up beside the photo · “still being written” cut · bold moved onto the four actions in v3.0 · v1.0 reordered and its second paragraph cut back." />
+      <HeroA />
+      <About greeting={false} />
+
+      <Annot>
+        <strong>Still open, nothing built yet:</strong> the DeepLearning.AI courses — which ones, and whether they go in the certifications block or a single line under it · whether “Now shipping” should become “Current version”, since the internship has finished · whether v1.0’s meta line should name the field as well as the companies.
+      </Annot>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
