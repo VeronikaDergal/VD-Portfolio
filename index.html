@@ -239,21 +239,9 @@ function Hero() {
           </span>
         </h1>
 
-        <p style={{animationDelay:'0.4s'}} className="hero-item text-lg text-[#57534e] max-w-xl leading-relaxed mb-10 font-medium">
-          Ten years solving problems with and for people, now in product. I build and ship tools with AI and no-code, and work close to engineering and to the people who have to agree.
+        <p style={{animationDelay:'0.4s'}} className="hero-item text-lg text-[#57534e] max-w-xl leading-relaxed mb-14 font-medium">
+          Ten years solving problems with and for people, now in product. I build and ship tools with AI and no-code, and work close to the engineers, the people who'll use it, and the people who have to agree.
         </p>
-
-        <div style={{animationDelay:'0.5s'}} className="hero-item flex flex-wrap gap-x-10 gap-y-5 mb-12">
-          {[
-            { v:'400h → 120h', k:'research process, per project' },
-            { v:'4 weeks',     k:'idea to live beta' },
-          ].map(s => (
-            <div key={s.k} style={{borderLeft:'2px solid rgba(217,119,6,0.3)', paddingLeft:'0.9rem'}}>
-              <p className="font-headline font-extrabold text-[#292524] text-lg leading-none">{s.v}</p>
-              <p className="text-[11px] font-semibold text-[#57534e]/60 mt-1.5">{s.k}</p>
-            </div>
-          ))}
-        </div>
 
         <div className="flex flex-wrap gap-6">
           {[
@@ -1093,7 +1081,7 @@ function About() {
                   { icon:"📍", text:"London, UK" },
                   { icon:"🎓", text:"BA International Business Management · University of Lincoln, UK" },
                   { icon:"🛠", text:"Building with Lovable, Claude Code and Codex" },
-                  { icon:"🗣", text:"🇬🇧 English (fluent) · 🇺🇦 Ukrainian (native)" },
+                  { icon:"🗣", text:"🇬🇧 English · 🇺🇦 Ukrainian" },
                 ].map((f, i) => (
                   <li key={i} className="flex gap-3 text-[13px] text-[#57534e] font-medium leading-relaxed">
                     <span className="flex-shrink-0">{f.icon}</span>
@@ -1151,14 +1139,7 @@ function About() {
               <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-emerald-700">Now shipping</span>
             </div>
 
-            <p className="font-headline text-2xl sm:text-3xl font-extrabold text-[#292524] leading-snug mb-2">
-              A <span className="text-secondary">practical</span> product manager.
-            </p>
-            <p className="text-[#57534e] font-medium leading-relaxed mb-7 max-w-2xl">
-              I build and ship tools with AI and no-code. But what I'm actually best at is people — earning engineers' trust, staying curious about what users need, and keeping complicated stakeholders pointing in the same direction.
-            </p>
-
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-1.5">Product internship</p>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-1.5 mt-1">Product internship</p>
             <p className="text-[#57534e] font-medium leading-relaxed mb-4">
               <a href="https://odevo.com" target="_blank" rel="noopener noreferrer" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Odevo</a>, Jul–Nov 2026. Owned day-to-day product delivery for an internal KYC/AML compliance platform used across <span style={{fontWeight:700, color:'#292524'}}>six of the group's businesses</span>, working cross-functionally with engineering and group compliance.
             </p>
