@@ -326,6 +326,10 @@ function Hero() {
   );
 }
 
+/* ─── Shared pill styles — two treatments only, neutral and accent ─── */
+const PILL_NEUTRAL = { background:'rgba(87,83,78,0.07)', color:'#57534e', border:'1px solid rgba(41,37,36,0.08)' };
+const PILL_ACCENT  = { background:'rgba(217,119,6,0.1)',  color:'#b45309', border:'1px solid rgba(217,119,6,0.22)' };
+
 /* ─── Modal — centered panel with clickable side backdrop ─── */
 function Modal({ open, onClose, title, children }) {
   useEffect(() => {
@@ -346,7 +350,7 @@ function Modal({ open, onClose, title, children }) {
         position:'fixed', top:0, left:0, right:0, bottom:0,
         zIndex:9999,
         display:'flex', alignItems:'flex-start', justifyContent:'center',
-        background:'rgba(253,252,250,0.88)',
+        background:'rgba(247,246,244,0.9)',
         backdropFilter:'blur(6px)',
         WebkitBackdropFilter:'blur(6px)',
         color:'#292524',
@@ -377,9 +381,9 @@ function Modal({ open, onClose, title, children }) {
         style={{
           width:'min(780px, 76vw)',
           flexShrink:0,
-          background:'#fdf8f1',
+          background:'#ffffff',
           borderRadius:'2rem',
-          border:'1px solid rgba(3,105,161,0.1)',
+          border:'1px solid rgba(41,37,36,0.07)',
           boxShadow:'0 24px 80px -16px rgba(0,0,0,0.16), 0 4px 16px rgba(0,0,0,0.06)',
           overflow:'hidden',
           animation:'slideUp 0.3s cubic-bezier(0.22,1,0.36,1) both',
@@ -388,10 +392,10 @@ function Modal({ open, onClose, title, children }) {
         {/* sticky header */}
         <div style={{
           position:'sticky', top:0,
-          background:'rgba(253,248,241,0.97)',
+          background:'rgba(255,255,255,0.97)',
           backdropFilter:'blur(20px)',
           WebkitBackdropFilter:'blur(20px)',
-          borderBottom:'1px solid rgba(3,105,161,0.08)',
+          borderBottom:'1px solid rgba(41,37,36,0.07)',
           padding:'12px 24px',
           display:'flex', alignItems:'center', justifyContent:'space-between',
           zIndex:2,
@@ -436,9 +440,9 @@ function ToolPreview({ compact }) {
       }}>
       {/* device chrome bar */}
       <div style={{background:'#f1f1f1', borderBottom:'1px solid rgba(0,0,0,0.07)', padding:'8px 12px', display:'flex', alignItems:'center', gap:6}}>
-        <span style={{width:10,height:10,borderRadius:'50%',background:'#ff5f57',display:'inline-block'}}/>
-        <span style={{width:10,height:10,borderRadius:'50%',background:'#febc2e',display:'inline-block'}}/>
-        <span style={{width:10,height:10,borderRadius:'50%',background:'#28c840',display:'inline-block'}}/>
+        <span style={{width:10,height:10,borderRadius:'50%',background:'rgba(41,37,36,0.14)',display:'inline-block'}}/>
+        <span style={{width:10,height:10,borderRadius:'50%',background:'rgba(41,37,36,0.14)',display:'inline-block'}}/>
+        <span style={{width:10,height:10,borderRadius:'50%',background:'rgba(41,37,36,0.14)',display:'inline-block'}}/>
         <span style={{flex:1,height:18,background:'#fff',borderRadius:4,border:'1px solid rgba(0,0,0,0.08)',marginLeft:8}}/>
       </div>
       <img
@@ -464,15 +468,15 @@ function CaseStudy1() {
         <div className="p-8 flex flex-col flex-1">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
             <div className="flex gap-2">
-              <span className="pill-tag px-4 py-1.5 rounded-full bg-sky-100 text-sky-800 text-[10px] font-extrabold uppercase tracking-widest">Internal Tool</span>
-              <span className="pill-tag px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-extrabold uppercase tracking-widest">2024–25</span>
+              <span className="pill-tag px-4 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest" style={PILL_NEUTRAL}>Internal Tool</span>
+              <span className="pill-tag px-4 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest" style={PILL_NEUTRAL}>2024–25</span>
             </div>
-            <span className="pill-tag px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-widest">70% time saved</span>
+            <span className="pill-tag px-3 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest" style={PILL_ACCENT}>70% time saved</span>
           </div>
 
           <h3 className="font-headline text-2xl font-extrabold text-[#292524] mb-2 leading-snug">From 400 Hours to 120: ReSearchlight</h3>
           <p className="text-[#57534e] text-sm leading-relaxed mb-6 font-medium">
-            Built an AI-powered researcher screening tool — from problem definition to team adoption. Replaced a fragile manual workaround with a legitimate SerpAPI integration. Saved ~280 hours per project and eliminated a single-engineer dependency.
+            Built a researcher screening tool — from problem definition to team adoption. Replaced a fragile manual workaround with a proper SerpAPI integration and an explicit rules tree. Saved ~280 hours per project and removed a single-engineer dependency.
           </p>
 
           <ToolPreview compact={true} />
@@ -490,43 +494,15 @@ function CaseStudy1() {
           {/* ── Header ── */}
           <div>
             <div className="flex flex-wrap gap-2 mb-3">
-              <span className="px-4 py-1.5 rounded-full bg-sky-100 text-sky-800 text-[10px] font-extrabold uppercase tracking-widest">Internal Tool</span>
-              <span className="px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-extrabold uppercase tracking-widest">PM &amp; Builder · 2024–25</span>
-              <span className="px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-widest">70% time saved</span>
+              <span className="px-4 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest" style={PILL_NEUTRAL}>Internal Tool</span>
+              <span className="px-4 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest" style={PILL_NEUTRAL}>2024–25</span>
+              <span className="px-3 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest" style={PILL_ACCENT}>70% time saved</span>
             </div>
             <h2 className="font-headline text-3xl sm:text-4xl font-extrabold text-[#292524] mt-2 mb-1 leading-tight">From 400 Hours to 120:<br/>Building ReSearchlight</h2>
             <p className="text-[#57534e] text-base font-medium mt-2">How I defined the right problem, built the right tool, and designed for how people actually work — not the happy path.</p>
-          </div>
-
-          {/* ── Meta grid ── */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {[
-              { label: 'Role',     value: 'Solo builder / PM',       icon: '🧠', accent: '#0369a1', bg: 'rgba(3,105,161,0.06)',  border: 'rgba(3,105,161,0.14)' },
-              { label: 'Timeline', value: '2024 – 2025',             icon: '📅', accent: '#b45309', bg: 'rgba(180,83,9,0.06)',   border: 'rgba(180,83,9,0.14)' },
-              { label: 'Tools',    value: 'Lovable, SerpAPI, Excel', icon: '🛠', accent: '#6d28d9', bg: 'rgba(109,40,217,0.06)', border: 'rgba(109,40,217,0.14)' },
-              { label: 'Impact',   value: '~70% time reduction',     icon: '⚡', accent: '#059669', bg: 'rgba(5,150,105,0.06)',  border: 'rgba(5,150,105,0.14)' },
-            ].map((m, i) => (
-              <div key={i}
-                className="rounded-2xl p-5 cursor-default flex flex-col items-center text-center"
-                style={{
-                  background: m.bg,
-                  border: `1px solid ${m.border}`,
-                  transition: 'transform 0.18s ease, box-shadow 0.18s ease',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.transform = 'translateY(-3px) scale(1.04)';
-                  e.currentTarget.style.boxShadow = `0 8px 24px -6px ${m.border.replace('0.14','0.3')}`;
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-              >
-                <span className="text-2xl block mb-3">{m.icon}</span>
-                <p className="text-[9px] font-extrabold uppercase tracking-[0.2em] mb-1.5" style={{color: m.accent, opacity:0.8}}>{m.label}</p>
-                <p className="text-sm font-bold text-[#292524] leading-snug">{m.value}</p>
-              </div>
-            ))}
+            <p className="text-[12px] font-semibold text-[#57534e]/65 mt-4 pt-4" style={{borderTop:'1px solid rgba(41,37,36,0.07)'}}>
+              Solo builder &amp; PM · 2024–25 · Lovable, SerpAPI, Excel
+            </p>
           </div>
 
           {/* ── Context ── */}
@@ -534,7 +510,7 @@ function CaseStudy1() {
             <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-3">Context</p>
             <p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#292524] mb-3">The Problem Worth Solving</p>
             <p className="text-[#57534e] font-medium mb-4">I was working in executive search, running projects to identify senior academic leaders for UK universities. One project type kept creating a bottleneck: identifying researchers using publication data.</p>
-            <p className="text-[#57534e] font-medium mb-4">The task sounds straightforward — check whether a researcher has published in high-impact journals relevant to a role. In practice, it meant opening hundreds of Google Scholar profiles one by one, hunting for papers that met a very specific set of criteria: journal tier, recency, whether the researcher was a lead author, and whether the publication was original research (not a review or conference paper). With a longlist of ~5,000 researchers, that translated to an estimated 400 hours of manual checking per project.</p>
+            <p className="text-[#57534e] font-medium mb-4">The task sounds straightforward — check whether a researcher has published in high-impact journals relevant to a role. In practice, it meant opening hundreds of Google Scholar profiles one by one, hunting for papers that met a very specific set of criteria: journal tier, recency, whether the researcher was a lead author, and whether the publication was original research (not a review or conference paper). With a longlist of ~5,000 researchers at roughly five minutes each, that is an estimated 400 hours of manual checking per project.</p>
             <blockquote className="border-l-2 border-primary/30 pl-4 text-[#57534e]/70 italic font-medium">
               "The real problem wasn't the volume. It was that the criteria were complex and context-dependent — and that complexity was locked inside people's heads, not a system."
             </blockquote>
@@ -591,10 +567,10 @@ function CaseStudy1() {
               <div className="rounded-2xl p-4" style={{background:'rgba(3,105,161,0.05)', border:'1px solid rgba(3,105,161,0.12)'}}>
                 <p className="text-[9px] font-extrabold uppercase tracking-widest text-primary mb-3">V2 — Built by me</p>
                 <ul className="space-y-2 text-xs text-[#292524] font-medium">
-                  <li className="flex gap-2"><span className="text-emerald-500 mt-0.5">✓</span>SerpAPI — legitimate, structured</li>
-                  <li className="flex gap-2"><span className="text-emerald-500 mt-0.5">✓</span>Team runs independently</li>
-                  <li className="flex gap-2"><span className="text-emerald-500 mt-0.5">✓</span>Batches of 200 profiles</li>
-                  <li className="flex gap-2"><span className="text-emerald-500 mt-0.5">✓</span>Built &amp; owned by non-engineer</li>
+                  <li className="flex gap-2"><span className="text-primary mt-0.5">✓</span>SerpAPI — legitimate, structured</li>
+                  <li className="flex gap-2"><span className="text-primary mt-0.5">✓</span>Team runs independently</li>
+                  <li className="flex gap-2"><span className="text-primary mt-0.5">✓</span>Batches of 200 profiles</li>
+                  <li className="flex gap-2"><span className="text-primary mt-0.5">✓</span>Built &amp; owned by non-engineer</li>
                 </ul>
               </div>
             </div>
@@ -643,8 +619,8 @@ function CaseStudy1() {
             <p className="text-[#57534e] font-medium mb-5">The limitations I couldn't fully resolve taught me something equally important: shipping with known constraints is a product decision, not a failure. Documenting them explicitly, designing the workflow around them, and being transparent with the team about what the tool would and wouldn't do — that's what made it trustworthy enough to actually get used.</p>
 
             {/* V3 future vision */}
-            <div className="rounded-2xl p-5" style={{background:'rgba(109,40,217,0.04)', border:'1px solid rgba(109,40,217,0.1)'}}>
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] mb-3" style={{color:'#6d28d9'}}>If I were building V3 today</p>
+            <div className="rounded-2xl p-5" style={{background:'rgba(3,105,161,0.04)', border:'1px solid rgba(3,105,161,0.12)'}}>
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] mb-3" style={{color:'#0369a1'}}>If I were building V3 today</p>
               <ul className="space-y-2.5">
                 {[
                   'Add a confidence scoring layer visible in the results table — so reviewers can prioritise their attention on uncertain cases rather than skimming everything equally.',
@@ -653,7 +629,7 @@ function CaseStudy1() {
                   'Explore whether SerpAPI\'s author list truncation can be mitigated through multi-step enrichment — fetching additional data passes for papers where the full author list matters.',
                 ].map((item, i) => (
                   <li key={i} className="flex gap-3 text-sm text-[#57534e] font-medium">
-                    <span className="flex-shrink-0 mt-1 w-1.5 h-1.5 rounded-full" style={{background:'rgba(109,40,217,0.4)'}} />
+                    <span className="flex-shrink-0 mt-1 w-1.5 h-1.5 rounded-full" style={{background:'rgba(3,105,161,0.4)'}} />
                     {item}
                   </li>
                 ))}
@@ -698,9 +674,9 @@ function CaseStudy2() {
   const ref = useReveal();
   const [open, setOpen] = useState(false);
   const layers = [
-    { n: '01', label: 'North Star',               labelSub: null,          sub: 'Who do I want to become?', bg: 'bg-primary' },
-    { n: '02', label: 'Objectives & Key Results', labelSub: null,          sub: 'What this quarter?',       bg: 'bg-secondary' },
-    { n: '03', label: 'Weekly Tasks',             labelSub: 'P0 · P1 · P2', sub: 'What do I do this week?', bg: 'bg-emerald-500' },
+    { n: '01', label: 'North Star',               labelSub: null,          sub: 'Who do I want to become?', bg: '#0369a1' },
+    { n: '02', label: 'Objectives & Key Results', labelSub: null,          sub: 'What this quarter?',       bg: '#b45309' },
+    { n: '03', label: 'Weekly Tasks',             labelSub: 'P0 · P1 · P2', sub: 'What do I do this week?', bg: '#57534e' },
   ];
   return (
     <>
@@ -708,10 +684,10 @@ function CaseStudy2() {
         <div className="p-8 flex flex-col flex-1">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
             <div className="flex gap-2">
-              <span className="pill-tag px-4 py-1.5 rounded-full bg-sky-100 text-sky-800 text-[10px] font-extrabold uppercase tracking-widest">B2C App</span>
-              <span className="pill-tag px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-extrabold uppercase tracking-widest">2026</span>
+              <span className="pill-tag px-4 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest" style={PILL_NEUTRAL}>B2C App</span>
+              <span className="pill-tag px-4 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest" style={PILL_NEUTRAL}>2026</span>
             </div>
-            <span className="pill-tag px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-widest">Live beta</span>
+            <span className="pill-tag px-3 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest" style={PILL_ACCENT}>Live beta</span>
           </div>
 
           <h3 className="font-headline text-2xl font-extrabold text-[#292524] mb-2 leading-snug">Stride — 0 to Live Product in 4 Weeks</h3>
@@ -722,7 +698,7 @@ function CaseStudy2() {
           <div className="bg-[#F4F3F1] rounded-2xl p-4 space-y-1.5">
             <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/50 mb-3">How Stride works</p>
             {layers.map((t, i) => (
-              <div key={i} className={`${t.bg} rounded-xl px-4 py-2.5 flex items-center justify-between gap-3`}>
+              <div key={i} className="rounded-xl px-4 py-2.5 flex items-center justify-between gap-3" style={{background:t.bg}}>
                 <div className="flex items-center gap-3">
                   <span className="text-[10px] font-bold text-white/40">{t.n}</span>
                   <div>
@@ -756,31 +732,15 @@ function CaseStudy2() {
           {/* ── Header ── */}
           <div>
             <div className="flex flex-wrap gap-2 mb-3">
-              <span className="px-4 py-1.5 rounded-full bg-sky-100 text-sky-800 text-[10px] font-extrabold uppercase tracking-widest">B2C App</span>
-              <span className="px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-extrabold uppercase tracking-widest">Solo Founder &amp; PM · 2026</span>
-              <span className="px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-widest">Live beta</span>
+              <span className="px-4 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest" style={PILL_NEUTRAL}>B2C App</span>
+              <span className="px-4 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest" style={PILL_NEUTRAL}>2026</span>
+              <span className="px-4 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest" style={PILL_ACCENT}>Live beta</span>
             </div>
             <h2 className="font-headline text-3xl font-extrabold text-[#292524] mt-2 mb-1">Stride — 0 to Live Product</h2>
             <p className="text-[#57534e] text-base font-medium">Weekly execution engine: life vision → quarterly OKRs → this week's tasks</p>
-          </div>
-
-          {/* ── Meta tiles ── */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {[
-              { label:'Role', value:'Solo Founder & PM', icon:'🧠', accent:'#0369a1', bg:'rgba(3,105,161,0.06)', border:'rgba(3,105,161,0.14)' },
-              { label:'Timeline', value:'Early 2026 — ongoing', icon:'📅', accent:'#b45309', bg:'rgba(180,83,9,0.06)', border:'rgba(180,83,9,0.14)' },
-              { label:'Tools', value:'Lovable · Supabase · Claude', icon:'🛠', accent:'#6d28d9', bg:'rgba(109,40,217,0.06)', border:'rgba(109,40,217,0.14)' },
-              { label:'Status', value:'Live beta · stridehq.app', icon:'🚀', accent:'#059669', bg:'rgba(5,150,105,0.06)', border:'rgba(5,150,105,0.14)' },
-            ].map((m, i) => (
-              <div key={i} className="flex flex-col items-center text-center rounded-2xl p-4 transition-all duration-200 cursor-default"
-                style={{background:m.bg, border:`1px solid ${m.border}`}}
-                onMouseEnter={e => { e.currentTarget.style.transform='translateY(-3px) scale(1.04)'; e.currentTarget.style.boxShadow=`0 8px 20px -4px ${m.accent}30`; }}
-                onMouseLeave={e => { e.currentTarget.style.transform=''; e.currentTarget.style.boxShadow=''; }}>
-                <span className="text-2xl mb-2">{m.icon}</span>
-                <p className="text-[9px] font-extrabold uppercase tracking-widest mb-1" style={{color:m.accent}}>{m.label}</p>
-                <p className="text-xs font-bold text-[#292524] leading-snug">{m.value}</p>
-              </div>
-            ))}
+            <p className="text-[12px] font-semibold text-[#57534e]/65 mt-4 pt-4" style={{borderTop:'1px solid rgba(41,37,36,0.07)'}}>
+              Solo founder &amp; PM · Early 2026 – ongoing · Lovable, Supabase, Claude · <a href="https://stridehq.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:opacity-70 transition-opacity underline underline-offset-2">stridehq.app</a>
+            </p>
           </div>
 
           {/* ── Context ── */}
@@ -875,11 +835,11 @@ function CaseStudy2() {
               <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/40 mb-4">The framework</p>
               <div className="space-y-2">
                 {[
-                  { n:'01', label:'North Star', desc:'Self-written or AI-guided — 5 questions that help you articulate a life vision even if you\'ve never done this before', bg:'bg-primary text-white' },
-                  { n:'02', label:'Objectives & Key Results', desc:'Quarterly goal tracking — the middle layer that translates vision into measurable targets', bg:'bg-secondary text-white' },
-                  { n:'03', label:'Weekly Tasks', desc:'P0 (must happen) · P1 (important) · P2 (optional) — derived from the OKRs above them', bg:'bg-emerald-500 text-white' },
+                  { n:'01', label:'North Star', desc:'Self-written or AI-guided — 5 questions that help you articulate a life vision even if you\'ve never done this before', bg:'#0369a1' },
+                  { n:'02', label:'Objectives & Key Results', desc:'Quarterly goal tracking — the middle layer that translates vision into measurable targets', bg:'#b45309' },
+                  { n:'03', label:'Weekly Tasks', desc:'P0 (must happen) · P1 (important) · P2 (optional) — derived from the OKRs above them', bg:'#57534e' },
                 ].map((t, i) => (
-                  <div key={i} className={`${t.bg} rounded-xl px-4 py-3 flex gap-4 items-start`}>
+                  <div key={i} className="rounded-xl px-4 py-3 flex gap-4 items-start text-white" style={{background:t.bg}}>
                     <span className="text-[10px] font-bold opacity-40 mt-0.5 flex-shrink-0">{t.n}</span>
                     <div>
                       <p className="font-bold text-sm">{t.label}</p>
@@ -931,22 +891,22 @@ function CaseStudy2() {
             <p className="text-[#57534e] font-medium mb-4">Low retention with minimal promotion and no notifications isn't a verdict. It's a diagnosis. The job is to fix the specific things breaking the loop.</p>
 
             <div className="grid sm:grid-cols-2 gap-3">
-              <div className="rounded-2xl p-4" style={{background:'rgba(5,150,105,0.05)', border:'1px solid rgba(5,150,105,0.12)'}}>
-                <p className="text-[9px] font-extrabold uppercase tracking-widest text-emerald-700 mb-2">What's working</p>
+              <div className="rounded-2xl p-4" style={{background:'rgba(3,105,161,0.05)', border:'1px solid rgba(3,105,161,0.12)'}}>
+                <p className="text-[9px] font-extrabold uppercase tracking-widest text-primary mb-2">What's working</p>
                 <ul className="space-y-1.5">
                   {['Users who completed onboarding understood what they\'d built','The AI North Star flow was positively received — one user said she\'d never been able to articulate her vision that clearly before'].map((s, i) => (
                     <li key={i} className="flex gap-2 text-[11px] text-[#57534e] font-medium">
-                      <span className="text-emerald-500 flex-shrink-0">✓</span>{s}
+                      <span className="text-primary flex-shrink-0">✓</span>{s}
                     </li>
                   ))}
                 </ul>
               </div>
               <div className="rounded-2xl p-4" style={{background:'rgba(180,83,9,0.05)', border:'1px solid rgba(180,83,9,0.12)'}}>
-                <p className="text-[9px] font-extrabold uppercase tracking-widest text-amber-700 mb-2">Fixing next</p>
+                <p className="text-[9px] font-extrabold uppercase tracking-widest mb-2" style={{color:'#b45309'}}>Fixing next</p>
                 <ul className="space-y-1.5">
                   {['Minimum viable input — progressive disclosure','Inline OKR coaching on objective vs key result','Activate email reminders via Resend','Explore mobile-optimised experience'].map((s, i) => (
                     <li key={i} className="flex gap-2 text-[11px] text-[#57534e] font-medium">
-                      <span className="text-amber-500 flex-shrink-0">→</span>{s}
+                      <span className="flex-shrink-0" style={{color:'#b45309'}}>→</span>{s}
                     </li>
                   ))}
                 </ul>
@@ -1105,7 +1065,7 @@ function About() {
           </div>
 
           <p className="text-[#57534e] font-medium leading-relaxed mb-10 max-w-2xl text-[17px]">
-            My career hasn't been a straight line: consulting, then executive search and HR, then product. Three versions to get here. <span style={{fontWeight:700, color:'#292524'}}>Product is the one that uses all of it.</span>
+            My career hasn't been a straight line: consulting, then executive search and HR, then product. Three versions to get here. <span style={{fontWeight:700, color:'#292524'}}>Product is the most exciting and fulfilling work I've done.</span>
           </p>
 
           {/* ── NOW SHIPPING ── */}
@@ -1123,10 +1083,10 @@ function About() {
                 padding:'3px 8px', borderRadius:6, flexShrink:0,
               }}>v3.0</span>
               <span style={{
-                width:9, height:9, borderRadius:'50%', background:'#059669',
-                boxShadow:'0 0 0 4px rgba(5,150,105,0.17)', display:'inline-block', flexShrink:0, marginLeft:2,
+                width:9, height:9, borderRadius:'50%', background:'#d97706',
+                boxShadow:'0 0 0 4px rgba(217,119,6,0.17)', display:'inline-block', flexShrink:0, marginLeft:2,
               }} />
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-emerald-700">Current version</span>
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em]" style={{color:'#b45309'}}>Current version</span>
             </div>
 
             <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-1.5 mt-1">Product internship</p>
@@ -1175,13 +1135,13 @@ function About() {
             <div className="grid sm:grid-cols-3 gap-4 mb-7">
               {[
                 { badge:<img src="ibm_badge.png" alt="IBM badge" className="w-9 h-9 object-contain flex-shrink-0" />,
-                  name:'IBM AI Product Manager', meta:'Professional Certificate · March 2026 · Coursera',
+                  name:'IBM AI Product Manager', meta:'Professional Certificate · Coursera',
                   href:'https://coursera.org/verify/professional-cert/IO6UFAJQOKZQ' },
                 { badge:<div className="w-9 h-9 rounded-lg flex-shrink-0 flex items-center justify-center" style={{background:'linear-gradient(135deg,#1a6fff 0%,#0047cc 100%)'}}><span className="text-white font-extrabold text-[8px] tracking-widest uppercase">AMP</span></div>,
-                  name:'Amplitude Analytics', meta:'Product Analytics Certification · 2026',
+                  name:'Amplitude Analytics', meta:'Product Analytics Certification · Amplitude',
                   href:'https://www.credly.com/badges/12ea6c9a-6136-48d4-b74c-b4b122e98cb2/linked_in_profile' },
                 { badge:<div className="w-9 h-9 rounded-lg flex-shrink-0 flex items-center justify-center" style={{background:'linear-gradient(135deg,#1f2937 0%,#0b1220 100%)'}}><span className="text-white font-extrabold text-[8px] tracking-wider uppercase">DL·AI</span></div>,
-                  name:'AI for Everyone', meta:'DeepLearning.AI · March 2026',
+                  name:'AI for Everyone', meta:'Course Certificate · DeepLearning.AI',
                   href:'https://www.deeplearning.ai/certificates/5e47ca0c-2064-447d-8002-4fe047cd4a4f' },
               ].map((c, i) => (
                 <div key={i} className="flex items-center gap-3">
