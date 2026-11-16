@@ -1,6 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="https://cdn.amplitude.com/script/822ea7caff0876e6101bd3b12418c6a1.js"></script><script>window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));window.amplitude.init('822ea7caff0876e6101bd3b12418c6a1', {"fetchRemoteConfig":true,"autocapture":{"attribution":true,"fileDownloads":true,"formInteractions":true,"pageViews":true,"sessions":true,"elementInteractions":true,"networkTracking":true,"webVitals":true,"frustrationInteractions":{"thrashedCursor":true,"errorClicks":true,"deadClicks":true,"rageClicks":true}}});</script>
+<script>
+/* ─── Analytics bootstrap ───────────────────────────────────────────────
+   Nothing loads unless we are on the live site, so local development and
+   preview servers never reach Amplitude or Cloudflare.
+   Visiting ?me=1 once marks this browser as internal traffic; every event
+   from it then carries traffic_type:"internal" so it can be filtered out.
+   ?me=0 clears the flag.                                             ── */
+(function () {
+  var PROD_HOST   = 'veronikadergal.github.io';
+  var AMP_KEY     = '822ea7caff0876e6101bd3b12418c6a1';
+  var CF_TOKEN    = '1013d7773edf46438460af3f7cc012cf';
+
+  window.vdTrack = function () {};           /* no-op off production */
+  if (location.hostname !== PROD_HOST) return;
+
+  var internal = false;
+  try {
+    var flag = new URLSearchParams(location.search).get('me');
+    if (flag === '1') localStorage.setItem('vd_internal', '1');
+    if (flag === '0') localStorage.removeItem('vd_internal');
+    internal = localStorage.getItem('vd_internal') === '1';
+  } catch (e) {}
+  var trafficType = internal ? 'internal' : 'external';
+
+  var amp = document.createElement('script');
+  amp.src = 'https://cdn.amplitude.com/script/' + AMP_KEY + '.js';
+  amp.onload = function () {
+    try {
+      window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 }));
+      window.amplitude.init(AMP_KEY, {
+        fetchRemoteConfig: true,
+        autocapture: {
+          attribution: true, fileDownloads: true, formInteractions: true,
+          pageViews: true, sessions: true, elementInteractions: true,
+          networkTracking: true, webVitals: true,
+          frustrationInteractions: {
+            thrashedCursor: true, errorClicks: true,
+            deadClicks: true, rageClicks: true
+          }
+        }
+      });
+      var ident = new window.amplitude.Identify();
+      ident.set('traffic_type', trafficType);
+      window.amplitude.identify(ident);
+
+      window.vdTrack = function (name, props) {
+        try {
+          var payload = { traffic_type: trafficType };
+          for (var k in (props || {})) payload[k] = props[k];
+          window.amplitude.track(name, payload);
+        } catch (e) {}
+      };
+      (window.vdQueue || []).forEach(function (a) { window.vdTrack(a[0], a[1]); });
+      window.vdQueue = [];
+    } catch (e) {}
+  };
+  document.head.appendChild(amp);
+
+  /* queue events fired before Amplitude finishes loading */
+  window.vdQueue = [];
+  window.vdTrack = function (name, props) { window.vdQueue.push([name, props]); };
+
+  var cf = document.createElement('script');
+  cf.defer = true;
+  cf.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+  cf.setAttribute('data-cf-beacon', '{"token": "' + CF_TOKEN + '"}');
+  document.head.appendChild(cf);
+})();
+</script>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -152,13 +220,17 @@
       .case-card:hover .read-line { width:80px; background:#d97706; }
     }
   </style>
-  <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1013d7773edf46438460af3f7cc012cf"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
 <body class="font-body text-[#292524] antialiased overflow-x-hidden">
 <div id="root"></div>
 
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
+
+/* ─── Analytics helper — no-ops anywhere the bootstrap didn't run ─── */
+const track = (name, props) => {
+  try { if (window.vdTrack) window.vdTrack(name, props || {}); } catch (e) {}
+};
 
 function useReveal() {
   const ref = useRef(null);
@@ -260,7 +332,7 @@ function Hero() {
     </div>
   );
   return (
-    <section style={{minHeight:'100vh', display:'flex', alignItems:'center', paddingTop:'80px', paddingLeft:'1.5rem', paddingRight:'1.5rem', position:'relative'}}>
+    <section id="hero" style={{minHeight:'100vh', display:'flex', alignItems:'center', paddingTop:'80px', paddingLeft:'1.5rem', paddingRight:'1.5rem', position:'relative'}}>
 
       <div className="max-w-4xl mx-auto w-full relative z-10 grid md:grid-cols-12 gap-10 md:gap-8 items-start">
 
@@ -481,9 +553,10 @@ function ToolPreview({
 function CaseStudy1() {
   const ref = useReveal();
   const [open, setOpen] = useState(false);
+  const openCase = () => { setOpen(true); track('case_study_opened', { case_study: 'ReSearchlight' }); };
   return (
     <>
-      <article ref={ref} onClick={() => setOpen(true)} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(true); } }} className="reveal case-card glass rounded-[2.5rem] overflow-hidden flex flex-col group cursor-pointer">
+      <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card glass rounded-[2.5rem] overflow-hidden flex flex-col group cursor-pointer">
         <div className="p-8 flex flex-col flex-1">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
             <div className="flex gap-2">
@@ -692,9 +765,10 @@ function CaseStudy1() {
 function CaseStudy2() {
   const ref = useReveal();
   const [open, setOpen] = useState(false);
+  const openCase = () => { setOpen(true); track('case_study_opened', { case_study: 'Stride' }); };
   return (
     <>
-      <article ref={ref} onClick={() => setOpen(true)} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(true); } }} className="reveal case-card glass rounded-[2.5rem] overflow-hidden flex flex-col group cursor-pointer">
+      <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card glass rounded-[2.5rem] overflow-hidden flex flex-col group cursor-pointer">
         <div className="p-8 flex flex-col flex-1">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
             <div className="flex gap-2">
@@ -1004,7 +1078,7 @@ function ReleaseCard({ v, title, meta, children }) {
       transition:'opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1)',
     }}>
       <button
-        onClick={() => setOpen(o => !o)}
+        onClick={() => { if (!open) track('version_card_expanded', { version: v }); setOpen(o => !o); }}
         aria-expanded={open}
         className="w-full text-left release-head px-6 sm:px-7 py-6"
         style={{position:'relative', zIndex:1, background:'none', border:'none', cursor:'pointer'}}
@@ -1093,7 +1167,7 @@ function About() {
             transition:'opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1)',
           }}>
             <button
-              onClick={() => setV3Open(o => !o)}
+              onClick={() => { if (!v3Open) track('version_card_expanded', { version: 'v3.0' }); setV3Open(o => !o); }}
               aria-expanded={v3Open}
               className="w-full text-left release-head px-6 sm:px-7 py-6"
               style={{background:'none', border:'none', cursor:'pointer', display:'block'}}
@@ -1486,6 +1560,47 @@ function App() {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
   }, []);
+
+  /* ── section_viewed — fires once per section per page load, when the
+     section crosses the middle band of the viewport. Using a rootMargin
+     band rather than a ratio threshold means it works the same for a
+     short section and for one taller than the screen.              ── */
+  useEffect(() => {
+    if (!('IntersectionObserver' in window)) return;
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting && !seen.has(en.target.id)) {
+          seen.add(en.target.id);
+          track('section_viewed', { section: en.target.id });
+        }
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    document.querySelectorAll('section[id]').forEach(el => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  /* ── outbound and download clicks, caught by delegation so links inside
+     the case study modals are covered too                          ── */
+  useEffect(() => {
+    const onClick = e => {
+      const a = e.target && e.target.closest && e.target.closest('a[href]');
+      if (!a) return;
+      const href = a.getAttribute('href') || '';
+      let name = null;
+      if (/\.pdf($|\?)/i.test(href))                      name = 'cv_downloaded';
+      else if (href.startsWith('mailto:'))                 name = 'email_clicked';
+      else if (href.includes('linkedin.com'))              name = 'linkedin_clicked';
+      else if (href.includes('calendly.com'))              name = 'calendly_opened';
+      else if (href.includes('stridehq.app'))              name = 'stride_visited';
+      else if (href.includes('odevo.com'))                 name = 'odevo_clicked';
+      else if (/coursera\.org|credly\.com|deeplearning\.ai/.test(href)) name = 'certificate_verified';
+      if (name) track(name, { label: (a.innerText || '').trim().slice(0, 60) });
+    };
+    document.addEventListener('click', onClick, true);
+    return () => document.removeEventListener('click', onClick, true);
+  }, []);
+
   return (
     <>
       <Nav />
