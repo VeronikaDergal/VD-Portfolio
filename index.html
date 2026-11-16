@@ -575,7 +575,7 @@ function CaseStudy1() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
               <div className="rounded-2xl p-4" style={{background:'rgba(87,83,78,0.05)', border:'1px solid rgba(87,83,78,0.1)'}}>
-                <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#57534e]/50 mb-3">V1 — Engineer built, me as PM</p>
+                <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#57534e]/85 mb-3">V1 — Engineer built, me as PM</p>
                 <ul className="space-y-2 text-xs text-[#57534e] font-medium">
                   <li className="flex gap-2"><span className="text-[#57534e]/30 mt-0.5">✕</span>Manual webscraper, throttled</li>
                   <li className="flex gap-2"><span className="text-[#57534e]/30 mt-0.5">✕</span>Required engineer availability</li>
@@ -606,7 +606,7 @@ function CaseStudy1() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
               <div className="rounded-2xl p-4" style={{background:'rgba(87,83,78,0.05)'}}>
-                <p className="text-[10px] font-extrabold text-[#57534e]/50 uppercase tracking-widest mb-3">Before</p>
+                <p className="text-[10px] font-extrabold text-[#57534e]/85 uppercase tracking-widest mb-3">Before</p>
                 <ul className="space-y-2 text-[#57534e] text-xs font-medium">
                   <li>~400 hrs manual checking per project</li>
                   <li>Dependent on engineer's availability</li>
@@ -658,7 +658,7 @@ function CaseStudy1() {
 
           {/* ── Skills ── */}
           <div>
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/40 mb-3">Skills Demonstrated</p>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/85 mb-3">Skills Demonstrated</p>
             <div className="flex flex-wrap gap-2">
               {['Problem framing','Requirements definition','Scenario tree / PRD','QA methodology','Human-in-the-loop design','API integration (no code)','Stakeholder adoption'].map(s => (
                 <span key={s} className="px-3 py-1.5 rounded-full text-xs font-bold text-[#57534e]" style={{background:'rgba(87,83,78,0.07)', border:'1px solid rgba(41,37,36,0.08)'}}>{s}</span>
@@ -802,12 +802,12 @@ function CaseStudy2() {
                 <div key={i} className="rounded-2xl p-4 flex flex-col gap-3 bg-[#F4F3F1]"
                   style={{borderLeft:`3px solid ${p.borderColor}`}}>
                   <div>
-                    <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#57534e]/50 mb-0.5">{p.archetype}</p>
+                    <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#57534e]/85 mb-0.5">{p.archetype}</p>
                     <p className="text-[11px] text-[#57534e]/60 font-medium">{p.role}</p>
                   </div>
 
                   <div>
-                    <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#57534e]/40 mb-1.5">Current system</p>
+                    <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#57534e]/85 mb-1.5">Current system</p>
                     <ul className="space-y-1">
                       {p.system.map((s, j) => (
                         <li key={j} className="flex gap-2 text-[11px] text-[#57534e] font-medium">
@@ -837,7 +837,7 @@ function CaseStudy2() {
             <p className="text-[#57534e] font-medium mb-4">The version that exists today is three tiers. The North Star isn't a text field — it's an exercise in clarity. The AI flow asks five questions I designed to help someone articulate a life vision even if they've never done this before, then distils the answers into a statement they can regenerate until it resonates. Built in four weeks using Lovable and Supabase, alongside certification coursework. I handled everything: product design, build, infrastructure, beta user management.</p>
 
             <div className="bg-[#F4F3F1] rounded-2xl p-5">
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/40 mb-4">The framework</p>
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#57534e]/85 mb-4">The framework</p>
               <div className="space-y-2">
                 {[
                   { n:'01', label:'North Star', desc:'Self-written or AI-guided — 5 questions that help you articulate a life vision even if you\'ve never done this before', bg:'#0369a1' },
@@ -1017,7 +1017,7 @@ function ReleaseCard({ v, title, meta, children }) {
           }}>{v}</span>
           <div className="min-w-0 flex-grow">
             <p className="release-title font-bold text-[#292524] text-[15px] leading-snug">{title}</p>
-            {meta && <p className="text-[11px] font-semibold text-[#57534e]/55 mt-0.5">{meta}</p>}
+            {meta && <p className="text-[11px] font-semibold text-[#57534e]/70 mt-0.5">{meta}</p>}
           </div>
           <span className="flex-shrink-0 flex items-center justify-center rounded-full transition-colors"
             style={{
@@ -1104,8 +1104,8 @@ function About() {
               </div>
 
               <div className="pr-12">
-                <p className="release-title font-bold text-[#292524] text-[17px] leading-snug">My first product role</p>
-                <p className="text-[11px] font-semibold text-[#57534e]/55 mt-0.5">Product internship · Odevo · Jul–Nov 2026</p>
+                <p className="release-title font-bold text-[#292524] text-[17px] leading-snug">The product era</p>
+                <p className="text-[11px] font-semibold text-[#57534e]/70 mt-0.5">2026 – now</p>
               </div>
 
               {/* chevron — absolutely placed so it sits exactly where v2.0 and v1.0 put theirs */}
@@ -1132,8 +1132,9 @@ function About() {
             <div style={{overflow:'hidden'}}>
             <div className="pt-6">
 
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/85 mb-1.5">Product internship</p>
             <p className="text-[#57534e] font-medium leading-relaxed mb-4">
-              At <a href="https://odevo.com" target="_blank" rel="noopener noreferrer" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Odevo</a> I owned day-to-day product delivery for an internal KYC/AML compliance platform used across six of the group's businesses, working cross-functionally with engineering and group compliance.
+              <a href="https://odevo.com" target="_blank" rel="noopener noreferrer" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Odevo</a>, Jul–Nov 2026. Owned day-to-day product delivery for an internal KYC/AML compliance platform used across six of the group's businesses, working cross-functionally with engineering and group compliance.
             </p>
 
             <div className="mb-7">
@@ -1152,9 +1153,8 @@ function About() {
               </ul>
             </div>
 
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-3">
-              Built on my own time <span style={{color:'rgba(41,37,36,0.72)'}}>with Lovable, Claude Code and Codex</span>
-            </p>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/85 mb-1">Built on my own time</p>
+            <p className="text-[11.5px] font-medium text-[#57534e]/70 mb-3">Lovable, Claude Code and Codex</p>
             <div className="grid sm:grid-cols-3 gap-4 mb-7">
               {[
                 { name:<a href="https://stridehq.app" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 hover:opacity-70 transition-opacity">Stride</a>,
@@ -1173,7 +1173,7 @@ function About() {
               ))}
             </div>
 
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-3">Certifications</p>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/85 mb-3">Certifications</p>
             <div className="grid sm:grid-cols-3 gap-4 mb-7">
               {[
                 { badge:<img src="ibm_badge.png" alt="IBM badge" className="w-9 h-9 object-contain flex-shrink-0" />,
@@ -1212,7 +1212,7 @@ function About() {
           </div>
 
           {/* ── Version history ── */}
-          <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#57534e]/40 mb-3">Version history</p>
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#57534e]/85 mb-3">Version history</p>
 
           <ReleaseCard v="v2.0" title="The pivot — I built a tool to fix my own job" meta="2024–25 · Veredus · while still in executive search">
             <p>The shift happened when I got annoyed at a manual research process and built a tool to fix it. Zero technical background. Learned vibe-coding as I went.</p>
@@ -1224,7 +1224,7 @@ function About() {
           <ReleaseCard v="v1.0" title="Ten years solving problems with and for people" meta="EY · Odgers Berndtson · Fozzy Group · Veredus">
             <p>Ten years in consulting, executive search and HR. Transformation research at EY, building internal tools as a People Partner at Fozzy, placing senior leaders at UK universities. The job was always the same: ask enough questions to <span style={{fontWeight:700, color:'#d97706'}}>find out what people actually needed</span> — rarely what they first asked for — then find the solution and deliver it.</p>
             <p><span style={{fontWeight:700, color:'#292524'}}>Complex stakeholders</span> in every one of those roles, and hundreds of <span style={{fontWeight:700, color:'#292524'}}>interviews</span> to understand what people actually did day to day.</p>
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 pt-2">Key deliverables</p>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/85 pt-2">Key deliverables</p>
             <ul className="space-y-1.5">
               {[
                 <span>Onboarding platform at Fozzy, <span style={{fontWeight:700, color:'#292524'}}>0→1</span>: defined the requirements, wrote the user stories, shipped it with engineering and design — welcome page, automated workflows, pulse surveys.</span>,
