@@ -331,6 +331,11 @@ function Hero() {
       ))}
     </div>
   );
+  const factsLine = (
+    <p className="text-[12px] font-semibold text-[#57534e]/70 leading-relaxed">
+      London, UK · BA International Business Management, University of Lincoln · English and Ukrainian
+    </p>
+  );
   return (
     <section id="hero" style={{minHeight:'100vh', display:'flex', alignItems:'center', paddingTop:'80px', paddingLeft:'1.5rem', paddingRight:'1.5rem', position:'relative'}}>
 
@@ -347,9 +352,12 @@ function Hero() {
           </span>
         </h1>
 
-        <p style={{animationDelay:'0.4s'}} className="hero-item text-[16px] text-[#57534e] leading-relaxed mb-10 font-medium">
+        <p style={{animationDelay:'0.4s'}} className="hero-item text-[16px] text-[#57534e] leading-relaxed mb-6 md:mb-10 font-medium">
           Ten years solving problems with and for people, now in product. I build and ship tools with AI and no-code, and work close to the engineers, the people who'll use it, and the people who have to agree.
         </p>
+
+        {/* facts — one quiet line above the CTAs on phones, stacked beside the photo on desktop */}
+        <div style={{animationDelay:'0.5s'}} className="hero-item md:hidden mb-8">{factsLine}</div>
 
         <div className="flex flex-wrap gap-4">
           {[
@@ -392,8 +400,6 @@ function Hero() {
           ))}
         </div>
 
-        {/* facts — below the CTAs on phones, beside the photo on desktop */}
-        <div style={{animationDelay:'0.9s'}} className="hero-item md:hidden mt-10">{facts}</div>
         </div>
 
         <div style={{animationDelay:'0.3s'}} className="hero-item md:col-span-4 order-1 md:order-2 flex md:block justify-center md:mt-1">
