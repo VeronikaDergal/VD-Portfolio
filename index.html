@@ -109,14 +109,24 @@
     }
     .nav-link:hover::after { width:100%; }
 
-    /* ── Case study card hover ── */
+    /* ── Case study card hover ──
+       Hover effects are gated behind (hover: hover) so touch devices don't
+       keep a "stuck" hover state after a tap. ── */
     .case-card {
       box-shadow: 0 2px 16px rgba(0,0,0,0.07);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .case-card:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.11);
+    @media (hover: hover) and (pointer: fine) {
+      .case-card:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.11);
+      }
+    }
+
+    /* ── Version card header — same no-sticky-hover treatment ── */
+    .release-title { transition: color 0.2s ease; }
+    @media (hover: hover) and (pointer: fine) {
+      .release-head:hover .release-title { color: #0369a1; }
     }
 
     /* Lightbulb warm glow animation — keyframe so it fires reliably after a delay */
@@ -138,7 +148,9 @@
 
     /* "READ CASE STUDY" underline animates in from left on card hover */
     .read-line { display:inline-block; width:48px; height:2px; background:rgba(217,119,6,0.25); transition: width 0.2s ease, background 0.2s ease; }
-    .case-card:hover .read-line { width:80px; background:#d97706; }
+    @media (hover: hover) and (pointer: fine) {
+      .case-card:hover .read-line { width:80px; background:#d97706; }
+    }
   </style>
   <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1013d7773edf46438460af3f7cc012cf"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
@@ -429,7 +441,12 @@ function Modal({ open, onClose, title, children }) {
 }
 
 /* ─── ReSearchlight screenshot ─── */
-function ToolPreview({ compact }) {
+function ToolPreview({
+  compact,
+  src     = 'researchlight_screenshot.png?v=2',
+  alt     = 'ReSearchlight tool — internal researcher screening interface',
+  caption = 'Demo mode — researcher names are illustrative',
+}) {
   return (
     <div className="rounded-2xl overflow-hidden"
       style={{
@@ -446,14 +463,16 @@ function ToolPreview({ compact }) {
         <span style={{flex:1,height:18,background:'#fff',borderRadius:4,border:'1px solid rgba(0,0,0,0.08)',marginLeft:8}}/>
       </div>
       <img
-        src="researchlight_screenshot.png?v=2"
-        alt="ReSearchlight tool — internal researcher screening interface"
+        src={src}
+        alt={alt}
         className="w-full block"
         style={{ maxHeight: compact ? '160px' : 'none', objectFit: compact ? 'cover' : 'contain', objectPosition: 'top center' }}
       />
-      <div style={{background:'#f8f8f8', borderTop:'1px solid rgba(0,0,0,0.06)', padding:'6px 12px', textAlign:'center'}}>
-        <span style={{fontSize:10, color:'rgba(87,83,78,0.5)', fontWeight:600}}>Demo mode — researcher names are illustrative</span>
-      </div>
+      {caption && (
+        <div style={{background:'#f8f8f8', borderTop:'1px solid rgba(0,0,0,0.06)', padding:'6px 12px', textAlign:'center'}}>
+          <span style={{fontSize:10, color:'rgba(87,83,78,0.5)', fontWeight:600}}>{caption}</span>
+        </div>
+      )}
     </div>
   );
 }
@@ -673,11 +692,6 @@ function CaseStudy1() {
 function CaseStudy2() {
   const ref = useReveal();
   const [open, setOpen] = useState(false);
-  const layers = [
-    { n: '01', label: 'North Star',               labelSub: null,          sub: 'Who do I want to become?', bg: '#0369a1' },
-    { n: '02', label: 'Objectives & Key Results', labelSub: null,          sub: 'What this quarter?',       bg: '#b45309' },
-    { n: '03', label: 'Weekly Tasks',             labelSub: 'P0 · P1 · P2', sub: 'What do I do this week?', bg: '#57534e' },
-  ];
   return (
     <>
       <article ref={ref} onClick={() => setOpen(true)} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(true); } }} className="reveal case-card glass rounded-[2.5rem] overflow-hidden flex flex-col group cursor-pointer">
@@ -695,21 +709,12 @@ function CaseStudy2() {
             A weekly execution engine connecting life vision to quarterly OKRs to this week's tasks. Built solo, shipped to real users, ~£25 in infrastructure costs.
           </p>
 
-          <div className="bg-[#F4F3F1] rounded-2xl p-4 space-y-1.5">
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/50 mb-3">How Stride works</p>
-            {layers.map((t, i) => (
-              <div key={i} className="rounded-xl px-4 py-2.5 flex items-center justify-between gap-3" style={{background:t.bg}}>
-                <div className="flex items-center gap-3">
-                  <span className="text-[10px] font-bold text-white/40">{t.n}</span>
-                  <div>
-                    <span className="text-sm font-bold text-white leading-tight block">{t.label}</span>
-                    {t.labelSub && <span className="text-[10px] font-medium text-white/60 leading-tight block mt-0.5">{t.labelSub}</span>}
-                  </div>
-                </div>
-                <span className="text-xs text-white/50 hidden sm:block shrink-0">{t.sub}</span>
-              </div>
-            ))}
-          </div>
+          <ToolPreview
+            compact={true}
+            src="stride_screenshot.webp?v=1"
+            alt="Stride — goal planning app"
+            caption="stridehq.app"
+          />
 
           <div className="mt-auto pt-6 flex flex-col gap-3">
             <a href="https://stridehq.app" target="_blank" rel="noopener noreferrer"
@@ -918,7 +923,7 @@ function CaseStudy2() {
           <div>
             <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-3">Reflection</p>
             <p className="text-[#57534e] font-medium mb-3">The most valuable lesson wasn't technical. It was learning to separate my attachment to what I'd built from what the product actually needed. The first version had features I was proud of that nobody wanted. Cutting them felt like loss. It wasn't — it was the job.</p>
-            <p className="text-[#57534e] font-medium">Stride is a live product with real users, real problems to solve, and a clear direction: an AI layer that moves it from a container you fill in to a coach that helps you think. That — not a perfect launch metric — is what this project was for.</p>
+            <p className="text-[#57534e] font-medium">Stride is live, and I know what it would take to make it work: an AI layer that moves it from a container you fill in to a coach that helps you think. What I took from building it is the practice — shipping something end to end on my own, putting it in front of people, and being honest about what the numbers said.</p>
           </div>
 
           {/* ── Skills ── */}
@@ -1000,7 +1005,7 @@ function ReleaseCard({ v, title, meta, children }) {
       <button
         onClick={() => setOpen(o => !o)}
         aria-expanded={open}
-        className="w-full text-left group px-6 sm:px-7 py-6"
+        className="w-full text-left release-head px-6 sm:px-7 py-6"
         style={{position:'relative', zIndex:1, background:'none', border:'none', cursor:'pointer'}}
       >
         <div className="flex items-start gap-4 sm:gap-5">
@@ -1010,7 +1015,7 @@ function ReleaseCard({ v, title, meta, children }) {
             padding:'3px 8px', borderRadius:6, display:'inline-block',
           }}>{v}</span>
           <div className="min-w-0 flex-grow">
-            <p className="font-bold text-[#292524] text-[15px] leading-snug group-hover:text-primary transition-colors">{title}</p>
+            <p className="release-title font-bold text-[#292524] text-[15px] leading-snug">{title}</p>
             {meta && <p className="text-[11px] font-semibold text-[#57534e]/55 mt-0.5">{meta}</p>}
           </div>
           <span className="flex-shrink-0 flex items-center justify-center rounded-full transition-colors"
@@ -1049,6 +1054,7 @@ function ReleaseCard({ v, title, meta, children }) {
 function About() {
   const ref = useReveal();
   const [nowRef, nowVisible] = useInView(0.15);
+  const [v3Open, setV3Open] = useState(true);
   const mono = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
 
   return (
@@ -1076,22 +1082,56 @@ function About() {
             transform: nowVisible ? 'none' : 'translateY(18px)',
             transition:'opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1)',
           }}>
-            <div className="flex items-center gap-2.5 mb-4">
-              <span style={{
-                fontFamily:mono, fontSize:11, fontWeight:700, color:'#b45309',
-                background:'rgba(217,119,6,0.1)', border:'1px solid rgba(217,119,6,0.22)',
-                padding:'3px 8px', borderRadius:6, flexShrink:0,
-              }}>v3.0</span>
-              <span style={{
-                width:9, height:9, borderRadius:'50%', background:'#d97706',
-                boxShadow:'0 0 0 4px rgba(217,119,6,0.17)', display:'inline-block', flexShrink:0, marginLeft:2,
-              }} />
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em]" style={{color:'#b45309'}}>Current version</span>
-            </div>
+            <button
+              onClick={() => setV3Open(o => !o)}
+              aria-expanded={v3Open}
+              className="w-full text-left release-head"
+              style={{background:'none', border:'none', cursor:'pointer', padding:0, display:'block'}}
+            >
+              <div className="flex items-center gap-2.5 mb-3">
+                <span style={{
+                  fontFamily:mono, fontSize:11, fontWeight:700, color:'#b45309',
+                  background:'rgba(217,119,6,0.1)', border:'1px solid rgba(217,119,6,0.22)',
+                  padding:'3px 8px', borderRadius:6, flexShrink:0,
+                }}>v3.0</span>
+                <span style={{
+                  width:9, height:9, borderRadius:'50%', background:'#d97706',
+                  boxShadow:'0 0 0 4px rgba(217,119,6,0.17)', display:'inline-block', flexShrink:0, marginLeft:2,
+                }} />
+                <span className="text-[10px] font-extrabold uppercase tracking-[0.2em]" style={{color:'#b45309'}}>Current version</span>
+              </div>
 
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/45 mb-1.5 mt-1">Product internship</p>
+              <div className="flex items-start gap-4">
+                <div className="min-w-0 flex-grow">
+                  <p className="release-title font-bold text-[#292524] text-[17px] leading-snug">My first product role</p>
+                  <p className="text-[11px] font-semibold text-[#57534e]/55 mt-0.5">Product internship · Odevo · Jul–Nov 2026</p>
+                </div>
+                <span className="flex-shrink-0 flex items-center justify-center rounded-full transition-colors"
+                  style={{
+                    width:32, height:32,
+                    background: v3Open ? 'rgba(217,119,6,0.1)' : 'rgba(87,83,78,0.07)',
+                    border: `1px solid ${v3Open ? 'rgba(217,119,6,0.25)' : 'rgba(87,83,78,0.16)'}`,
+                    color: v3Open ? '#b45309' : '#57534e',
+                  }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                    strokeLinecap="round" strokeLinejoin="round"
+                    style={{transform: v3Open ? 'rotate(180deg)' : 'none', transition:'transform 0.3s ease'}}>
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </span>
+              </div>
+            </button>
+
+            <div style={{
+              display:'grid',
+              gridTemplateRows: v3Open ? '1fr' : '0fr',
+              transition:'grid-template-rows 0.4s cubic-bezier(0.22,1,0.36,1)',
+            }}>
+            <div style={{overflow:'hidden'}}>
+            <div className="pt-6">
+
             <p className="text-[#57534e] font-medium leading-relaxed mb-4">
-              <a href="https://odevo.com" target="_blank" rel="noopener noreferrer" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Odevo</a>, Jul–Nov 2026. Owned day-to-day product delivery for an internal KYC/AML compliance platform used across six of the group's businesses, working cross-functionally with engineering and group compliance.
+              At <a href="https://odevo.com" target="_blank" rel="noopener noreferrer" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Odevo</a> I owned day-to-day product delivery for an internal KYC/AML compliance platform used across six of the group's businesses, working cross-functionally with engineering and group compliance.
             </p>
 
             <div className="mb-7">
@@ -1163,6 +1203,10 @@ function About() {
                 Looking for my next adventure — a team of any size where I can bring clarity to ambiguous problems and keep the work to a high standard. If this resonates, <a href="#contact" style={{color:'#d97706', fontWeight:700, fontStyle:'italic', textDecoration:'none', display:'inline-block', position:'relative'}}>let's talk.<span style={{position:'absolute', bottom:-4, left:0, width:'100%', height:6, background:'rgba(217,119,6,0.12)', borderRadius:3, transform:'rotate(-1deg)', zIndex:-1}} /></a>
               </p>
             </div>
+
+            </div>{/* /pt-6 */}
+            </div>{/* /overflow-hidden */}
+            </div>{/* /collapse grid */}
           </div>
 
           {/* ── Version history ── */}
