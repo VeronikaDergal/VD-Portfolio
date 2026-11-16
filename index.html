@@ -1348,42 +1348,59 @@ function Now() {
   const ref      = useReveal();
   const listRef  = useReveal();
   const chartRef = useReveal();
-  const [donutRef, donutVisible] = useInView(0.2);
-  const [hovered, setHovered] = React.useState(null);
+  const [donutRef, donutVisible] = useInView(0.25);
+  const [active, setActive] = React.useState(null);
+
+  const B = ({children}) => <span style={{fontWeight:700, color:'#292524'}}>{children}</span>;
 
   const items = [
     { icon:<><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></>,
       label: "Learning",
-      content: <span>Finishing <span style={{fontWeight:700, color:'#292524'}}>Agentic AI</span> at DeepLearning.AI, SQL basics next</span> },
+      content: <span>Finishing <B>Agentic AI</B> at DeepLearning.AI, SQL basics next</span> },
     { icon:<><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></>,
       label: "Building",
-      content: <span>Small tools for my own life — <span style={{fontWeight:700, color:'#292524'}}>this site is one of them</span>, built with Lovable, Claude Code and Codex</span> },
+      content: <span>Tools I actually use in my own life — <B>this site is one of them</B>, built with Lovable, Claude Code and Codex</span> },
     { icon:<><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></>,
       label: "Open to",
-      content: <span>PM roles in London or remote, <span style={{fontWeight:700, color:'#292524'}}>available now</span>. Always up for a coffee with people building interesting things</span> },
+      content: <span>PM roles in London or remote, <B>available now</B>. Always up for a coffee with people building interesting things</span> },
   ];
 
+  /* fill = slice colour · ink = number printed on the slice (contrast-checked) · deep = number in the centre */
   const timeSlices = [
-    { pct: 30, color: '#0369a1', num: '#0369a1', text: 'Upskilling — agentic AI, SQL, product craft' },
-    { pct: 25, color: '#7dd3fc', num: '#0284c7', text: 'Building small tools for my own life' },
-    { pct: 20, color: '#d97706', num: '#b45309', text: "Researching companies and products I'd want to work on" },
-    { pct: 15, color: '#57534e', num: '#57534e', text: 'Practicing Ashtanga yoga and pushing limits with HIIT' },
-    { pct: 10, color: '#a8a29e', num: '#78716c', text: <span>Exploring UK hiking trails with my <a href="https://drive.google.com/file/d/1BI1f9l-vof7yfhp7jE_XQEh00aBda2AK/view" target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">dog</a></span> },
+    { pct:30, tag:'Researching',     fill:'#0369a1', ink:'#ffffff', deep:'#0369a1',
+      text:<><B>Researching</B> companies and products I'd want to work on</> },
+    { pct:25, tag:'Building',        fill:'#d97706', ink:'#431407', deep:'#b45309',
+      text:<><B>Building tools</B> for my own life</> },
+    { pct:20, tag:'Staying curious', fill:'#7dd3fc', ink:'#0c4a6e', deep:'#0284c7',
+      text:<><B>Staying curious</B> — keeping up with what AI can actually do, and finally learning SQL</> },
+    { pct:15, tag:'Yoga & HIIT',     fill:'#57534e', ink:'#ffffff', deep:'#57534e',
+      text:<>Practicing <B>Ashtanga yoga</B> and pushing limits with HIIT</> },
+    { pct:10, tag:'Hiking',          fill:'#d6d3d1', ink:'#44403c', deep:'#78716c',
+      text:<>Exploring <B>UK hiking trails</B> with my <a href="https://drive.google.com/file/d/1BI1f9l-vof7yfhp7jE_XQEh00aBda2AK/view" target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">dog</a></> },
   ];
 
-  // Circle-stroke donut — animatable via strokeDashoffset
-  const R = 76, SW = 30;
+  /* Donut geometry — one thick ring, small gaps, a number sitting on every slice */
+  const VB = 240, CX = 120, R = 86, SW = 40, GAP = 2.4;
   const C = 2 * Math.PI * R;
-  const GAP_DEG = 3;
-  let cumul = 0;
+  let cum = 0;
   const slices = timeSlices.map((s, i) => {
-    const fullDeg  = s.pct / 100 * 360;
-    const arcDeg   = fullDeg - GAP_DEG;
-    const startDeg = -90 + cumul + GAP_DEG / 2;
-    const sliceLen = arcDeg / 360 * C;
-    cumul += fullDeg;
-    return { ...s, sliceLen, startDeg, i };
+    const full = s.pct / 100 * 360;
+    const start = -90 + cum + GAP / 2;
+    const len = (full - GAP) / 360 * C;
+    const mid = (cum + full / 2) * Math.PI / 180;
+    cum += full;
+    return { ...s, i, start, len, lx: CX + R * Math.sin(mid), ly: CX - R * Math.cos(mid) };
   });
+
+  /* mouse: hover previews · touch: tap toggles */
+  const isMouse = e => (e.pointerType || (e.nativeEvent && e.nativeEvent.pointerType)) === 'mouse';
+  const bind = i => ({
+    onPointerEnter: e => { if (isMouse(e)) setActive(i); },
+    onPointerLeave: e => { if (isMouse(e)) setActive(null); },
+    onClick:        e => { if (!isMouse(e)) setActive(a => a === i ? null : i); },
+  });
+  const sel = active === null ? null : timeSlices[active];
+  const ariaLabel = 'My time: ' + timeSlices.map(s => `${s.pct}% ${s.tag.toLowerCase()}`).join(', ');
 
   return (
     <section id="now" className="py-28 px-6 relative overflow-hidden">
@@ -1400,7 +1417,7 @@ function Now() {
 
         <div className="grid md:grid-cols-2 gap-10 items-start">
 
-          {/* Left — items list */}
+          {/* Left — three threads */}
           <ul className="reveal-group" ref={listRef}>
             {items.map((item, i) => (
               <li key={i} className={`ri flex gap-5 items-start py-5 ${i < items.length - 1 ? 'border-b border-[#292524]/6' : ''}`}>
@@ -1416,50 +1433,72 @@ function Now() {
             ))}
           </ul>
 
-          {/* Right — My Time card */}
-          <div className="reveal glass rounded-[2.5rem] overflow-hidden p-7" style={{boxShadow:'0 2px 16px rgba(0,0,0,0.07)'}} ref={chartRef}>
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary mb-5">My Time</p>
+          {/* Right — My Time */}
+          <div className="reveal glass rounded-[2.5rem] overflow-hidden p-7 sm:p-8" style={{boxShadow:'0 2px 16px rgba(0,0,0,0.07)'}} ref={chartRef}>
 
-            {/* Donut — proportions only; every number lives in the grid below */}
-            <div className="flex justify-center mb-6" ref={donutRef}>
-              <svg width="158" height="158" viewBox="0 0 200 200">
+            <div className="flex justify-center" ref={donutRef}>
+              <svg viewBox={`0 0 ${VB} ${VB}`} role="img" aria-label={ariaLabel}
+                style={{width:'100%', maxWidth:236, height:'auto', overflow:'visible'}}>
                 {slices.map(s => (
-                  <circle
-                    key={s.i}
-                    cx="100" cy="100" r={R}
-                    fill="none"
-                    stroke={s.color}
-                    strokeWidth={hovered === s.i ? SW + 5 : SW}
-                    strokeLinecap="butt"
-                    strokeDasharray={`${s.sliceLen} ${C}`}
-                    strokeDashoffset={donutVisible ? 0 : s.sliceLen}
-                    transform={`rotate(${s.startDeg}, 100, 100)`}
+                  <circle key={s.i} cx={CX} cy={CX} r={R} fill="none"
+                    stroke={s.fill}
+                    strokeWidth={active === s.i ? SW + 6 : SW}
+                    strokeDasharray={`${s.len} ${C}`}
+                    strokeDashoffset={donutVisible ? 0 : s.len}
+                    transform={`rotate(${s.start}, ${CX}, ${CX})`}
                     style={{
-                      transition: `stroke-dashoffset 0.9s cubic-bezier(0.4,0,0.2,1) ${s.i * 0.15}s, stroke-width 0.15s ease, opacity 0.15s ease`,
-                      cursor: 'pointer',
-                      opacity: hovered !== null && hovered !== s.i ? 0.3 : 1,
+                      transition:`stroke-dashoffset 1s cubic-bezier(0.22,1,0.36,1) ${s.i * 0.12}s, stroke-width 0.2s ease, opacity 0.2s ease`,
+                      opacity: active !== null && active !== s.i ? 0.28 : 1,
+                      cursor:'pointer',
                     }}
-                    onMouseEnter={() => setHovered(s.i)}
-                    onMouseLeave={() => setHovered(null)}
-                  />
+                    {...bind(s.i)} />
                 ))}
+
+                {/* numbers on the slices — colour is never the only cue */}
+                {slices.map(s => (
+                  <text key={'n' + s.i} x={s.lx} y={s.ly} textAnchor="middle" dominantBaseline="central"
+                    fontFamily="'Plus Jakarta Sans', sans-serif" fontWeight="800"
+                    fontSize={s.pct < 15 ? 12.5 : 14} fill={s.ink}
+                    style={{pointerEvents:'none',
+                      opacity: !donutVisible ? 0 : (active !== null && active !== s.i ? 0.35 : 1),
+                      transition:`opacity 0.4s ease ${donutVisible && active === null ? 0.9 + s.i * 0.08 : 0}s`}}>
+                    {s.pct}%
+                  </text>
+                ))}
+
+                {/* centre — the card's title, or whatever you're pointing at */}
+                <g style={{pointerEvents:'none'}}>
+                  {sel ? (
+                    <>
+                      <text x={CX} y={CX - 7} textAnchor="middle" dominantBaseline="central"
+                        fontFamily="'Plus Jakarta Sans', sans-serif" fontWeight="800" fontSize="30" fill={sel.deep}
+                        letterSpacing="-1">{sel.pct}%</text>
+                      <text x={CX} y={CX + 18} textAnchor="middle" dominantBaseline="central"
+                        fontFamily="'Plus Jakarta Sans', sans-serif" fontWeight="800" fontSize="9.5"
+                        letterSpacing="1.6" fill="#57534e">{sel.tag.toUpperCase()}</text>
+                    </>
+                  ) : (
+                    <text x={CX} y={CX} textAnchor="middle" dominantBaseline="central"
+                      fontFamily="'Plus Jakarta Sans', sans-serif" fontWeight="800" fontSize="19" fill="#292524"
+                      letterSpacing="-0.4">My time</text>
+                  )}
+                </g>
               </svg>
             </div>
 
-            {/* Stat grid — all five figures readable on load, no hover required */}
-            <div className="grid grid-cols-2 gap-x-4 gap-y-5">
+            {/* Legend — same order as the ring, clockwise from the top */}
+            <ul className="mt-7">
               {timeSlices.map((s, i) => (
-                <div key={i}
-                  style={{opacity: hovered !== null && hovered !== i ? 0.35 : 1, transition:'opacity 0.15s ease', cursor:'pointer'}}
-                  onMouseEnter={() => setHovered(i)}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  <p className="font-headline font-extrabold text-[22px] leading-none tracking-tight" style={{color: s.num}}>{s.pct}%</p>
-                  <p className="text-[11px] text-[#57534e] font-semibold leading-snug mt-1.5">{s.text}</p>
-                  <div style={{width:34, height:3, borderRadius:2, background:s.color, marginTop:8}} />
-                </div>
+                <li key={i} {...bind(i)}
+                  className={`flex items-start gap-3 py-2.5 ${i < timeSlices.length - 1 ? 'border-b border-[#292524]/6' : ''}`}
+                  style={{opacity: active !== null && active !== i ? 0.4 : 1, transition:'opacity 0.2s ease', cursor:'pointer'}}>
+                  <span className="flex-shrink-0" style={{width:9, height:9, borderRadius:3, background:s.fill, marginTop:6,
+                    boxShadow: s.fill === '#d6d3d1' ? 'inset 0 0 0 1px rgba(41,37,36,0.12)' : 'none'}} />
+                  <span className="flex-shrink-0 font-headline font-extrabold text-[15px] text-[#292524] tabular-nums" style={{width:38}}>{s.pct}%</span>
+                  <span className="text-[13px] text-[#57534e] font-medium leading-snug">{s.text}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
         </div>
