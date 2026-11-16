@@ -312,29 +312,27 @@ function Nav() {
 
 /* ─── Hero ─── */
 function Hero() {
-  const facts = (
-    <div className="space-y-2.5 text-left inline-block">
-      {[
-        { icon:<><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></>,
-          text:<span>London, UK</span> },
-        { icon:<><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></>,
-          text:<span>BA International Business Management<br/>University of Lincoln, UK</span> },
-        { icon:<><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 000 18 14 14 0 000-18z"/></>,
-          text:<span>🇬🇧 English · 🇺🇦 Ukrainian</span> },
-      ].map((f, i) => (
+  /* one set of facts, one icon each — stacked beside the photo on desktop,
+     wrapped onto a row above the CTAs on narrow screens */
+  const FACTS = [
+    { icon:<><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></>,
+      label:'London, UK' },
+    { icon:<><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></>,
+      label:'BA International Business Management, University of Lincoln, UK' },
+    { icon:<><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 000 18 14 14 0 000-18z"/></>,
+      label:'Speaks English and Ukrainian' },
+  ];
+  const facts = inline => (
+    <div className={inline ? 'flex flex-wrap gap-x-5 gap-y-2' : 'space-y-2.5 text-left inline-block'}>
+      {FACTS.map((f, i) => (
         <p key={i} className="text-[12px] font-semibold text-[#57534e]/75 flex gap-2.5 items-start">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"
             className="flex-shrink-0 mt-[2px] opacity-65">{f.icon}</svg>
-          {f.text}
+          <span>{f.label}</span>
         </p>
       ))}
     </div>
-  );
-  const factsLine = (
-    <p className="text-[12px] font-semibold text-[#57534e]/70 leading-relaxed">
-      London, UK · BA International Business Management, University of Lincoln · English and Ukrainian
-    </p>
   );
   return (
     <section id="hero" style={{minHeight:'100vh', display:'flex', alignItems:'center', paddingTop:'80px', paddingLeft:'1.5rem', paddingRight:'1.5rem', position:'relative'}}>
@@ -357,7 +355,7 @@ function Hero() {
         </p>
 
         {/* facts — one quiet line above the CTAs on phones, stacked beside the photo on desktop */}
-        <div style={{animationDelay:'0.5s'}} className="hero-item md:hidden mb-8">{factsLine}</div>
+        <div style={{animationDelay:'0.5s'}} className="hero-item md:hidden mb-8">{facts(true)}</div>
 
         <div className="flex flex-wrap gap-4">
           {[
@@ -407,7 +405,7 @@ function Hero() {
             <img src="photo.jpg" alt="Veronika Dergal"
               style={{width:188, height:188, borderRadius:'50%', objectFit:'cover', objectPosition:'center top', boxShadow:'0 8px 30px rgba(0,0,0,0.14)'}}
               className="mx-auto" />
-            <div className="hidden md:block mt-5">{facts}</div>
+            <div className="hidden md:block mt-5">{facts(false)}</div>
           </div>
         </div>
 
