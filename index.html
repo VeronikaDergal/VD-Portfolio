@@ -345,8 +345,8 @@ function LightsSwitch() {
 function Nav() {
   const [open, setOpen] = useState(false);
   const links = [
-    { label: 'About', href: '#about' },
     { label: 'Case studies', href: '#work' },
+    { label: 'About', href: '#about' },
     { label: 'Now', href: '#now' },
   ];
   return (
@@ -435,9 +435,9 @@ function Hero() {
 
         <div className="flex flex-wrap gap-3">
           {[
-            { delay:'0.62s', primary:true,  label:'Read the case studies', href:'#work', external:false, icon:null },
-            { delay:'0.72s', primary:false, label:'Connect on LinkedIn', href:'https://www.linkedin.com/in/veronika-dergal/', external:true, icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> },
-            { delay:'0.82s', primary:false, label:'View CV', href:'Veronika_Dergal_PM_CV.pdf', external:true, icon:<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> },
+            { delay:'0.62s', primary:true , label:'View CV', href:'Veronika_Dergal_PM_CV.pdf', external:true, icon:<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> },
+            { delay:'0.72s', primary:false, label:'Read the case studies', href:'#work', external:false, icon:null },
+            { delay:'0.82s', primary:false, label:'Connect on LinkedIn', href:'https://www.linkedin.com/in/veronika-dergal/', external:true, icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> },
           ].map(btn => (
             <a key={btn.label}
               style={{
@@ -819,21 +819,15 @@ function CaseStudy1() {
             </div>
           </div>
 
-          {/* ── Micro-CTA ── */}
-          <div className="rounded-2xl px-6 py-5" style={{background:'rgba(217,119,6,0.05)', border:'1px solid rgba(217,119,6,0.12)'}}>
-            <p className="text-[15px] text-[#57534e] font-medium mb-4">Want to discuss automation workflows or see the detailed scenario tree?</p>
-            <div className="flex gap-3 flex-wrap">
-              <a href="https://calendly.com/veronikadergal/new-meeting" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-secondary text-white rounded-full text-[13px] font-bold hover:opacity-90 transition-opacity">
-                Book a chat
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-              </a>
-              <a href="mailto:dergalv@gmail.com"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[13px] font-bold transition-opacity hover:opacity-70" style={{background:'rgba(217,119,6,0.12)', color:'#b45309'}}>
-                Send me a message
-              </a>
-            </div>
-          </div>
+          {/* ── Micro-CTA — one line, two quiet links ── */}
+          <p className="text-[15px] text-[#57534e] font-medium pt-5" style={{borderTop:'1px solid rgba(41,37,36,0.08)'}}>
+            Want to discuss automation workflows or see the detailed scenario tree?{' '}
+            <a href="https://calendly.com/veronikadergal/new-meeting" target="_blank" rel="noopener noreferrer"
+              className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Book a chat</a>
+            {' or '}
+            <a href="mailto:dergalv@gmail.com"
+              className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">send me a message</a>.
+          </p>
 
         </div>
       </Modal>
@@ -1017,12 +1011,13 @@ function CaseStudy2() {
 
             <div className="space-y-3 mb-4">
               {[
-                { n:'Session 1', color:'#dc2626', bg:'rgba(220,38,38,0.06)', border:'rgba(220,38,38,0.14)', label:'Critical bug found', desc:'100% of new signups blocked. Silent failure — no error shown to user. Root cause traced to auth configuration mismatch.' },
-                { n:'Session 2', color:'#d97706', bg:'rgba(217,119,6,0.06)', border:'rgba(217,119,6,0.14)', label:'Fix in test', desc:'Diagnosed and resolved. Re-tested across all 3 onboarding paths: full completion, partial skip, skip-all.' },
-                { n:'Session 3', color:'#059669', bg:'rgba(5,150,105,0.06)', border:'rgba(5,150,105,0.14)', label:'All paths passing', desc:'Every onboarding route confirmed clean. Defensive error handling added: 10-second timeouts + three-branch signup logic to prevent future silent failures.' },
+                { n:'1', color:'#dc2626', bg:'rgba(220,38,38,0.06)', border:'rgba(220,38,38,0.14)', label:'Critical bug found', desc:'100% of new signups blocked. Silent failure — no error shown to user. Root cause traced to auth configuration mismatch.' },
+                { n:'2', color:'#d97706', bg:'rgba(217,119,6,0.06)', border:'rgba(217,119,6,0.14)', label:'Fix in test', desc:'Diagnosed and resolved. Re-tested across all 3 onboarding paths: full completion, partial skip, skip-all.' },
+                { n:'3', color:'#059669', bg:'rgba(5,150,105,0.06)', border:'rgba(5,150,105,0.14)', label:'All paths passing', desc:'Every onboarding route confirmed clean. Defensive error handling added: 10-second timeouts + three-branch signup logic to prevent future silent failures.' },
               ].map((s, i) => (
-                <div key={i} className="rounded-2xl p-4 flex gap-4 items-start" style={{background:s.bg, border:`1px solid ${s.border}`}}>
-                  <span className="text-[11px] font-extrabold uppercase tracking-[0.18em] mt-0.5 flex-shrink-0 w-16" style={{color:s.color}}>{s.n}</span>
+                <div key={i} className="rounded-2xl p-4 flex gap-4 items-center" style={{background:s.bg, border:`1px solid ${s.border}`}}>
+                  <span className="flex-shrink-0 font-headline font-extrabold text-[15px] flex items-center justify-center rounded-full"
+                    style={{width:30, height:30, color:s.color, border:`1.5px solid ${s.color}`}} aria-label={`Step ${s.n}`}>{s.n}</span>
                   <div>
                     <p className="text-[13px] font-bold text-[#292524] mb-0.5">{s.label}</p>
                     <p className="text-[13px] text-[#57534e] font-medium leading-snug">{s.desc}</p>
@@ -1062,7 +1057,7 @@ function CaseStudy2() {
                 </ul>
               </div>
               <div className="rounded-2xl p-4" style={{background:'rgba(180,83,9,0.05)', border:'1px solid rgba(180,83,9,0.12)'}}>
-                <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] mb-2" style={{color:'#b45309'}}>Fixing next</p>
+                <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] mb-2" style={{color:'#b45309'}}>Backlog</p>
                 <ul className="space-y-1.5">
                   {['Minimum viable input — progressive disclosure','Inline OKR coaching on objective vs key result','Activate email reminders via Resend','Explore mobile-optimised experience'].map((s, i) => (
                     <li key={i} className="flex gap-2 text-[13px] text-[#57534e] font-medium">
@@ -1091,21 +1086,15 @@ function CaseStudy2() {
             </div>
           </div>
 
-          {/* ── Micro-CTA ── */}
-          <div className="rounded-2xl px-6 py-5" style={{background:'rgba(217,119,6,0.05)', border:'1px solid rgba(217,119,6,0.12)'}}>
-            <p className="text-[15px] text-[#57534e] font-medium mb-4">Want to try Stride or hear about the beta user feedback?</p>
-            <div className="flex gap-3 flex-wrap">
-              <a href="https://calendly.com/veronikadergal/new-meeting" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-secondary text-white rounded-full text-[13px] font-bold hover:opacity-90 transition-opacity">
-                Book a chat
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-              </a>
-              <a href="mailto:dergalv@gmail.com"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[13px] font-bold transition-opacity hover:opacity-70" style={{background:'rgba(217,119,6,0.12)', color:'#b45309'}}>
-                Send me a message
-              </a>
-            </div>
-          </div>
+          {/* ── Micro-CTA — one line, two quiet links ── */}
+          <p className="text-[15px] text-[#57534e] font-medium pt-5" style={{borderTop:'1px solid rgba(41,37,36,0.08)'}}>
+            Want to try Stride or hear about the beta user feedback?{' '}
+            <a href="https://calendly.com/veronikadergal/new-meeting" target="_blank" rel="noopener noreferrer"
+              className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Book a chat</a>
+            {' or '}
+            <a href="mailto:dergalv@gmail.com"
+              className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">send me a message</a>.
+          </p>
 
           <a href="https://stridehq.app" target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3.5 bg-secondary text-white rounded-full text-[15px] font-bold hover:opacity-90 transition-opacity shadow-[0_8px_24px_-6px_rgba(217,119,6,0.4)]">
@@ -1651,7 +1640,7 @@ function Footer() {
       <footer className="mt-16 py-12 px-8 border-t border-[#292524]/6">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col items-center md:items-start gap-1">
-            <span className="font-headline font-extrabold text-secondary tracking-tight">Veronika Dergal</span>
+            <span className="font-headline font-extrabold text-primary tracking-tight">Veronika Dergal</span>
             <p className="text-[13px] text-[#57534e]/85 font-medium">London, UK</p>
           </div>
           <div className="flex gap-5 items-center">
@@ -1680,6 +1669,24 @@ function Footer() {
 }
 
 /* ─── App ─── */
+/* mailto: does nothing visible when no mail app is set up, so we also copy the address and confirm it */
+function copyEmail(addr) {
+  const done = () => {
+    let t = document.getElementById('vd-toast');
+    if (!t) {
+      t = document.createElement('div'); t.id = 'vd-toast'; t.setAttribute('role','status');
+      t.style.cssText = 'position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(12px);z-index:2147483000;'+
+        'background:#292524;color:#fff;font:600 13px "Plus Jakarta Sans",sans-serif;padding:11px 18px;border-radius:999px;'+
+        'box-shadow:0 10px 30px rgba(0,0,0,0.25);opacity:0;transition:opacity .25s ease,transform .25s ease;pointer-events:none';
+      document.body.appendChild(t);
+    }
+    t.textContent = 'Email copied: ' + addr;
+    requestAnimationFrame(() => { t.style.opacity = '1'; t.style.transform = 'translateX(-50%) translateY(0)'; });
+    clearTimeout(t._h); t._h = setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(-50%) translateY(12px)'; }, 2600);
+  };
+  try { navigator.clipboard.writeText(addr).then(done, done); } catch (e) { done(); }
+}
+
 function App() {
   useEffect(() => {
     // Disable browser scroll restoration and force top on every load
@@ -1715,7 +1722,7 @@ function App() {
       const href = a.getAttribute('href') || '';
       let name = null;
       if (/\.pdf($|\?)/i.test(href))                      name = 'cv_downloaded';
-      else if (href.startsWith('mailto:'))                 name = 'email_clicked';
+      else if (href.startsWith('mailto:'))               { name = 'email_clicked'; copyEmail(href.slice(7).split('?')[0]); }
       else if (href.includes('linkedin.com'))              name = 'linkedin_clicked';
       else if (href.includes('calendly.com'))              name = 'calendly_opened';
       else if (href.includes('stridehq.app'))              name = 'stride_visited';
@@ -1732,8 +1739,8 @@ function App() {
       <Nav />
       <main>
         <Hero />
-        <About />
         <Work />
+        <About />
         <Now />
       </main>
       <Footer />
