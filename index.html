@@ -85,6 +85,9 @@
   <meta name="twitter:image" content="https://veronikadergal.github.io/VD-Portfolio/og-image.jpg" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <script>
+    try { if (localStorage.getItem('vd_theme') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+  </script>
+  <script>
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.addEventListener('load', function() { window.scrollTo(0, 0); });
     window.addEventListener('beforeunload', function() { window.scrollTo(0, 0); });
@@ -131,6 +134,51 @@
 
     .glass { background: rgba(255,255,255,0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.65); }
     .blob-bg { filter: blur(80px); pointer-events: none; }
+    /* ───────────── Dark mode ("Lights off") ─────────────
+       One override layer keyed on html.dark. Light mode is untouched. */
+    html.dark { background: linear-gradient(160deg, #161514 0%, #121214 55%, #0F1013 100%); color-scheme: dark; }
+    html.dark ::selection { background: #0c4a6e; color: #e0f2fe; }
+    html.dark .glass { background: rgba(32,31,30,0.62); border-color: rgba(255,255,255,0.07); }
+
+    /* text */
+    html.dark .text-\[\#292524\], html.dark .hover\:text-\[\#292524\]:hover { color: #EDE9E4; }
+    html.dark .text-\[\#57534e\] { color: #B5AFA8; }
+    html.dark .text-\[\#57534e\]\/85 { color: #A39D96; }
+    html.dark .text-\[\#57534e\]\/40 { color: #6F6A64; }
+    html.dark .text-primary { color: #5BB6EE; }
+    html.dark .text-secondary { color: #F0922B; }
+    html.dark [style*="color: rgb(41, 37, 36)"]  { color: #EDE9E4 !important; }
+    html.dark [style*="color: rgb(87, 83, 78)"]  { color: #B5AFA8 !important; }
+    html.dark [style*="color: rgb(3, 105, 161)"] { color: #5BB6EE !important; }
+    html.dark [style*="color: rgb(180, 83, 9)"]  { color: #F5A524 !important; }
+    html.dark [style*="color: rgb(217, 119, 6)"] { color: #F0922B !important; }
+    html.dark svg text[fill="#292524"] { fill: #EDE9E4; }
+    html.dark svg text[fill="#57534e"] { fill: #A39D96; }
+
+    /* surfaces */
+    html.dark .bg-\[\#F4F3F1\] { background: #1F1E1C; }
+    html.dark [style*="background: rgb(255, 255, 255)"],
+    html.dark [style*="background: rgba(255, 255, 255, 0.97)"] { background: #1A1918 !important; }
+    html.dark [style*="background: rgba(247, 246, 244, 0.9)"] { background: rgba(10,10,11,0.86) !important; }
+    html.dark [style*="background: rgba(87, 83, 78"] { background: rgba(255,255,255,0.06) !important; }
+
+    /* lines */
+    html.dark .border-\[\#292524\]\/6, html.dark .border-\[\#292524\]\/8 { border-color: rgba(255,255,255,0.07); }
+    html.dark .border-\[\#57534e\]\/20 { border-color: rgba(255,255,255,0.16); }
+    html.dark [style*="rgba(41, 37, 36"], html.dark [style*="rgba(87, 83, 78, 0.1"] { border-color: rgba(255,255,255,0.09) !important; }
+    html.dark .case-card { box-shadow: 0 2px 16px rgba(0,0,0,0.35); }
+
+    /* the switch itself — a room dimming, not a toggle */
+    .lights { font-size: 13px; font-weight: 700; color: #57534e; background: none; border: 0; cursor: pointer;
+              display: inline-flex; align-items: center; gap: 7px; padding: 4px 2px; white-space: nowrap; }
+    .lights i { width: 8px; height: 8px; border-radius: 50%; background: #F5B53F;
+                box-shadow: 0 0 0 3px rgba(245,181,63,0.22), 0 0 10px rgba(245,181,63,0.55); transition: all .5s ease; }
+    html.dark .lights { color: #B5AFA8; }
+    html.dark .lights i { background: #57534e; box-shadow: none; }
+    @media (hover: hover) and (pointer: fine) { .lights:hover { color: #292524; } html.dark .lights:hover { color: #EDE9E4; } }
+    html.theme-anim, html.theme-anim *, html.theme-anim *::before, html.theme-anim *::after {
+      transition: background-color .6s ease, background .6s ease, color .6s ease, border-color .6s ease, fill .6s ease !important; }
+
 
     /* ── Section scroll offset — clears the fixed nav bar on anchor nav ── */
     section { scroll-margin-top: 80px; }
@@ -272,6 +320,27 @@ function useReveal() {
   return ref;
 }
 
+/* ─── Lights switch ─── */
+function LightsSwitch() {
+  const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'));
+  const flip = () => {
+    const root = document.documentElement;
+    const next = !dark;
+    root.classList.add('theme-anim');
+    root.classList.toggle('dark', next);
+    setDark(next);
+    try { localStorage.setItem('vd_theme', next ? 'dark' : 'light'); } catch (e) {}
+    track('theme_switched', { theme: next ? 'dark' : 'light' });
+    setTimeout(() => root.classList.remove('theme-anim'), 700);
+  };
+  return (
+    <button type="button" className="lights" onClick={flip} aria-pressed={dark}
+      aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}>
+      <i aria-hidden="true" />{dark ? 'Lights on' : 'Lights off'}
+    </button>
+  );
+}
+
 /* ─── Nav ─── */
 function Nav() {
   const [open, setOpen] = useState(false);
@@ -292,6 +361,7 @@ function Nav() {
               </li>
             ))}
           </ul>
+          <LightsSwitch />
           <a
             href="#contact"
             className="hidden sm:block bg-primary text-white text-[13px] font-bold px-4 py-2 rounded-full hover:bg-sky-800 transition-all duration-200 active:scale-95"
