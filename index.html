@@ -241,19 +241,49 @@
     /* ── Case study card hover ──
        Hover effects are gated behind (hover: hover) so touch devices don't
        keep a "stuck" hover state after a tap. ── */
+    /* Each case study has its own colour: ReSearchlight blue, Stride violet.
+       Hover washes the card in it; the case study opens in the same colour. */
     .case-card {
+      position: relative;
       box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border-color: rgba(41,37,36,0.12) !important;
+      transition: box-shadow 0.35s ease, border-color 0.35s ease;
     }
+    html.dark .case-card { border-color: rgba(255,255,255,0.11) !important; }
+    .case-shot  { transition: transform 0.45s cubic-bezier(0.22,1,0.36,1); }
+    .case-arrow { flex-shrink:0; color:#57534e; transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), color 0.35s ease; }
+    html.dark .case-arrow { color:#B5AFA8; }
     @media (hover: hover) and (pointer: fine) {
-      .case-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 14px 36px rgba(0,0,0,0.10), inset 0 0 0 999px rgba(3,105,161,0.025);
-      }
-      html.dark .case-card:hover {
-        box-shadow: 0 14px 36px rgba(0,0,0,0.45), inset 0 0 0 999px rgba(255,255,255,0.035);
-      }
+      .case-card:hover .case-shot  { transform: translateY(-6px) scale(1.025); }
+      .case-card:hover .case-arrow { transform: translateX(6px); color:#292524; }
+      html.dark .case-card:hover .case-arrow { color:#EDE9E4; }
+      .case-card.tint-rs:hover     { border-color: rgba(3,105,161,0.35) !important;  box-shadow: 0 2px 16px rgba(0,0,0,0.07), inset 0 0 0 999px rgba(3,105,161,0.05); }
+      .case-card.tint-stride:hover { border-color: rgba(109,77,224,0.35) !important; box-shadow: 0 2px 16px rgba(0,0,0,0.07), inset 0 0 0 999px rgba(109,77,224,0.055); }
+      html.dark .case-card.tint-rs:hover     { border-color: rgba(91,182,238,0.4) !important;  box-shadow: 0 2px 16px rgba(0,0,0,0.35), inset 0 0 0 999px rgba(56,152,214,0.10); }
+      html.dark .case-card.tint-stride:hover { border-color: rgba(160,135,245,0.42) !important; box-shadow: 0 2px 16px rgba(0,0,0,0.35), inset 0 0 0 999px rgba(139,108,240,0.12); }
     }
+    .case-card:focus-visible { outline: 2px solid #0369a1; outline-offset: 3px; }
+
+    .modal-backdrop.tint-rs     { background: rgba(228,240,248,0.92) !important; }
+    .modal-backdrop.tint-stride { background: rgba(238,234,251,0.92) !important; }
+    .modal-panel.tint-rs        { background: #F5F9FC !important; }
+    .modal-panel.tint-stride    { background: #F8F6FD !important; }
+    .modal-head.tint-rs         { background: rgba(245,249,252,0.97) !important; }
+    .modal-head.tint-stride     { background: rgba(248,246,253,0.97) !important; }
+    html.dark .modal-backdrop.tint-rs     { background: rgba(5,14,22,0.9) !important; }
+    html.dark .modal-backdrop.tint-stride { background: rgba(12,9,26,0.9) !important; }
+    html.dark .modal-panel.tint-rs        { background: #13202A !important; }
+    html.dark .modal-panel.tint-stride    { background: #1B1828 !important; }
+    html.dark .modal-head.tint-rs         { background: rgba(19,32,42,0.97) !important; }
+    html.dark .modal-head.tint-stride     { background: rgba(27,24,40,0.97) !important; }
+
+    /* Nav: sliding highlight shows which part you're in */
+    .nav-ind { position:absolute; top:0; bottom:0; left:0; width:50%; border-radius:9999px;
+      background: rgba(41,37,36,0.07); transition: transform 0.45s cubic-bezier(0.22,1,0.36,1); }
+    .nav-ind::before { content:''; position:absolute; top:-1px; left:50%; width:18px; height:2px; margin-left:-9px;
+      border-radius:2px; background:#292524; box-shadow: 0 0 8px rgba(41,37,36,0.35); }
+    html.dark .nav-ind { background: rgba(255,255,255,0.08); }
+    html.dark .nav-ind::before { background:#EDE9E4; box-shadow: 0 0 10px rgba(237,233,228,0.7); }
 
     /* ── Version card header — same no-sticky-hover treatment ── */
     .release-title { transition: color 0.2s ease; }
@@ -281,12 +311,6 @@
     .result-num { font-size:56px; line-height:1; letter-spacing:-0.03em; }
     @media (max-width: 640px) { .result-num { font-size:48px; } }
 
-    /* "Read case study →": grey arrow slides on card hover */
-    .read-arrow { color:#57534e; transition: transform 0.2s ease; }
-    html.dark .read-arrow { color:#B5AFA8; }
-    @media (hover: hover) and (pointer: fine) {
-      .case-card:hover .read-arrow { transform: translateX(5px); }
-    }
   </style>
 </head>
 <body class="font-body text-[#292524] antialiased overflow-x-hidden">
@@ -358,23 +382,38 @@ function LightsSwitch() {
 /* ─── Nav ─── */
 function Nav() {
   const links = [
-    { label: 'Work', href: '#work' },
-    { label: 'About', href: '#about' },
+    { key: 'work',  label: 'Work',  href: '#work'  },
+    { key: 'about', label: 'About', href: '#about' },
   ];
+  /* Work = everything above About (hero + case studies), About = the rest */
+  const [active, setActive] = useState('work');
+  useEffect(() => {
+    const on = () => {
+      const a = document.getElementById('about');
+      if (a) setActive(a.getBoundingClientRect().top < window.innerHeight * 0.45 ? 'about' : 'work');
+    };
+    on();
+    window.addEventListener('scroll', on, { passive: true });
+    window.addEventListener('resize', on);
+    return () => { window.removeEventListener('scroll', on); window.removeEventListener('resize', on); };
+  }, []);
+  const idx = links.findIndex(l => l.key === active);
   return (
-    <>
-      <nav className="fixed top-4 inset-x-0 z-50 flex justify-center px-4">
-        <div className="glass rounded-full shadow-[0_8px_40px_-8px_rgba(3,105,161,0.14)] px-7 py-3 flex items-center">
-          <ul className="flex gap-7">
-            {links.map(l => (
-              <li key={l.label}>
-                <a href={l.href} className="nav-link text-[15px] font-semibold text-[#57534e] hover:text-[#292524] transition-colors">{l.label}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </nav>
-    </>
+    <nav className="fixed top-4 inset-x-0 z-50 flex justify-center px-4">
+      <div className="glass rounded-full shadow-[0_8px_40px_-8px_rgba(3,105,161,0.14)] p-1.5">
+        <ul className="relative grid grid-cols-2">
+          <span className="nav-ind" aria-hidden="true" style={{transform:`translateX(${idx * 100}%)`}} />
+          {links.map(l => (
+            <li key={l.key} className="relative">
+              <a href={l.href} aria-current={active === l.key ? 'true' : undefined}
+                className={'block text-center px-6 py-2 text-[15px] font-semibold transition-colors duration-300 ' + (active === l.key ? 'text-[#292524]' : 'text-[#57534e] hover:text-[#292524]')}>
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
   );
 }
 
@@ -484,7 +523,7 @@ const PILL_NEUTRAL = { background:'rgba(87,83,78,0.07)', color:'#57534e', border
 const PILL_ACCENT  = { background:'rgba(217,119,6,0.1)',  color:'#b45309', border:'1px solid rgba(217,119,6,0.22)' };
 
 /* ─── Modal — centered panel with clickable side backdrop ─── */
-function Modal({ open, onClose, title, children }) {
+function Modal({ open, onClose, title, tint, children }) {
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = 'hidden';
@@ -499,6 +538,7 @@ function Modal({ open, onClose, title, children }) {
     /* full-screen wrapper — clicking the backdrop (this element) closes */
     <div
       onClick={onClose}
+      className={'modal-backdrop ' + (tint ? 'tint-' + tint : '')}
       style={{
         position:'fixed', top:0, left:0, right:0, bottom:0,
         zIndex:9999,
@@ -531,6 +571,7 @@ function Modal({ open, onClose, title, children }) {
       {/* the actual panel — stop clicks from bubbling to backdrop */}
       <div
         onClick={e => e.stopPropagation()}
+        className={'modal-panel ' + (tint ? 'tint-' + tint : '')}
         style={{
           width:'min(780px, 76vw)',
           flexShrink:0,
@@ -543,7 +584,7 @@ function Modal({ open, onClose, title, children }) {
         }}
       >
         {/* sticky header */}
-        <div style={{
+        <div className={'modal-head ' + (tint ? 'tint-' + tint : '')} style={{
           position:'sticky', top:0,
           background:'rgba(255,255,255,0.97)',
           backdropFilter:'blur(20px)',
@@ -627,30 +668,31 @@ function CaseStudy1() {
   const openCase = () => { setOpen(true); track('case_study_opened', { case_study: 'ReSearchlight' }); };
   return (
     <>
-      <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card glass rounded-[2rem] overflow-hidden group cursor-pointer relative">
-        <div className="p-8 sm:p-10 grid md:grid-cols-[1fr_1.15fr] gap-8 md:gap-10 items-center">
+      <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card tint-rs glass rounded-[2rem] overflow-hidden group cursor-pointer relative" aria-label="Open the ReSearchlight case study">
+        <div className="p-8 sm:p-10">
+          <div className="flex items-center justify-between gap-4 mb-6">
+            <p className="text-[13px] font-semibold text-[#57534e]/85">Internal tool · 2024–25</p>
+            <svg className="case-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
+          </div>
+        <div className="grid md:grid-cols-[1fr_1.15fr] gap-8 md:gap-10 items-center">
           <div className="flex flex-col">
-          <p className="text-[13px] font-semibold text-[#57534e]/85 mb-4">Internal tool · 2024–25</p>
+          
 
           <div className="font-headline result-num font-extrabold text-secondary">70%</div>
           <p className="text-[13px] font-semibold text-[#57534e]/85 mt-2 mb-5">less research time per project</p>
 
           <h3 className="font-headline text-2xl font-extrabold text-[#292524] mb-2 leading-snug">ReSearchlight: from 400 hours to 120</h3>
-          <p className="text-[#57534e] text-[15px] leading-relaxed mb-6 font-medium">
+          <p className="text-[#57534e] text-[15px] leading-relaxed font-medium">
             Built a researcher screening tool — from problem definition to team adoption. Replaced a fragile manual workaround and removed a single-engineer dependency.
           </p>
-
-          <div className="inline-flex items-center gap-2 text-[#292524] font-bold text-[15px] self-start">
-            Read case study
-            <svg className="read-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </div>
           </div>
 
-          <ToolPreview compact={true} ratio="2000 / 1403" />
+          <div className="case-shot"><ToolPreview compact={true} ratio="2000 / 1403" /></div>
+        </div>
         </div>
       </article>
 
-      <Modal open={open} onClose={() => setOpen(false)} title="ReSearchlight">
+      <Modal open={open} onClose={() => setOpen(false)} title="ReSearchlight" tint="rs">
         <div className="space-y-10 text-[15px] leading-relaxed">
 
           {/* ── Header ── */}
@@ -832,26 +874,26 @@ function CaseStudy2() {
   const openCase = () => { setOpen(true); track('case_study_opened', { case_study: 'Stride' }); };
   return (
     <>
-      <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card glass rounded-[2rem] overflow-hidden group cursor-pointer relative">
-        <div className="p-8 sm:p-10 grid md:grid-cols-[1.15fr_1fr] gap-8 md:gap-10 items-center">
+      <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card tint-stride glass rounded-[2rem] overflow-hidden group cursor-pointer relative" aria-label="Open the Stride case study">
+        <div className="p-8 sm:p-10">
+          <div className="flex items-center justify-between gap-4 mb-6">
+            <p className="text-[13px] font-semibold text-[#57534e]/85">B2C app · 2026</p>
+            <svg className="case-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
+          </div>
+        <div className="grid md:grid-cols-[1.15fr_1fr] gap-8 md:gap-10 items-center">
           <div className="flex flex-col md:order-2">
-          <p className="text-[13px] font-semibold text-[#57534e]/85 mb-4">B2C app · 2026</p>
+          
 
           <div className="font-headline result-num font-extrabold text-secondary">4 weeks</div>
           <p className="text-[13px] font-semibold text-[#57534e]/85 mt-2 mb-5">from idea to shipped product</p>
 
           <h3 className="font-headline text-2xl font-extrabold text-[#292524] mb-2 leading-snug">Stride: zero to live in four weeks</h3>
-          <p className="text-[#57534e] text-[15px] leading-relaxed mb-6 font-medium">
+          <p className="text-[#57534e] text-[15px] leading-relaxed font-medium">
             A weekly execution engine connecting life vision to quarterly OKRs to this week's tasks. Built solo and tested with five beta users.
           </p>
-
-          <div className="inline-flex items-center gap-2 text-[#292524] font-bold text-[15px] self-start">
-            Read case study
-            <svg className="read-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </div>
           </div>
 
-          <div className="md:order-1">
+          <div className="md:order-1 case-shot">
             <ToolPreview
               compact={true}
               ratio="2000 / 1403"
@@ -861,9 +903,10 @@ function CaseStudy2() {
             />
           </div>
         </div>
+        </div>
       </article>
 
-      <Modal open={open} onClose={() => setOpen(false)} title="Stride">
+      <Modal open={open} onClose={() => setOpen(false)} title="Stride" tint="stride">
         <div className="space-y-8 text-[15px] leading-relaxed">
 
           {/* ── Header ── */}
