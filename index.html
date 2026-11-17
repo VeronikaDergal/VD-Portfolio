@@ -1047,7 +1047,7 @@ function CaseStudy2() {
 function Work() {
   const ref = useReveal();
   return (
-    <section id="work" className="py-28 px-6 relative overflow-hidden">
+    <section id="work" className="py-16 sm:py-20 px-6 relative overflow-hidden">
       <div className="max-w-4xl mx-auto relative z-10">
         <div ref={ref} className="reveal mb-14 flex items-end gap-6">
           <div>
@@ -1137,7 +1137,7 @@ function About() {
   const mono = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
 
   return (
-    <section id="about" className="py-28 px-6 relative overflow-hidden">
+    <section id="about" className="py-16 sm:py-20 px-6 relative overflow-hidden">
       <div className="max-w-4xl mx-auto relative z-10">
         <div ref={ref} className="reveal">
 
@@ -1364,11 +1364,11 @@ function Now() {
     { pct:25, tag:'Experimenting',   fill:'#d97706', ink:'#431407', deep:'#b45309',
       text:<><B>Experimenting with AI</B> and battle-testing what it can do on things I build for my own life. This site is one of them, built with Claude Code</> },
     { pct:20, tag:'Staying curious', fill:'#7dd3fc', ink:'#0c4a6e', deep:'#0284c7',
-      text:<><B>Staying curious</B>: Agentic AI at DeepLearning.AI, and SQL with <L href="https://www.datawithbaraa.com/">Data With Baraa</L></> },
+      text:<><B>Staying curious</B>: Agentic AI at <L href="https://www.deeplearning.ai/courses/agentic-ai/">DeepLearning.AI</L>, and SQL with <L href="https://www.datawithbaraa.com/">Data With Baraa</L></> },
     { pct:15, tag:'Yoga & HIIT',     fill:'#57534e', ink:'#ffffff', deep:'#57534e',
-      text:<>Practicing <B>Ashtanga yoga</B> and pushing limits with HIIT</> },
-    { pct:10, tag:'Hiking',          fill:'#d6d3d1', ink:'#44403c', deep:'#78716c',
-      text:<>Exploring <B>UK hiking trails</B> with my <L href="https://drive.google.com/file/d/1BI1f9l-vof7yfhp7jE_XQEh00aBda2AK/view">dog</L></> },
+      text:<>Practicing <B>Ashtanga yoga</B> and pushing limits with <B>HIIT</B></> },
+    { pct:10, tag:'Parks & trails',          fill:'#d6d3d1', ink:'#44403c', deep:'#78716c',
+      text:<>Exploring <B>London parks and hiking trails</B> with my <L href="https://drive.google.com/file/d/1BI1f9l-vof7yfhp7jE_XQEh00aBda2AK/view">dog</L></> },
   ];
 
   /* Donut geometry — one thick ring, small gaps, a number sitting on every slice */
@@ -1395,7 +1395,7 @@ function Now() {
   const ariaLabel = 'My time: ' + timeSlices.map(s => `${s.pct}% ${s.tag.toLowerCase()}`).join(', ');
 
   return (
-    <section id="now" className="py-28 px-6 relative overflow-hidden">
+    <section id="now" className="py-16 sm:py-20 px-6 relative overflow-hidden">
       <div className="max-w-4xl mx-auto relative z-10">
 
         <div ref={ref} className="reveal mb-10">
@@ -1480,7 +1480,7 @@ function Now() {
         </div>
 
         {/* Open to — closes the section and hands over to Contact */}
-        <div ref={openRef} className="reveal glass rounded-[1.75rem] px-6 sm:px-7 py-5 mt-6 flex gap-4 items-start"
+        <div ref={openRef} className="reveal glass rounded-[1.75rem] px-6 sm:px-7 py-6 mt-6 flex gap-4 items-start"
           style={{border:'1px solid rgba(41,37,36,0.07)', boxShadow:'0 2px 16px rgba(0,0,0,0.05)'}}>
           <span className="flex-shrink-0 mt-0.5" style={{color:'#d97706'}}>
             <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
@@ -1490,8 +1490,17 @@ function Now() {
           <div className="min-w-0">
             <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-secondary mb-1">Open to</p>
             <p className="text-base text-[#57534e] leading-relaxed font-medium">
-              PM roles in London: office, hybrid or remote. <B>Full right to work in the UK</B>, <B>available now</B>. Always up for a coffee with people building interesting things.
+              <B>PM roles</B> where I can build, test and iterate, on a team of any size. Ideally on products that make people's everyday work easier.
             </p>
+            <div className="flex flex-wrap gap-2 mt-4">
+              {[
+                { t:'London: office, hybrid or remote', s:PILL_NEUTRAL },
+                { t:'Full right to work in the UK',     s:PILL_NEUTRAL },
+                { t:'Available now',                    s:PILL_ACCENT  },
+              ].map(f => (
+                <span key={f.t} className="text-[11.5px] font-bold px-3 py-1 rounded-full" style={f.s}>{f.t}</span>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -1505,7 +1514,7 @@ function Footer() {
   return (
     <>
       {/* Contact section — clean, light, no colour block */}
-      <section id="contact" className="px-6 py-28">
+      <section id="contact" className="px-6 py-16 sm:py-20">
         <div className="max-w-xl mx-auto text-center">
 
           <span className="text-secondary font-extrabold uppercase tracking-[0.2em] text-xs mb-4 block">Contact</span>
@@ -1514,9 +1523,8 @@ function Footer() {
             Let's <span className="text-secondary italic">talk.</span>
           </h2>
 
-          <p className="text-[#57534e] text-lg leading-relaxed font-medium mb-10">
-            Seeking <span style={{color:'#d97706'}}>PM roles</span>{' '}
-            at fast-moving companies where I can build, test, and iterate. If you're building something interesting and want to think through it together — I'd love to hear from you.
+          <p className="text-[#57534e] text-lg leading-relaxed font-medium mb-10" style={{textWrap:'balance'}}>
+            If you're building something interesting and this resonated, I'd love to chat.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center flex-wrap">
