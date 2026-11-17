@@ -275,6 +275,18 @@
     .bulb-emoji     { filter: brightness(0.65) grayscale(1) contrast(1.1); transform: scale(1); transition: none; }
     .bulb-emoji.lit { animation: bulbFilterIn 3s ease forwards; animation-fill-mode: forwards; }
 
+    /* Corner arrow: signals the whole card opens */
+    .card-arrow { position:absolute; top:20px; right:20px; width:40px; height:40px; border-radius:9999px;
+      display:flex; align-items:center; justify-content:center; color:#0369a1;
+      border:1px solid rgba(3,105,161,0.25); transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+    html.dark .card-arrow { color:#5BB6EE; border-color:rgba(91,182,238,0.3); }
+    @media (hover: hover) and (pointer: fine) {
+      .case-card:hover .card-arrow { transform: translate(3px,-3px); background:#0369a1; border-color:#0369a1; color:#fff; }
+      html.dark .case-card:hover .card-arrow { background:#5BB6EE; border-color:#5BB6EE; color:#1a1918; }
+    }
+    .result-num { font-size:56px; line-height:1; letter-spacing:-0.03em; }
+    @media (max-width: 640px) { .result-num { font-size:48px; } }
+
     /* "READ CASE STUDY" underline animates in from left on card hover */
     .read-line { display:inline-block; width:48px; height:2px; background:rgba(217,119,6,0.25); transition: width 0.2s ease, background 0.2s ease; }
     @media (hover: hover) and (pointer: fine) {
@@ -352,9 +364,8 @@ function LightsSwitch() {
 function Nav() {
   const [open, setOpen] = useState(false);
   const links = [
-    { label: 'Case studies', href: '#work' },
+    { label: 'Work', href: '#work' },
     { label: 'About', href: '#about' },
-    { label: 'Now', href: '#now' },
   ];
   return (
     <>
@@ -644,20 +655,21 @@ function CaseStudy1() {
   const openCase = () => { setOpen(true); track('case_study_opened', { case_study: 'ReSearchlight' }); };
   return (
     <>
-      <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card glass rounded-[2rem] overflow-hidden group cursor-pointer">
+      <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card glass rounded-[2rem] overflow-hidden group cursor-pointer relative">
+        <span className="card-arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
         <div className="p-8 sm:p-10 grid md:grid-cols-[1fr_1.15fr] gap-8 md:gap-10 items-center">
           <div className="flex flex-col">
-          <div className="flex flex-wrap items-center gap-2 mb-5">
-            <div className="flex gap-2">
-              <span className="pill-tag px-4 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_NEUTRAL}>Internal Tool</span>
-              <span className="pill-tag px-4 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_NEUTRAL}>2024–25</span>
-            </div>
-            <span className="pill-tag px-3 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_ACCENT}>70% time saved</span>
+          <div className="flex flex-wrap items-center gap-2 mb-6 pr-12 md:pr-0">
+            <span className="pill-tag px-4 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_NEUTRAL}>Internal Tool</span>
+            <span className="pill-tag px-4 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_NEUTRAL}>2024–25</span>
           </div>
 
-          <h3 className="font-headline text-2xl font-extrabold text-[#292524] mb-2 leading-snug">From 400 Hours to 120: ReSearchlight</h3>
+          <div className="font-headline result-num font-extrabold text-secondary">70%</div>
+          <p className="text-[13px] font-semibold text-[#57534e]/85 mt-2 mb-5">less research time per project</p>
+
+          <h3 className="font-headline text-2xl font-extrabold text-[#292524] mb-2 leading-snug">ReSearchlight: from 400 hours to 120</h3>
           <p className="text-[#57534e] text-[15px] leading-relaxed mb-6 font-medium">
-            Built a researcher screening tool — from problem definition to team adoption. Replaced a fragile manual workaround with a proper SerpAPI integration and an explicit rules tree. Saved ~280 hours per project and removed a single-engineer dependency.
+            Built a researcher screening tool — from problem definition to team adoption. Replaced a fragile manual workaround and removed a single-engineer dependency.
           </p>
 
           <div className="inline-flex items-center gap-3 text-primary font-extrabold text-[15px] tracking-[0.18em] self-start">
@@ -852,33 +864,26 @@ function CaseStudy2() {
   const openCase = () => { setOpen(true); track('case_study_opened', { case_study: 'Stride' }); };
   return (
     <>
-      <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card glass rounded-[2rem] overflow-hidden group cursor-pointer">
+      <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card glass rounded-[2rem] overflow-hidden group cursor-pointer relative">
+        <span className="card-arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
         <div className="p-8 sm:p-10 grid md:grid-cols-[1.15fr_1fr] gap-8 md:gap-10 items-center">
           <div className="flex flex-col md:order-2">
-          <div className="flex flex-wrap items-center gap-2 mb-5">
-            <div className="flex gap-2">
-              <span className="pill-tag px-4 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_NEUTRAL}>B2C App</span>
-              <span className="pill-tag px-4 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_NEUTRAL}>2026</span>
-            </div>
-            <span className="pill-tag px-3 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_ACCENT}>Shipped</span>
+          <div className="flex flex-wrap items-center gap-2 mb-6 pr-12">
+            <span className="pill-tag px-4 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_NEUTRAL}>B2C App</span>
+            <span className="pill-tag px-4 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_NEUTRAL}>2026</span>
           </div>
 
-          <h3 className="font-headline text-2xl font-extrabold text-[#292524] mb-2 leading-snug">Stride — 0 to Live Product in 4 Weeks</h3>
+          <div className="font-headline result-num font-extrabold text-secondary">4 weeks</div>
+          <p className="text-[13px] font-semibold text-[#57534e]/85 mt-2 mb-5">from idea to shipped product</p>
+
+          <h3 className="font-headline text-2xl font-extrabold text-[#292524] mb-2 leading-snug">Stride: zero to live in four weeks</h3>
           <p className="text-[#57534e] text-[15px] leading-relaxed mb-6 font-medium">
-            A weekly execution engine connecting life vision to quarterly OKRs to this week's tasks. Built solo, shipped and tested with five beta users, ~£25 in infrastructure costs.
+            A weekly execution engine connecting life vision to quarterly OKRs to this week's tasks. Built solo and tested with five beta users.
           </p>
 
-          <div className="flex flex-col gap-3">
-            <a href="https://stridehq.app" target="_blank" rel="noopener noreferrer"
-              onClick={e => e.stopPropagation()}
-              className="inline-flex items-center gap-2 text-secondary font-bold text-[15px] hover:opacity-70 transition-opacity self-start">
-              View live product
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-            </a>
-            <div className="inline-flex items-center gap-3 text-primary font-extrabold text-[15px] tracking-[0.18em]">
-              READ CASE STUDY
-              <span className="read-line" />
-            </div>
+          <div className="inline-flex items-center gap-3 text-primary font-extrabold text-[15px] tracking-[0.18em] self-start">
+            READ CASE STUDY
+            <span className="read-line" />
           </div>
           </div>
 
