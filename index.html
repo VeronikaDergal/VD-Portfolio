@@ -602,6 +602,7 @@ function Modal({ open, onClose, title, children }) {
 /* ─── ReSearchlight screenshot ─── */
 function ToolPreview({
   compact,
+  maxH    = 160,
   src     = 'researchlight_screenshot.png?v=2',
   alt     = 'ReSearchlight tool — internal researcher screening interface',
   caption = 'Demo mode — researcher names are illustrative',
@@ -625,7 +626,7 @@ function ToolPreview({
         src={src}
         alt={alt}
         className="w-full block"
-        style={{ maxHeight: compact ? '160px' : 'none', objectFit: compact ? 'cover' : 'contain', objectPosition: 'top center' }}
+        style={{ maxHeight: compact ? maxH + 'px' : 'none', objectFit: compact ? 'cover' : 'contain', objectPosition: 'top center' }}
       />
       {caption && (
         <div className="tp-caption" style={{background:'#f8f8f8', borderTop:'1px solid rgba(0,0,0,0.06)', padding:'6px 12px', textAlign:'center'}}>
@@ -643,9 +644,10 @@ function CaseStudy1() {
   const openCase = () => { setOpen(true); track('case_study_opened', { case_study: 'ReSearchlight' }); };
   return (
     <>
-      <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card glass rounded-[2rem] overflow-hidden flex flex-col group cursor-pointer">
-        <div className="p-8 flex flex-col flex-1">
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
+      <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card glass rounded-[2rem] overflow-hidden group cursor-pointer">
+        <div className="p-8 sm:p-10 grid md:grid-cols-[1fr_1.15fr] gap-8 md:gap-10 items-center">
+          <div className="flex flex-col">
+          <div className="flex flex-wrap items-center gap-2 mb-5">
             <div className="flex gap-2">
               <span className="pill-tag px-4 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_NEUTRAL}>Internal Tool</span>
               <span className="pill-tag px-4 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_NEUTRAL}>2024–25</span>
@@ -658,12 +660,13 @@ function CaseStudy1() {
             Built a researcher screening tool — from problem definition to team adoption. Replaced a fragile manual workaround with a proper SerpAPI integration and an explicit rules tree. Saved ~280 hours per project and removed a single-engineer dependency.
           </p>
 
-          <ToolPreview compact={true} />
-
-          <div className="mt-auto pt-6 inline-flex items-center gap-3 text-primary font-extrabold text-[15px] tracking-[0.18em] self-start">
+          <div className="inline-flex items-center gap-3 text-primary font-extrabold text-[15px] tracking-[0.18em] self-start">
             READ CASE STUDY
             <span className="read-line" />
           </div>
+          </div>
+
+          <ToolPreview compact={true} maxH={300} />
         </div>
       </article>
 
@@ -849,9 +852,10 @@ function CaseStudy2() {
   const openCase = () => { setOpen(true); track('case_study_opened', { case_study: 'Stride' }); };
   return (
     <>
-      <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card glass rounded-[2rem] overflow-hidden flex flex-col group cursor-pointer">
-        <div className="p-8 flex flex-col flex-1">
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
+      <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card glass rounded-[2rem] overflow-hidden group cursor-pointer">
+        <div className="p-8 sm:p-10 grid md:grid-cols-[1.15fr_1fr] gap-8 md:gap-10 items-center">
+          <div className="flex flex-col md:order-2">
+          <div className="flex flex-wrap items-center gap-2 mb-5">
             <div className="flex gap-2">
               <span className="pill-tag px-4 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_NEUTRAL}>B2C App</span>
               <span className="pill-tag px-4 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_NEUTRAL}>2026</span>
@@ -864,14 +868,7 @@ function CaseStudy2() {
             A weekly execution engine connecting life vision to quarterly OKRs to this week's tasks. Built solo, shipped and tested with five beta users, ~£25 in infrastructure costs.
           </p>
 
-          <ToolPreview
-            compact={true}
-            src="stride_screenshot.webp?v=1"
-            alt="Stride — goal planning app"
-            caption="stridehq.app"
-          />
-
-          <div className="mt-auto pt-6 flex flex-col gap-3">
+          <div className="flex flex-col gap-3">
             <a href="https://stridehq.app" target="_blank" rel="noopener noreferrer"
               onClick={e => e.stopPropagation()}
               className="inline-flex items-center gap-2 text-secondary font-bold text-[15px] hover:opacity-70 transition-opacity self-start">
@@ -882,6 +879,17 @@ function CaseStudy2() {
               READ CASE STUDY
               <span className="read-line" />
             </div>
+          </div>
+          </div>
+
+          <div className="md:order-1">
+            <ToolPreview
+              compact={true}
+              maxH={300}
+              src="stride_screenshot.webp?v=1"
+              alt="Stride — goal planning app"
+              caption="stridehq.app"
+            />
           </div>
         </div>
       </article>
@@ -1127,7 +1135,7 @@ function Work() {
             Selected <span className="text-secondary italic">work.</span>
           </h2>
         </div>
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-6">
           <CaseStudy1 />
           <CaseStudy2 />
         </div>
