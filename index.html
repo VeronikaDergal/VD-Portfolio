@@ -85,7 +85,7 @@
   <meta name="twitter:image" content="https://veronikadergal.github.io/VD-Portfolio/og-image.jpg" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <script>
-    try { if (localStorage.getItem('vd_theme') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+    var t = null; try { t = localStorage.getItem('vd_theme'); } catch (e) {} if (t !== 'light') document.documentElement.classList.add('dark');
   </script>
   <script>
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -1121,14 +1121,11 @@ function Work() {
   return (
     <section id="work" className="py-16 sm:py-20 px-6 relative overflow-hidden">
       <div className="max-w-4xl mx-auto relative z-10">
-        <div ref={ref} className="reveal mb-14 flex items-end gap-6">
-          <div>
-            <span className="text-secondary font-extrabold uppercase tracking-[0.18em] text-[11px] mb-2 block">Case Studies</span>
-            <h2 className="font-headline text-4xl sm:text-5xl font-extrabold text-[#292524]">
-              Selected <span className="text-secondary italic">work.</span>
-            </h2>
-          </div>
-          <div className="h-[2px] flex-grow bg-gradient-to-r from-primary/20 to-transparent mb-3 hidden sm:block" />
+        <div ref={ref} className="reveal mb-12">
+          <span className="text-secondary font-extrabold uppercase tracking-[0.18em] text-[11px] mb-2 block">Case Studies</span>
+          <h2 className="font-headline text-4xl sm:text-5xl font-extrabold text-[#292524]">
+            Selected <span className="text-secondary italic">work.</span>
+          </h2>
         </div>
         <div className="grid gap-6 sm:grid-cols-2">
           <CaseStudy1 />
