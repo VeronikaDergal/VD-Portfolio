@@ -29,8 +29,7 @@
   amp.src = 'https://cdn.amplitude.com/script/' + AMP_KEY + '.js';
   amp.onload = function () {
     try {
-      window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 }));
-      window.amplitude.init(AMP_KEY, {
+            window.amplitude.init(AMP_KEY, {
         fetchRemoteConfig: true,
         autocapture: {
           attribution: true, fileDownloads: true, formInteractions: true,
@@ -705,7 +704,7 @@ function CaseStudy1() {
               <span className="px-3 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.18em]" style={PILL_ACCENT}>70% time saved</span>
             </div>
             <h2 className="font-headline text-3xl sm:text-4xl font-extrabold text-[#292524] mt-2 mb-1 leading-tight">ReSearchlight: from 400 hours to 120</h2>
-            <p className="text-[#57534e] text-[17px] font-medium mt-2">How I defined the right problem, built the right tool, and designed for how people actually work — not the happy path.</p>
+            <p className="text-[#57534e] text-[17px] font-medium mt-2">How I defined the right problem, built the right tool, and designed for the messy cases people deal with.</p>
             <p className="text-[13px] font-semibold text-[#57534e]/85 mt-4 pt-4" style={{borderTop:'1px solid rgba(41,37,36,0.07)'}}>
               PM in V1, builder in V2 · 2024–25 · Lovable, SerpAPI, Excel
             </p>
@@ -822,7 +821,7 @@ function CaseStudy1() {
             <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-secondary mb-3">Reflection</p>
             <p className="text-[13px] font-extrabold uppercase tracking-[0.18em] text-[#292524] mb-3">What This Taught Me About Product Thinking</p>
             <p className="text-[#57534e] font-medium mb-4">The most PM-relevant part of this project wasn't the building — it was the problem framing. The team had been doing manual research for months. The pain was visible. But nobody had sat down to define what 'good' looked like in a form precise enough to build against.</p>
-            <p className="text-[#57534e] font-medium mb-5">The limitations I couldn't fully resolve taught me something equally important: shipping with known constraints is a product decision, not a failure. Documenting them explicitly, designing the workflow around them, and being transparent with the team about what the tool would and wouldn't do — that's what made it trustworthy enough to actually get used.</p>
+            <p className="text-[#57534e] font-medium mb-5">The limitations I couldn't fully resolve taught me something equally important: shipping with known constraints can be a deliberate product decision. Documenting them explicitly, designing the workflow around them, and being transparent with the team about what the tool would and wouldn't do — that's what made it trustworthy enough to actually get used.</p>
 
             {/* V3 future vision */}
             <div className="rounded-2xl p-5" style={{background:'rgba(3,105,161,0.04)', border:'1px solid rgba(3,105,161,0.12)'}}>
@@ -923,7 +922,7 @@ function CaseStudy2() {
           <div>
             <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-secondary mb-3">A Gap Before the Gap</p>
             <p className="text-[#57534e] font-medium mb-3">Every goal-setting tool I tried had the same flaw: it was built for people who already knew what they wanted.</p>
-            <p className="text-[#57534e] font-medium">When I decided to pivot into product management, I tried to map out where I actually wanted to go — not next month's tasks, the bigger picture. I tried Excel templates, Asana's personal goals tab, Notion. All of them assumed I already had goals figured out. None helped me arrive at the goals in the first place. The gap wasn't between vision and weekly tasks. It was earlier: between wanting clarity and knowing how to get there.</p>
+            <p className="text-[#57534e] font-medium">When I decided to pivot into product management, I tried to map out where I actually wanted to go — the bigger picture, beyond next month's tasks. I tried Excel templates, Asana's personal goals tab, Notion. All of them assumed I already had goals figured out. None helped me arrive at the goals in the first place. The gap wasn't between vision and weekly tasks. It was earlier: between wanting clarity and knowing how to get there.</p>
           </div>
 
           {/* ── Discovery ── */}
@@ -1064,7 +1063,7 @@ function CaseStudy2() {
           {/* ── What I'm Learning ── */}
           <div>
             <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-secondary mb-3">What I'm Learning — Honest Beta Feedback</p>
-            <p className="text-[#57534e] font-medium mb-4">Stride has five beta users. Most went through onboarding and didn't return — a real signal worth understanding, not minimising. Two things are driving it: no notification system (browser-only, no habit trigger), and onboarding that asks too much too soon. One user said directly: too much typing before she'd seen enough to know it was worth the effort. Another found the OKR distinction unclear despite example text.</p>
+            <p className="text-[#57534e] font-medium mb-4">Stride has five beta users. Most went through onboarding and didn't return — a real signal worth understanding. Two things are driving it: no notification system (browser-only, no habit trigger), and onboarding that asks too much too soon. One user said directly: too much typing before she'd seen enough to know it was worth the effort. Another found the OKR distinction unclear despite example text.</p>
             <p className="text-[#57534e] font-medium mb-4">Low retention with minimal promotion and no notifications isn't a verdict. It's a diagnosis. The job is to fix the specific things breaking the loop.</p>
             <p className="text-[#57534e] font-medium mb-4">I'm not a daily user either — at this stage a paper notebook does the job better for me. That's the same thing the beta users said.</p>
 
@@ -1345,7 +1344,7 @@ function About() {
                   name:'IBM AI Product Manager', meta:'Professional Certificate · Coursera',
                   href:'https://coursera.org/verify/professional-cert/IO6UFAJQOKZQ' },
                 { badge:<img src="badge_amplitude.png" alt="Amplitude Foundations Analytics badge" width="36" height="36" className="w-9 h-9 object-contain flex-shrink-0" />,
-                  name:'Amplitude Analytics', meta:'Product Analytics Certification · Amplitude',
+                  name:'Amplitude Foundations – Analytics', meta:'Certification · Amplitude Academy',
                   href:'https://www.credly.com/badges/12ea6c9a-6136-48d4-b74c-b4b122e98cb2' },
                 { badge:<img src="badge_dlai.png" alt="DeepLearning.AI logo" width="36" height="36" className="w-9 h-9 object-contain flex-shrink-0" />,
                   name:'AI for Everyone', meta:'Course Certificate · DeepLearning.AI',
@@ -1383,7 +1382,7 @@ function About() {
             <p>The shift happened when I got annoyed at a manual research process and built a tool to fix it. Zero technical background. Learned vibe-coding as I went.</p>
             <p style={{fontWeight:700, color:'#292524'}}>400 hours → 120 hours per project <span style={{color:'#d97706', fontWeight:500}}>(70% faster)</span></p>
             <p>Getting people to actually use it turned out to be harder than building it, and taught me more. That's when tedious research suddenly became fun, and when I knew I'd <span style={{fontWeight:700, color:'#d97706'}}>found my thing.</span></p>
-            <p className="pt-1"><a href="#work" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Read the full case study →</a></p>
+            <p className="pt-1"><a href="#work" className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Read the case study →</a></p>
           </ReleaseCard>
 
           <ReleaseCard v="v1.0" title="Ten years solving problems with and for people" meta="EY · Odgers Berndtson · Fozzy Group · Veredus">
