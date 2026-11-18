@@ -283,7 +283,8 @@
 
     /* Nav: sliding highlight shows which part you're in */
     .nav-ind { position:absolute; top:0; bottom:0; left:0; width:50%; border-radius:9999px;
-      background: rgba(41,37,36,0.07); transition: transform 0.45s cubic-bezier(0.22,1,0.36,1); }
+      background: rgba(41,37,36,0.07); transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease; }
+    .nav-ind.is-off { opacity:0; }
     .nav-ind::before { content:''; position:absolute; top:-1px; left:50%; width:18px; height:2px; margin-left:-9px;
       border-radius:2px; background:#292524; box-shadow: 0 0 8px rgba(41,37,36,0.35); }
     html.dark .nav-ind { background: rgba(255,255,255,0.08); }
@@ -389,24 +390,27 @@ function Nav() {
     { key: 'work',  label: 'Work',  href: '#work'  },
     { key: 'about', label: 'About', href: '#about' },
   ];
-  /* Work = everything above About (hero + case studies), About = the rest */
-  const [active, setActive] = useState('work');
+  /* Nothing while on the intro · Work once the case studies reach the upper part of the screen · About from there on */
+  const [active, setActive] = useState(null);
   useEffect(() => {
     const on = () => {
-      const a = document.getElementById('about');
-      if (a) setActive(a.getBoundingClientRect().top < window.innerHeight * 0.45 ? 'about' : 'work');
+      const w = document.getElementById('work'), a = document.getElementById('about');
+      if (!w || !a) return;
+      const line = window.innerHeight * 0.45;
+      setActive(a.getBoundingClientRect().top < line ? 'about'
+              : w.getBoundingClientRect().top < line ? 'work' : null);
     };
     on();
     window.addEventListener('scroll', on, { passive: true });
     window.addEventListener('resize', on);
     return () => { window.removeEventListener('scroll', on); window.removeEventListener('resize', on); };
   }, []);
-  const idx = links.findIndex(l => l.key === active);
+  const idx = Math.max(0, links.findIndex(l => l.key === active));
   return (
     <nav className="fixed top-4 inset-x-0 z-50 flex justify-center px-4">
       <div className="glass rounded-full shadow-[0_8px_40px_-8px_rgba(3,105,161,0.14)] p-1.5">
         <ul className="relative grid grid-cols-2">
-          <span className="nav-ind" aria-hidden="true" style={{transform:`translateX(${idx * 100}%)`}} />
+          <span className={'nav-ind' + (active ? '' : ' is-off')} aria-hidden="true" style={{transform:`translateX(${idx * 100}%)`}} />
           {links.map(l => (
             <li key={l.key} className="relative">
               <a href={l.href} aria-current={active === l.key ? 'true' : undefined}
