@@ -285,6 +285,12 @@
     .nav-ind { position:absolute; top:0; bottom:0; left:0; width:50%; border-radius:9999px;
       background: rgba(41,37,36,0.07); transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease; }
     .nav-ind.is-off { opacity:0; }
+    /* intro: as tall as its content, so the first case study peeks in below */
+    .hero-sec { padding-top:136px; padding-bottom:56px; }
+    @media (max-width:640px) { .hero-sec { padding-top:104px; padding-bottom:40px; } }
+    .sunflower-mark { width:96px; height:96px; transition: transform 1.2s cubic-bezier(0.22,1,0.36,1); }
+    .sunflower-mark:hover { transform: rotate(25deg); }
+    @media (prefers-reduced-motion: reduce) { .sunflower-mark { transition:none; } .sunflower-mark:hover { transform:none; } }
     .nav-ind::before { content:''; position:absolute; top:-1px; left:50%; width:18px; height:2px; margin-left:-9px;
       border-radius:2px; background:#292524; box-shadow: 0 0 8px rgba(41,37,36,0.35); }
     html.dark .nav-ind { background: rgba(255,255,255,0.08); }
@@ -450,7 +456,7 @@ function Hero() {
     </div>
   );
   return (
-    <section id="hero" style={{minHeight:'100vh', display:'flex', alignItems:'center', paddingTop:'80px', paddingLeft:'1.5rem', paddingRight:'1.5rem', position:'relative'}}>
+    <section id="hero" className="hero-sec" style={{display:'flex', paddingLeft:'1.5rem', paddingRight:'1.5rem', position:'relative'}}>
 
       <div className="max-w-4xl mx-auto w-full relative z-10 grid md:grid-cols-12 gap-10 md:gap-8 items-start">
 
@@ -1587,6 +1593,9 @@ function Footer() {
       {/* Contact section — clean, light, no colour block */}
       <section id="contact" className="px-6 py-16 sm:py-20">
         <div className="max-w-xl mx-auto text-center">
+
+          <img src="sunflower.png" alt="" aria-hidden="true" width="96" height="96" loading="lazy" decoding="async"
+            className="sunflower-mark mx-auto mb-5" />
 
           <span className="text-secondary font-extrabold uppercase tracking-[0.18em] text-[11px] mb-4 block">Contact</span>
 
