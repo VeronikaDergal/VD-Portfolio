@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
 <script>
 /* ─── Analytics bootstrap ───────────────────────────────────────────────
    Nothing loads unless we are on the live site, so local development and
@@ -69,7 +70,6 @@
   document.head.appendChild(cf);
 })();
 </script>
-<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Veronika Dergal — Product Manager</title>
@@ -79,6 +79,7 @@
   <meta property="og:image" content="https://veronikadergal.github.io/VD-Portfolio/og-image.jpg?v=3" />
   <meta property="og:image:width" content="2400" />
   <meta property="og:image:height" content="1254" />
+  <link rel="canonical" href="https://veronikadergal.github.io/VD-Portfolio/" />
   <meta property="og:url" content="https://veronikadergal.github.io/VD-Portfolio/" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -526,7 +527,7 @@ function Hero() {
 
         <div style={{animationDelay:'0.3s'}} className="hero-item md:col-span-4 order-1 md:order-2 flex md:block justify-center md:mt-1">
           <div className="text-center">
-            <img src="photo.jpg" alt="Veronika Dergal"
+            <img src="photo.jpg?v=2" alt="Veronika Dergal"
               style={{width:188, height:188, borderRadius:'50%', objectFit:'cover', objectPosition:'center top', boxShadow:'0 8px 30px rgba(0,0,0,0.14)'}}
               className="mx-auto" />
             <p className="font-headline text-[17px] font-extrabold text-[#292524] mt-4">Veronika Dergal</p>
@@ -632,7 +633,7 @@ function ToolPreview({
   compact,
   maxH    = 160,
   ratio,
-  src     = 'researchlight_screenshot.png?v=2',
+  src     = 'researchlight_screenshot.webp',
   alt     = 'ReSearchlight tool — internal researcher screening interface',
   caption = 'Demo mode — researcher names are illustrative',
 }) {
@@ -763,7 +764,7 @@ function CaseStudy1() {
               <div className="rounded-2xl p-4" style={{background:'rgba(87,83,78,0.05)', border:'1px solid rgba(87,83,78,0.1)'}}>
                 <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/85 mb-3">V1 — Engineer built, me as PM</p>
                 <ul className="space-y-2 text-[13px] text-[#57534e] font-medium">
-                  <li className="flex gap-2"><span className="text-[#57534e]/40 mt-0.5">✕</span>Manual webscraper, throttled</li>
+                  <li className="flex gap-2"><span className="text-[#57534e]/40 mt-0.5">✕</span>Manual web scraper, throttled</li>
                   <li className="flex gap-2"><span className="text-[#57534e]/40 mt-0.5">✕</span>Required engineer availability</li>
                   <li className="flex gap-2"><span className="text-[#57534e]/40 mt-0.5">✕</span>Fragile, not scalable</li>
                   <li className="flex gap-2"><span className="text-[#57534e]/40 mt-0.5">✕</span>Single point of failure</li>
@@ -775,13 +776,13 @@ function CaseStudy1() {
                   <li className="flex gap-2"><span className="text-primary mt-0.5">✓</span>SerpAPI — legitimate, structured</li>
                   <li className="flex gap-2"><span className="text-primary mt-0.5">✓</span>Team runs independently</li>
                   <li className="flex gap-2"><span className="text-primary mt-0.5">✓</span>Batches of 200 profiles</li>
-                  <li className="flex gap-2"><span className="text-primary mt-0.5">✓</span>Built &amp; owned by non-engineer</li>
+                  <li className="flex gap-2"><span className="text-primary mt-0.5">✓</span>Built &amp; owned by a non-engineer</li>
                 </ul>
               </div>
             </div>
 
             <p className="text-[#57534e] font-medium mb-3">The most consequential decision in V2 was identifying SerpAPI as the data layer — a legitimate, structured API for extracting publication data from Scholar profiles at scale. This was my first time independently integrating an external API, configured entirely through Lovable.</p>
-            <p className="text-[#57534e] font-medium">I built iteratively, treating each run as a test. After each batch I compared outputs against a manually-checked gold-standard sample. I also prepared a specific set of tricky cases — conference papers, reviews, ambiguous author positions. <strong className="text-[#292524]">QA wasn't a phase at the end. It was the feedback loop that shaped every iteration.</strong></p>
+            <p className="text-[#57534e] font-medium">I built iteratively, treating each run as a test. After each batch I compared outputs against a manually checked gold-standard sample. I also prepared a specific set of tricky cases — conference papers, reviews, ambiguous author positions. <strong className="text-[#292524]">QA wasn't a phase at the end. It was the feedback loop that shaped every iteration.</strong></p>
           </div>
 
           {/* ── Outcome ── */}
@@ -856,7 +857,7 @@ function CaseStudy1() {
           <p className="text-[15px] text-[#57534e] font-medium pt-5" style={{borderTop:'1px solid rgba(41,37,36,0.08)'}}>
             Want to discuss automation workflows or see the detailed scenario tree?{' '}
             <a href="https://calendly.com/veronikadergal/new-meeting" target="_blank" rel="noopener noreferrer"
-              className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Book a chat</a>
+              className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Book a call</a>
             {' or '}
             <a href="mailto:dergalv@gmail.com"
               className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">send me a message</a>.
@@ -952,7 +953,7 @@ function CaseStudy2() {
                   pill: 'Validates problem / won\'t pay',
                   pillBg: 'rgba(180,83,9,0.1)', pillColor: '#b45309',
                   borderColor: '#d97706',
-                  system: ['Quarterly intentions in analog notebook', 'Mood boards on Pinterest', 'Tasks split across Notion and Todoist'],
+                  system: ['Quarterly intentions in an analogue notebook', 'Mood boards on Pinterest', 'Tasks split across Notion and Todoist'],
                   frustration: 'Vision lives in her head and notebook; tasks live in apps. Nothing connects them.',
                   quote: '"I want a vision that flows into goals, then cascades into tasks — connected, all the way down."',
                   why: 'Articulated the exact value proposition unprompted. Confirmed the problem but ruled herself out as a paying user due to strong Notion loyalty — a product constraint worth knowing early.',
@@ -1112,7 +1113,7 @@ function CaseStudy2() {
           <p className="text-[15px] text-[#57534e] font-medium pt-5" style={{borderTop:'1px solid rgba(41,37,36,0.08)'}}>
             Want to try Stride or hear about the beta user feedback?{' '}
             <a href="https://calendly.com/veronikadergal/new-meeting" target="_blank" rel="noopener noreferrer"
-              className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Book a chat</a>
+              className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">Book a call</a>
             {' or '}
             <a href="mailto:dergalv@gmail.com"
               className="text-primary font-bold underline underline-offset-2 hover:opacity-70 transition-opacity">send me a message</a>.
@@ -1322,7 +1323,7 @@ function About() {
             <div className="grid sm:grid-cols-3 gap-4 mb-7">
               {[
                 { name:<a href="https://stridehq.app" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 hover:opacity-70 transition-opacity">Stride</a>,
-                  body:<span>AI goal-setting app. Nothing to live beta in <span style={{fontWeight:700, color:'#292524'}}>four weeks</span>, on about £25 of infrastructure.</span>,
+                  body:<span>AI goal-setting app. Zero to live beta in <span style={{fontWeight:700, color:'#292524'}}>four weeks</span>, on about £25 of infrastructure.</span>,
                   link:'Read the case study →' },
                 { name:'A PM career hub', body:<span>Scenario-based skill practice and job-pipeline tracking. Built for a problem I was living through.</span> },
                 { name:'10+ smaller builds', body:<span>A memory game, a language-learning tool, a recipe book, a ratio calculator. Some useful, all of it practice.</span> },
@@ -1340,13 +1341,13 @@ function About() {
             <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#57534e]/85 mb-3">Certifications</p>
             <div className="grid sm:grid-cols-3 gap-4 mb-7">
               {[
-                { badge:<img src="ibm_badge.png" alt="IBM badge" className="w-9 h-9 object-contain flex-shrink-0" />,
+                { badge:<img src="badge_ibm.png" alt="IBM AI Product Manager badge" width="36" height="36" className="w-9 h-9 object-contain flex-shrink-0" />,
                   name:'IBM AI Product Manager', meta:'Professional Certificate · Coursera',
                   href:'https://coursera.org/verify/professional-cert/IO6UFAJQOKZQ' },
-                { badge:<div className="w-9 h-9 rounded-2xl flex-shrink-0 flex items-center justify-center" style={{background:'linear-gradient(135deg,#1a6fff 0%,#0047cc 100%)'}}><span className="text-white font-extrabold text-[9px] tracking-[0.18em] uppercase">AMP</span></div>,
+                { badge:<img src="badge_amplitude.png" alt="Amplitude Foundations Analytics badge" width="36" height="36" className="w-9 h-9 object-contain flex-shrink-0" />,
                   name:'Amplitude Analytics', meta:'Product Analytics Certification · Amplitude',
-                  href:'https://www.credly.com/badges/12ea6c9a-6136-48d4-b74c-b4b122e98cb2/linked_in_profile' },
-                { badge:<div className="w-9 h-9 rounded-2xl flex-shrink-0 flex items-center justify-center" style={{background:'linear-gradient(135deg,#1f2937 0%,#0b1220 100%)'}}><span className="text-white font-extrabold text-[9px] tracking-[0.18em] uppercase">DL·AI</span></div>,
+                  href:'https://www.credly.com/badges/12ea6c9a-6136-48d4-b74c-b4b122e98cb2' },
+                { badge:<img src="badge_dlai.png" alt="DeepLearning.AI logo" width="36" height="36" className="w-9 h-9 object-contain flex-shrink-0" />,
                   name:'AI for Everyone', meta:'Course Certificate · DeepLearning.AI',
                   href:'https://www.deeplearning.ai/certificates/5e47ca0c-2064-447d-8002-4fe047cd4a4f' },
               ].map((c, i) => (
