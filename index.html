@@ -254,12 +254,22 @@
     }
     html.dark .case-card { border-color: rgba(255,255,255,0.11) !important; }
     .case-shot  { transition: transform 0.45s cubic-bezier(0.22,1,0.36,1); }
-    .case-arrow { flex-shrink:0; color:#57534e; transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), color 0.35s ease; }
-    html.dark .case-arrow { color:#B5AFA8; }
+    /* "open" button: outlined circle in the top-right of each card, arrow nudging right to invite a click */
+    .case-go { flex-shrink:0; width:46px; height:46px; border-radius:9999px; display:flex; align-items:center; justify-content:center;
+      border:1.5px solid rgba(41,37,36,0.18); color:#292524; margin-top:4px;
+      transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1); }
+    html.dark .case-go { border-color: rgba(255,255,255,0.22); color:#EDE9E4; }
+    .case-arrow { animation: case-nudge 2.4s cubic-bezier(0.45,0,0.2,1) infinite; }
+    @keyframes case-nudge { 0%, 55%, 100% { transform: translateX(0); } 25% { transform: translateX(7px); } 40% { transform: translateX(1px); } }
+    @media (prefers-reduced-motion: reduce) { .case-arrow { animation:none; } }
     @media (hover: hover) and (pointer: fine) {
       .case-card:hover .case-shot  { transform: translateY(-4px) scale(1.02); }
-      .case-card:hover .case-arrow { transform: translateX(6px); color:#292524; }
-      html.dark .case-card:hover .case-arrow { color:#EDE9E4; }
+      .case-card:hover .case-go { transform: translateX(6px); }
+      .case-card.tint-rs:hover .case-go    { background:#0369a1; border-color:#0369a1; color:#fff; }
+      .case-card.tint-amber:hover .case-go { background:#d97706; border-color:#d97706; color:#fff; }
+      html.dark .case-card.tint-rs:hover .case-go    { background:#5BB6EE; border-color:#5BB6EE; color:#0b1620; }
+      html.dark .case-card.tint-amber:hover .case-go { background:#F0922B; border-color:#F0922B; color:#1a1007; }
+      .case-card:hover .case-arrow { animation-play-state: paused; }
       .case-card.tint-rs:hover     { border-color: rgba(3,105,161,0.35) !important;  box-shadow: 0 2px 16px rgba(0,0,0,0.07), inset 0 0 0 999px rgba(3,105,161,0.05); }
       .case-card.tint-amber:hover  { border-color: rgba(217,119,6,0.35) !important;  box-shadow: 0 2px 16px rgba(0,0,0,0.07), inset 0 0 0 999px rgba(217,119,6,0.05); }
       html.dark .case-card.tint-rs:hover     { border-color: rgba(91,182,238,0.4) !important;  box-shadow: 0 2px 16px rgba(0,0,0,0.35), inset 0 0 0 999px rgba(56,152,214,0.10); }
@@ -676,16 +686,16 @@ function CaseStudy1() {
       <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card tint-rs glass rounded-[2rem] overflow-hidden group cursor-pointer relative" aria-label="Open the ReSearchlight case study">
         <div className="p-8 sm:p-10 grid md:grid-cols-2 gap-8 md:gap-12 md:items-stretch">
           <div className="flex flex-col">
-            <div className="font-headline result-num font-extrabold text-secondary">70%</div>
+            <div className="flex items-start justify-between gap-4">
+              <div className="font-headline result-num font-extrabold text-secondary">70%</div>
+              <span className="case-go" aria-hidden="true"><svg className="case-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+            </div>
             <p className="text-[13px] font-semibold text-[#57534e]/85 mt-2">less research time per project</p>
             <h3 className="font-headline text-2xl font-extrabold text-[#292524] mt-6 mb-2 leading-snug">ReSearchlight: from 400 hours to 120</h3>
             <p className="text-[#57534e] text-[15px] leading-relaxed font-medium">
               Built a researcher screening tool — from problem definition to team adoption. Replaced a fragile manual workaround and removed a single-engineer dependency.
             </p>
-            <div className="mt-auto pt-6 flex items-center justify-between gap-4">
-              <p className="text-[13px] font-semibold text-[#57534e]/85">Internal tool · 2024–25</p>
-              <svg className="case-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
-            </div>
+            <p className="mt-auto pt-6 text-[13px] font-semibold text-[#57534e]/85">Internal tool · 2024–25</p>
           </div>
           <div className="case-shot md:self-center">
             <ToolPreview compact={true} ratio="2000 / 1403" />
@@ -878,16 +888,16 @@ function CaseStudy2() {
       <article ref={ref} onClick={openCase} tabIndex={0} role="button" onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); } }} className="reveal case-card tint-amber glass rounded-[2rem] overflow-hidden group cursor-pointer relative" aria-label="Open the Stride case study">
         <div className="p-8 sm:p-10 grid md:grid-cols-2 gap-8 md:gap-12 md:items-stretch">
           <div className="flex flex-col">
-            <div className="font-headline result-num font-extrabold text-secondary">4 weeks</div>
+            <div className="flex items-start justify-between gap-4">
+              <div className="font-headline result-num font-extrabold text-secondary">4 weeks</div>
+              <span className="case-go" aria-hidden="true"><svg className="case-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+            </div>
             <p className="text-[13px] font-semibold text-[#57534e]/85 mt-2">from idea to shipped product</p>
             <h3 className="font-headline text-2xl font-extrabold text-[#292524] mt-6 mb-2 leading-snug">Stride: zero to live in four weeks</h3>
             <p className="text-[#57534e] text-[15px] leading-relaxed font-medium">
               A weekly execution engine connecting life vision to quarterly OKRs to this week's tasks. Built solo and tested with five beta users.
             </p>
-            <div className="mt-auto pt-6 flex items-center justify-between gap-4">
-              <p className="text-[13px] font-semibold text-[#57534e]/85">B2C app · 2026</p>
-              <svg className="case-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
-            </div>
+            <p className="mt-auto pt-6 text-[13px] font-semibold text-[#57534e]/85">B2C app · 2026</p>
           </div>
           <div className="case-shot md:self-center">
             <ToolPreview
